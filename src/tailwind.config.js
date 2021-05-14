@@ -29,7 +29,7 @@ module.exports = {
             purple: colors.violet,
             pink: colors.pink,
 
-            primary: colors.emerald,
+            primary: colors.green,
             secondary: colors.trueGray
         },
         spacing: {
