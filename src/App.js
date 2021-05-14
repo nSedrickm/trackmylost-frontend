@@ -9,6 +9,7 @@ import Header from "components/headers/Header";
 import Footer from "components/footers/Footer";
 
 import HomePage from "pages/HomePage";
+import SearchPage from 'pages/SearchPage';
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
           <Switch>
             <Route exact path="/">
               <HomePage />
+            </Route>
+
+            <Route exact path="/search">
+              <SearchPage />
             </Route>
           </Switch>
           <Footer />
