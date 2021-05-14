@@ -9,6 +9,7 @@ import { Container, ContentWithVerticalPadding } from "components/misc/Layouts.j
 import { FiCheckCircle as CheckboxIcon } from "react-icons/fi";
 import { ReactComponent as QuotesLeftIconBase } from "images/quotes-l.svg"
 import { ReactComponent as SvgDecoratorBlob1 } from "images/dot-pattern.svg"
+import AnimationRevealPage from "helpers/AnimationRevealPage";
 
 const Row = tw.div`flex flex-col lg:flex-row justify-between items-center lg:pt-8 max-w-screen-2xl mx-auto sm:px-8`;
 const Column = tw.div``;
@@ -52,40 +53,42 @@ const HomePage = ({
     const buttonRoundedCss = buttonRounded && tw`rounded-full`;
     return (
         <>
-            <Container>
-                <ContentWithVerticalPadding>
-                    <Row>
-                        <TextColumn>
-                            <Heading>{heading}</Heading>
-                            <Description>{description}</Description>
-                            <FeatureList>
-                                {features.map((feature, index) => (
-                                    <Feature key={index}>
-                                        <FeatureIcon />
-                                        <FeatureText>{feature}</FeatureText>
-                                    </Feature>
-                                ))}
-                            </FeatureList>
-                            <PrimaryButton as="a" href={primaryButtonUrl} css={buttonRoundedCss}>
-                                {primaryButtonText}
-                            </PrimaryButton>
-                        </TextColumn>
-                        <ImageColumn>
-                            <ImageContainer>
-                                <Image src={imageSrc} />
-                                {imageDecoratorBlob && <ImageDecoratorBlob />}
-                                <Testimonial>
-                                    <QuotesLeftIcon />
-                                    <Quote>{testimonial.quote}</Quote>
-                                    <CustomerName>{testimonial.customerName}</CustomerName>
-                                    <CustomerCompany>{testimonial.customerCompany}</CustomerCompany>
-                                </Testimonial>
-                            </ImageContainer>
-                            <Offsetbackground />
-                        </ImageColumn>
-                    </Row>
-                </ContentWithVerticalPadding>
-            </Container>
+            <AnimationRevealPage>
+                <Container>
+                    <ContentWithVerticalPadding>
+                        <Row>
+                            <TextColumn>
+                                <Heading>{heading}</Heading>
+                                <Description>{description}</Description>
+                                <FeatureList>
+                                    {features.map((feature, index) => (
+                                        <Feature key={index}>
+                                            <FeatureIcon />
+                                            <FeatureText>{feature}</FeatureText>
+                                        </Feature>
+                                    ))}
+                                </FeatureList>
+                                <PrimaryButton as="a" href={primaryButtonUrl} css={buttonRoundedCss}>
+                                    {primaryButtonText}
+                                </PrimaryButton>
+                            </TextColumn>
+                            <ImageColumn>
+                                <ImageContainer>
+                                    <Image src={imageSrc} />
+                                    {imageDecoratorBlob && <ImageDecoratorBlob />}
+                                    <Testimonial>
+                                        <QuotesLeftIcon />
+                                        <Quote>{testimonial.quote}</Quote>
+                                        <CustomerName>{testimonial.customerName}</CustomerName>
+                                        <CustomerCompany>{testimonial.customerCompany}</CustomerCompany>
+                                    </Testimonial>
+                                </ImageContainer>
+                                <Offsetbackground />
+                            </ImageColumn>
+                        </Row>
+                    </ContentWithVerticalPadding>
+                </Container>
+            </AnimationRevealPage>
         </>
     );
 };
