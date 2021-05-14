@@ -29,9 +29,9 @@ const SocialLink = styled.a`
 
 const CopyrightAndCompanyInfoRow = tw.div`pb-0 px-10 text-sm font-normal flex flex-col sm:flex-row justify-between items-center text-gray-400`
 const CopyrightNotice = tw.a`text-center font-medium tracking-wide text-sm text-gray-100`
-const DevInfo = tw.a`text-center font-medium tracking-wide text-sm text-gray-100 hover:text-primary-500 pt-10 sm:pt-0`
+const DevInfo = tw.a`text-center font-medium tracking-wide text-sm text-gray-100 hover:border-b-2 hover:border-gray-100 pt-10 sm:pt-0`
 
-const Divider = tw.div`my-8 border-b-2 border-gray-100`
+const Divider = tw.div`m-10 border-b-2 border-gray-100`
 
 
 const Footer = () => {
@@ -68,7 +68,7 @@ const Footer = () => {
         <Divider />
         <CopyrightAndCompanyInfoRow>
           <CopyrightNotice>&copy; Copyright {Year}, TrackMyLost</CopyrightNotice>
-          <DevInfo href="https://nsedrickm-ezky8.ondigitalocean.app/" target="_blank">Developed by N.S</DevInfo>
+          <DevInfo href="https://github.com/nsedrickm" target="_blank">Developed by N.S</DevInfo>
         </CopyrightAndCompanyInfoRow>
       </Content>
     </Container>

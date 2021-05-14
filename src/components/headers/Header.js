@@ -47,7 +47,7 @@ export const NavToggle = tw.button`
   lg:hidden z-50 focus:outline-none hocus:text-primary-500 transition duration-300
 `;
 export const MobileNavLinks = motion.custom(styled.div`
-  ${tw`lg:hidden z-50 fixed top-14 inset-x-4 p-8 border text-center rounded-lg text-gray-900 bg-white shadow-2xl`}
+  ${tw`lg:hidden z-50 fixed top-12 inset-x-4 p-8 border text-center rounded-lg text-gray-900 bg-white shadow-2xl`}
   ${NavLinks} {
     ${tw`flex flex-col items-center`}
   }
