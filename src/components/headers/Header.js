@@ -38,7 +38,7 @@ export const LogoLink = styled(NavLink)`
   ${tw`flex items-center font-black border-b-0 text-2xl! ml-0!`};
 
   img {
-    ${tw`w-40 mr-3`}
+    ${tw`mr-3 mr-3 h-16 sm:w-24 md:w-36 md:h-24`}
   }
 `;
 
@@ -47,7 +47,7 @@ export const NavToggle = tw.button`
   lg:hidden z-50 focus:outline-none hocus:text-primary-500 transition duration-300
 `;
 export const MobileNavLinks = motion.custom(styled.div`
-  ${tw`lg:hidden z-50 fixed top-4 inset-x-4 p-8 border text-center rounded-lg text-gray-900 bg-white shadow-2xl`}
+  ${tw`lg:hidden z-50 fixed top-14 inset-x-4 p-8 border text-center rounded-lg text-gray-900 bg-white shadow-2xl`}
   ${NavLinks} {
     ${tw`flex flex-col items-center`}
   }
@@ -86,7 +86,10 @@ const Header = ({ roundedHeaderButton = true, logoLink, links, className, collap
         <NavLink as={Link} onClick={toggleNavbar} key="contact" to="/contact">Contact Us</NavLink>
       </NavLinks>
       <NavLinks key={2}>
-        <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="#">Francais</PrimaryLink>
+      <NavLink href="/#" tw="lg:ml-12!">
+        Login
+      </NavLink>
+        <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="#">Sign Up</PrimaryLink>
       </NavLinks>
     </React.Fragment>
   ];
