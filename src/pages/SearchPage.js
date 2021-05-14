@@ -3,6 +3,8 @@ import tw from "twin.macro";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { FiSearch } from "react-icons/fi";
 
+const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
+
 const SearchPage = () => {
     return (
         <AnimationRevealPage>
@@ -19,13 +21,13 @@ const SearchPage = () => {
                                     <input
                                         type="search"
                                         placeholder="e.g Persons Name"
-                                        tw="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out rounded-4xl" />
+                                        tw="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl" />
                                 </div>
                             </div>
                             <div tw="p-2 w-full">
-                                <button tw="flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg">
+                                <SearchButton>
                                     <FiSearch /> &nbsp; search
-                                </button>
+                                </SearchButton>
                             </div>
                         </div>
                     </div>
