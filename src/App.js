@@ -4,11 +4,11 @@ import "tailwindcss/dist/base.css";
 import './App.css';
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 import ScrollToTop from "helpers/ScrollToTop";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import Header from "components/headers/Header";
 import Footer from "components/footers/Footer";
-
 import HomePage from "pages/HomePage";
 import SearchPage from 'pages/SearchPage';
 import ReportPage from "pages/ReportPage";
@@ -20,6 +20,7 @@ function App() {
     <Router>
       <ScrollToTop>
         <AnimationRevealPage>
+          <Toaster />
           <Header tw="max-w-none" />
 
           <Switch>
