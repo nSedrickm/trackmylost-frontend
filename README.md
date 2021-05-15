@@ -2,6 +2,27 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Setup Guide
+
+Quick start guide to get the UI *running*:
+
+### `yarn install`
+
+Installs all dependencies
+
+### Set env variables
+
+Create .env file from env.example
+
+```bash
+cp env.example .env
+```
+
+The .env file in project root contains all variables used by the UI including the API URL.
+
+Cloud API URL address can be set here
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -9,7 +30,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:15000](http://localhost:15000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
