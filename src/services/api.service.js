@@ -12,3 +12,12 @@ export const registerItem = ({ document_type, first_name, other_names, phone_num
         reward: reward
     }).then(response => response)
 }
+
+export const setAlert = ({ name, document_type, email, phone_number }) => {
+    return axios.post("/alerts", {
+        name: name,
+        document_type: document_type,
+        email: email,
+        phone_number: phone_number
+    }).then(response => response)
+}
