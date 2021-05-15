@@ -1,7 +1,7 @@
 import React from 'react';
 import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiSave } from "react-icons/fi";
+import { FiSave, FiChevronDown } from "react-icons/fi";
 
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
@@ -14,6 +14,9 @@ const Form = tw.form`mx-auto md:border border-primary-500 md:p-8 rounded-2xl`;
 const StepsContainer = tw.div`mx-auto flex flex-wrap md:p-8`;
 const SubHeading = tw.h2`sm:text-3xl text-2xl font-medium mb-4 text-primary-500`;
 const Description = tw.p`mb-4 lg:text-2xl text-gray-700 font-medium`;
+const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
+const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
+
 
 const ReportPage = () => {
     return (
@@ -96,6 +99,23 @@ const ReportPage = () => {
                             <Form>
                                 <SubHeading>Register</SubHeading>
                                 <div tw="flex flex-wrap -m-2">
+                                    <div tw="p-2 w-full">
+                                        <Label for="document-type">
+                                            Document type
+                                     </Label>
+                                        <div tw="relative">
+                                            <Select id="document-type" required>
+                                                <option value="" hidden>Please Choose document type</option>
+                                                <option value="id-card">ID Card</option>
+                                                <option value="passport">Passport</option>
+                                                <option value="driver-license">Driver License</option>
+                                                <option value="credit-card">Credit Card</option>
+                                            </Select>
+                                            <SelectToggle>
+                                                <FiChevronDown />
+                                            </SelectToggle>
+                                        </div>
+                                    </div>
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
                                             <Label for="first-name">First Name</Label>
