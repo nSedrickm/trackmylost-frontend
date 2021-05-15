@@ -86,10 +86,10 @@ const Header = ({ roundedHeaderButton = true, logoLink, links, className, collap
         <NavLink as={Link} onClick={toggleNavbar} key="contact" to="/contact">Contact Us</NavLink>
       </NavLinks>
       <NavLinks key={2}>
-      <NavLink href="/#" tw="lg:ml-12!">
-        Login
+        <NavLink href="/login" tw="lg:ml-12!">
+          Login
       </NavLink>
-        <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="#">Sign Up</PrimaryLink>
+        <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="/sign-up">Sign Up</PrimaryLink>
       </NavLinks>
     </React.Fragment>
   ];
