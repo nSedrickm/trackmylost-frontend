@@ -1,4 +1,5 @@
 import React from 'react';
+import "rsuite/dist/styles/rsuite-default.css";
 import "tailwindcss/dist/base.css";
 import './App.css';
 
