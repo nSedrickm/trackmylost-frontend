@@ -17,6 +17,18 @@ const Description = tw.p`mb-4 lg:text-2xl text-gray-700 font-medium`;
 const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
 
+const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    let formData = {
+        type: evt.target.elements.document_type?.value,
+        first_name: evt.target.elements.first_name?.value,
+        other_names: evt.target.elements.other_names?.value,
+        phone_number: evt.target.elements.phone_number?.value,
+        reward: evt.target.elements.reward?.checked ? "yes" : "no"
+    }
+    console.log(formData);
+}
 
 const ReportPage = () => {
     return (
@@ -96,15 +108,18 @@ const ReportPage = () => {
                         </Column>
 
                         <Column>
-                            <Form>
+                            <Form onSubmit={(evt) => handleSubmit(evt)}>
                                 <SubHeading>Register</SubHeading>
                                 <div tw="flex flex-wrap -m-2">
                                     <div tw="p-2 w-full">
-                                        <Label for="document-type">
+                                        <Label htmlFor="document_type">
                                             Document type
-                                     </Label>
+                                        </Label>
                                         <div tw="relative">
-                                            <Select id="document-type" required>
+                                            <Select
+                                                id="document_type"
+                                                name="document_type"
+                                                required>
                                                 <option value="" hidden>Please Choose document type</option>
                                                 <option value="id-card">ID Card</option>
                                                 <option value="passport">Passport</option>
@@ -118,30 +133,30 @@ const ReportPage = () => {
                                     </div>
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
-                                            <Label for="first-name">First Name</Label>
-                                            <Input required type="text" id="first-name" name="first-name" placeholder="First name on item" />
+                                            <Label htmlFor="first_name">First Name</Label>
+                                            <Input required type="text" id="first_name" name="first_name" placeholder="First name on item" />
                                         </div>
                                     </div>
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
-                                            <Label for="other-names">Other Names</Label>
+                                            <Label htmlFor="other_names">Other Names</Label>
                                             <Input
                                                 required
                                                 type="text"
-                                                id="other-names"
-                                                name="other-names"
+                                                id="other_names"
+                                                name="other_names"
                                                 placeholder="Other names"
                                             />
                                         </div>
                                     </div>
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
-                                            <Label for="phone-number">Your Phone Number</Label>
+                                            <Label htmlFor="phone_number">Your Phone Number</Label>
                                             <Input
                                                 required
                                                 type="tel"
-                                                id="phone-number"
-                                                name="phone-number"
+                                                id="phone_number"
+                                                name="phone_number"
                                                 placeholder="e.g 670020023"
                                                 size="9"
                                                 maxLength="9"
@@ -153,7 +168,7 @@ const ReportPage = () => {
                                     </div>
                                     <div tw="p-2 w-full mt-3 ">
                                         <div tw="relative">
-                                            <Label for="reward" tw="flex items-center justify-center">
+                                            <Label htmlFor="reward" tw="flex items-center justify-center">
                                                 <Checkbox
                                                     type="checkbox"
                                                     name="reward"
@@ -175,7 +190,7 @@ const ReportPage = () => {
                 </div>
             </section>
 
-        </AnimationRevealPage >
+        </AnimationRevealPage>
     )
 };
 
