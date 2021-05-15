@@ -10,6 +10,7 @@ import Footer from "components/footers/Footer";
 
 import HomePage from "pages/HomePage";
 import SearchPage from 'pages/SearchPage';
+import ReportPage from "pages/ReportPage";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
 
             <Route exact path="/search">
               <SearchPage />
+            </Route>
+
+            <Route exact path="/report-item">
+              <ReportPage />
             </Route>
           </Switch>
           <Footer />
