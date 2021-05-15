@@ -62,12 +62,12 @@ const HomePage = ({
                                         <FeatureText>Lost something? <a tw="text-primary-500" href="/search">search now</a></FeatureText>
                                     </Feature>
 
-                                    <Feature key="1">
+                                    <Feature key="2">
                                         <FiCrosshair tw="w-5 h-5 text-primary-500" />
                                         <FeatureText>Found something? <a tw="text-primary-500" href="/report-item">register</a></FeatureText>
                                     </Feature>
 
-                                    <Feature key="1">
+                                    <Feature key="3">
                                         <FiBell tw="w-5 h-5 text-primary-500" />
                                         <FeatureText>Wish to get notified ? <a tw="text-primary-500" href="/alert-me">set alert</a></FeatureText>
                                     </Feature>
