@@ -11,6 +11,7 @@ import Footer from "components/footers/Footer";
 import HomePage from "pages/HomePage";
 import SearchPage from 'pages/SearchPage';
 import ReportPage from "pages/ReportPage";
+import AlertPage from "pages/AlertPage";
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
 
             <Route exact path="/report-item">
               <ReportPage />
+            </Route>
+
+            <Route exact path="/alert-me">
+              <AlertPage />
             </Route>
           </Switch>
           <Footer />
