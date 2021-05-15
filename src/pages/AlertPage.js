@@ -19,7 +19,7 @@ const AlertPage = () => {
             <section tw="text-gray-600 relative">
                 <div tw="container py-12 mx-auto">
                     <div tw="flex flex-col text-center w-full mb-12">
-                        <h1 tw="sm:text-4xl text-2xl font-medium mb-4 text-primary-500">Need to know when we find your item?</h1>
+                        <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Need to know when we find your item?</h1>
                         <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">Set an alert below</p>
                     </div>
 
