@@ -9,6 +9,7 @@ import { FiCheckCircle as CheckboxIcon, FiSearch, FiCrosshair, FiBell } from "re
 import { ReactComponent as QuotesLeftIconBase } from "images/quotes-l.svg"
 import { ReactComponent as SvgDecoratorBlob1 } from "images/dot-pattern.svg"
 import AnimationRevealPage from "helpers/AnimationRevealPage";
+import headerImg from "images/women.jpg";
 
 const Row = tw.div`flex flex-col lg:flex-row justify-between items-center lg:pt-8 max-w-screen-2xl mx-auto sm:px-8`;
 const Column = tw.div``;
@@ -36,7 +37,7 @@ const CustomerCompany = tw.p`mt-1 text-sm`
 const HomePage = ({
     heading = "You lose , We care",
     description = "We have put smiles on Faces! TrackMyLost reunites you with your lost documents ",
-    imageSrc = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
+    imageSrc = headerImg,
     imageDecoratorBlob = true,
     features = ["ID Cards", "Passports", "Driver License", "Credit Cards"],
     testimonial = {
