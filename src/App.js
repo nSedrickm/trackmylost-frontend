@@ -12,6 +12,7 @@ import HomePage from "pages/HomePage";
 import SearchPage from 'pages/SearchPage';
 import ReportPage from "pages/ReportPage";
 import AlertPage from "pages/AlertPage";
+import NotFoundPage from "pages/NotFoundPage";
 
 function App() {
   return (
@@ -36,12 +37,16 @@ function App() {
             <Route exact path="/alert-me">
               <AlertPage />
             </Route>
+
+            <Route>
+              <NotFoundPage />
+            </Route>
           </Switch>
+
           <Footer />
         </AnimationRevealPage>
       </ScrollToTop>
     </Router>
-
   );
 }
 
