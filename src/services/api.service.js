@@ -21,11 +21,11 @@ export const setAlert = ({ name, document_type, email, phone_number }) => {
         phone_number: phone_number
     }).then(response => response)
 }
-export const searchItem = ({ first_name }) => {
+export const searchItem = ({ name }) => {
     return axios.get("/items",
         {
             params: {
-                name: first_name
+                name: name
             }
         }).then(response => response)
 }
