@@ -35,13 +35,10 @@ const SearchPage = () => {
         let formData = {
             name: evt.target.elements.search?.value
         }
-        console.log(formData);
 
         setLoading(true);
         searchItem(formData)
             .then(response => {
-                console.log(typeof response.data);
-                console.table(response.data);
                 toast.success(`Search successfull`);
                 setData(response.data);
                 setLoading(false);
