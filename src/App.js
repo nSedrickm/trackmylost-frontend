@@ -15,6 +15,7 @@ import ReportPage from "pages/ReportPage";
 import AlertPage from "pages/AlertPage";
 import NotFoundPage from "pages/NotFoundPage";
 import LoginPage from "pages/LoginPage";
+import RegisterPage from "pages/RegisterPage";
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
 
             <Route exact path="/login">
               <LoginPage />
+            </Route>
+
+            <Route exact path="/sign-up">
+              <RegisterPage />
             </Route>
 
             <Route>
