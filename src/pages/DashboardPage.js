@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { FiLogOut } from "react-icons/fi";
-import { logOut, removeToken } from "services/auth.service";
+import { getUser, logOut, removeToken } from "services/auth.service";
 import { Loader } from "rsuite";
 
 import toast from 'react-hot-toast';
@@ -53,6 +53,10 @@ const DashboardPage = () => {
                 }
             });
     }
+
+    useEffect(() => {
+        getUser().then(response => console.log(response.data))
+    })
 
     //always clear the search data on page load
 
