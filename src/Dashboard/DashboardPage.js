@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
+import toast from 'react-hot-toast';
+import DashHeader from 'components/headers/DashHeader';
+import { Route, Switch } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { getUser, logOut, removeToken } from "services/auth.service";
 import { Loader } from "rsuite";
 
-import toast from 'react-hot-toast';
 
 const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Heading = tw.h1`sm:text-4xl text-2xl font-black  mb-4 text-primary-500`;
@@ -69,26 +71,36 @@ const DashboardPage = () => {
     }
 
     return (
-        <AnimationRevealPage>
-            <Section>
-                <Container>
-                    <Header>
-                        <Heading>Dashboard</Heading>
-                        <Description>Mock dashboard</Description>
-                    </Header>
-                    <Row>
-                        <div tw="flex flex-wrap -m-2">
-                            <FormField>
-                                <SearchButton type="submit"
-                                    onClick={() => handleSubmit()}>
-                                    <FiLogOut /> &nbsp; Logout
+        <>
+            <DashHeader />
+
+            <AnimationRevealPage>
+                <Section>
+                    <Container>
+                        <Header>
+                            <Heading>Dashboard</Heading>
+                            <Description>Mock dashboard</Description>
+                        </Header>
+                        <Row>
+                            <div tw="flex flex-wrap -m-2">
+                                <FormField>
+                                    <SearchButton type="submit"
+                                        onClick={() => handleSubmit()}>
+                                        <FiLogOut /> &nbsp; Logout
                                         </SearchButton>
-                            </FormField>
-                        </div>
-                    </Row>
-                </Container>
-            </Section>
-        </AnimationRevealPage>
+                                </FormField>
+                            </div>
+                        </Row>
+                    </Container>
+                </Section>
+
+                <Switch>
+                    <Route path="/dashboard">
+
+                    </Route>
+                </Switch>
+            </AnimationRevealPage>
+        </>
     )
 }
 export default DashboardPage;
