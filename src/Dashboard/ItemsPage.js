@@ -99,9 +99,22 @@ const ItemsPage = () => {
     }
 
     return (
-        <LoadingContainer>
-            <Loader backdrop size="md" content="processing please wait" vertical />
-        </LoadingContainer>
+        <AnimationRevealPage>
+        <Container>
+            <Header>
+                <Heading>No Items Found</Heading>
+                <Description>It seems no Items have been registered</Description>
+            </Header>
+
+            <Row>
+                <FormField tw="mt-8">
+                    <SearchButton onClick={() => handleGetItems()}>
+                        <FiLoader /> &nbsp; refresh
+                     </SearchButton>
+                </FormField>
+            </Row>
+        </Container>
+    </AnimationRevealPage>
     );
 }
 export default ItemsPage;
