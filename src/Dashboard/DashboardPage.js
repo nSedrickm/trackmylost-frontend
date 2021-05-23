@@ -4,7 +4,7 @@ import DashHeader from 'components/headers/DashHeader';
 import { Route, Switch } from "react-router-dom";
 import { DashProvider } from "Dashboard/DasbhoardContext";
 import ItemsPage from "Dashboard/ItemsPage";
-
+import AlertsPage from "Dashboard/AlertsPage";
 
 const DashboardPage = () => {
 
@@ -13,12 +13,16 @@ const DashboardPage = () => {
             <DashHeader />
             <AnimationRevealPage>
                 <Switch>
-                    <Route path="/dashboard">
+                    <Route exact path="/dashboard">
                         <ItemsPage />
                     </Route>
 
-                    <Route path="/dashboard/items">
+                    <Route exact path="/dashboard/items">
                         <ItemsPage />
+                    </Route>
+
+                    <Route exact path="/dashboard/alerts">
+                        <AlertsPage />
                     </Route>
                 </Switch>
             </AnimationRevealPage>
