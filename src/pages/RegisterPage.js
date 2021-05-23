@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { FiUserPlus } from "react-icons/fi";
 
-// import { userLogin, setToken } from "services/api.service";
+import { registerUser } from "services/auth.service";
 import { Loader } from "rsuite";
 import toast from 'react-hot-toast';
 
@@ -40,32 +40,31 @@ const RegisterPage = () => {
         }
         console.log(formData);
 
-        // setLoading(true);
-        // agentLogin(formData)
-        //     .then(response => {
-        //         console.log(response);
-        //         toast.success(`Alert set successfully`);
-        //         setLoading(false);
-        //     })
-        //     .catch(error => {
-        //         if (error.response) {
-        //             // The request was made and the server responded with a status code
-        //             // that falls out of the range of 2xx
-        //             setLoading(false);
-        //             toast.error("An error occurred Please check your network and try again");
-        //         } else if (error.request) {
-        //             // The request was made but no response was received
-        //             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        //             // http.ClientRequest in node.js
-        //             setLoading(false);
-        //             toast.error("An error occurred Please check your network and try again");
-        //         } else {
-        //             // Something happened in setting up the request that triggered an Error
-        //             setLoading(false);
-        //             toast.error("An error occurred Please check your network and try again");
+        setLoading(true);
+        registerUser(formData)
+            .then(response => {
+                toast.success(response.data.message);
+                setTimeout(() => { window.location.replace("/login") }, 1500);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error(error.response.data.errors.phone_number[0]);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
 
-        //         }
-        //     });
+                }
+            });
     }
 
     if (loading) {
@@ -164,7 +163,8 @@ const RegisterPage = () => {
                                 </div>
                             </div>
                             <div tw="p-2 w-full mt-2">
-                                <SubmitButton type="submit">
+                                <SubmitButton type="submit"
+                                    disabled={isInvalid ? true : false}>
                                     <FiUserPlus /> &nbsp; Register
                                 </SubmitButton>
                             </div>
