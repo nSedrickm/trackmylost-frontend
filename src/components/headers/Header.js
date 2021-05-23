@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 const MainHeader = tw.header`
   flex justify-between items-center
-  max-w-screen-xl mx-auto
+  max-w-none mx-auto
 `;
 
 export const NavLinks = tw.div`inline-block`;
