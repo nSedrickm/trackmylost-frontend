@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import tw from "twin.macro";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import toast from 'react-hot-toast';
 import DashHeader from 'components/headers/DashHeader';
 import { Route, Switch } from "react-router-dom";
-import { FiLogOut } from "react-icons/fi";
-import { getUser, logOut, removeToken } from "services/auth.service";
-import { Loader } from "rsuite";
-
+import { DashProvider } from "Dashboard/DasbhoardContext"
 
 const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Heading = tw.h1`sm:text-4xl text-2xl font-black  mb-4 text-primary-500`;
-const LoadingContainer = tw.div`h-screen text-center`;
 const Description = tw.p`lg:w-2/3 mx-auto leading-relaxed text-base`;
 const Header = tw.header`flex flex-col text-center w-full mb-4`;
 const Container = tw.div`container py-12 md:py-40  mx-auto`;
@@ -24,56 +19,12 @@ const Section = tw.section`text-gray-600 relative`;
 // const CardTitle = tw.span`text-gray-900 font-medium`;
 // const CardInfo = tw.p`text-gray-500`;
 
+
 const DashboardPage = () => {
 
-    const [loading, setLoading] = useState(false);
-
-    const handleSubmit = () => {
-        setLoading(true);
-        logOut()
-            .then(response => {
-                toast.success(response.data.message);
-                removeToken();
-                setTimeout(() => { window.location.replace("/login") }, 1000)
-            })
-            .catch(error => {
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    toast.error("An error occurred Please check your network and try again");
-                    setLoading(false);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setLoading(false);
-                    toast.error("An error occurred Please check your network and try again");
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
-                    toast.error("An error occurred Please check your network and try again");
-                }
-            });
-    }
-
-    useEffect(() => {
-        getUser().then(response => console.log(response.data))
-    })
-
-    //always clear the search data on page load
-
-    if (loading) {
-        return (
-            <LoadingContainer>
-                <Loader backdrop size="md" content="processing please wait" vertical />
-            </LoadingContainer>
-        );
-    }
-
     return (
-        <>
+        <DashProvider>
             <DashHeader />
-
             <AnimationRevealPage>
                 <Section>
                     <Container>
@@ -84,9 +35,8 @@ const DashboardPage = () => {
                         <Row>
                             <div tw="flex flex-wrap -m-2">
                                 <FormField>
-                                    <SearchButton type="submit"
-                                        onClick={() => handleSubmit()}>
-                                        <FiLogOut /> &nbsp; Logout
+                                    <SearchButton type="submit">
+                                        &nbsp; Logout
                                         </SearchButton>
                                 </FormField>
                             </div>
@@ -100,7 +50,7 @@ const DashboardPage = () => {
                     </Route>
                 </Switch>
             </AnimationRevealPage>
-        </>
+        </DashProvider>
     )
 }
 export default DashboardPage;
