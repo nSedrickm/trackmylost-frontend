@@ -16,63 +16,77 @@ import AlertPage from "pages/AlertPage";
 import NotFoundPage from "pages/NotFoundPage";
 import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
-import DashboardPage from "pages/DashboardPage";
+import DashboardPage from "Dashboard/DashboardPage";
 import { getToken } from "services/auth.service";
 
+let token = getToken();
+let isAuthorized = false;
+
+if (token) {
+  isAuthorized = true;
+}
+
 function App() {
-
-  let token = getToken();
-  let isAuthorized = false;
-
-  if (token) {
-    isAuthorized = true;
-  }
 
   return (
     <Router>
       <ScrollToTop>
-        <AnimationRevealPage>
-          <Toaster />
-          <Header tw="max-w-none" />
+        <Toaster />
 
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
+        <Switch>
 
-            <Route exact path="/search">
-              <SearchPage />
-            </Route>
+          <Route path="/dashboard">
+            {isAuthorized ? <DashboardPage /> : <Redirect to="/login" />}
+          </Route>
 
-            <Route exact path="/report-item">
-              <ReportPage />
-            </Route>
+          <Route path="/">
+            <MainSection />
+          </Route>
+        </Switch>
 
-            <Route exact path="/alert-me">
-              <AlertPage />
-            </Route>
-
-            <Route exact path="/login">
-              {isAuthorized ? <Redirect to="/dashboard" /> : <LoginPage />}
-            </Route>
-
-            <Route exact path="/sign-up">
-              <RegisterPage />
-            </Route>
-
-            <Route path="/dashboard">
-              {isAuthorized ? <DashboardPage /> : <Redirect to="/login" />}
-            </Route>
-
-            <Route>
-              <NotFoundPage />
-            </Route>
-          </Switch>
-
-          <Footer />
-        </AnimationRevealPage>
       </ScrollToTop>
     </Router>
+  );
+}
+
+const MainSection = () => {
+
+  return (
+    <AnimationRevealPage>
+      <Header />
+
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+
+        <Route exact path="/search">
+          <SearchPage />
+        </Route>
+
+        <Route exact path="/report-item">
+          <ReportPage />
+        </Route>
+
+        <Route exact path="/alert-me">
+          <AlertPage />
+        </Route>
+
+        <Route exact path="/login">
+          {isAuthorized ? <Redirect to="/dashboard" /> : <LoginPage />}
+        </Route>
+
+        <Route exact path="/sign-up">
+          <RegisterPage />
+        </Route>
+
+        <Route>
+          <NotFoundPage />
+        </Route>
+      </Switch>
+
+      <Footer />
+    </AnimationRevealPage>
   );
 }
 
