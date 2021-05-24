@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import tw from "twin.macro";
 import useAnimatedNavToggler from "helpers/useAnimatedNavToggler.js";
 import logo from "images/logo.png";
 import { FiBell, FiLogOut, FiMenu as MenuIcon } from "react-icons/fi";
 import { Link } from 'react-router-dom';
-import { DashContext } from "Dashboard/DasbhoardContext";
+import { useDashContext } from "Dashboard/DasbhoardContext";
 import { Drawer } from "rsuite";
 
 const MainHeader = tw.header`flex justify-between items-center max-w-none mx-auto bg-primary-500 shadow-lg`;
@@ -24,7 +24,7 @@ const NavToggle = tw(NavButton)`lg:hidden z-50 focus:outline-none focus:bg-prima
 
 const DashHeader = () => {
 
-  const { handleLogOut } = useContext(DashContext);
+  const { handleLogOut } = useDashContext();
   const [drawer, showDrawer] = useState(false);
   const { toggleNavbar } = useAnimatedNavToggler();
 
