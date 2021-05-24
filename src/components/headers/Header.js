@@ -47,7 +47,7 @@ const Header = () => {
       </NavContainer>
       <NavContainer key={2}>
         <NavLink as={Link} onClick={toggleNavbar} key="login" to="/agent/login">
-          <FiLogIn size={20} /> &nbsp; login
+          <FiLogIn size={20} /> &nbsp; Login
         </NavLink>
         <NavLink as={Link} onClick={toggleNavbar} key="sign-up" to="/agent/sign-up">
           <FiUserPlus /> &nbsp; Sign Up
