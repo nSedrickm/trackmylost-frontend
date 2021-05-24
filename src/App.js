@@ -3,8 +3,9 @@ import "rsuite/dist/styles/rsuite-default.css";
 import "tailwindcss/dist/base.css";
 import './App.css';
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
+
 import ScrollToTop from "helpers/ScrollToTop";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import Header from "components/headers/Header";
@@ -14,17 +15,7 @@ import SearchPage from 'pages/SearchPage';
 import ReportPage from "pages/ReportPage";
 import AlertPage from "pages/AlertPage";
 import NotFoundPage from "pages/NotFoundPage";
-import LoginPage from "pages/LoginPage";
-import RegisterPage from "pages/RegisterPage";
-import DashboardPage from "Dashboard/DashboardPage";
-import { getToken } from "services/auth.service";
-
-let token = getToken();
-let isAuthorized = false;
-
-if (token) {
-  isAuthorized = true;
-}
+import DashContainer from 'Dashboard/DashContainer';
 
 function App() {
 
@@ -35,8 +26,8 @@ function App() {
 
         <Switch>
 
-          <Route path="/dashboard">
-            {isAuthorized ? <DashboardPage /> : <Redirect to="/login" />}
+          <Route path="/agent">
+            <DashContainer />
           </Route>
 
           <Route path="/">
@@ -71,14 +62,6 @@ const MainSection = () => {
 
           <Route exact path="/alert-me">
             <AlertPage />
-          </Route>
-
-          <Route exact path="/login">
-            {isAuthorized ? <Redirect to="/dashboard" /> : <LoginPage />}
-          </Route>
-
-          <Route exact path="/sign-up">
-            <RegisterPage />
           </Route>
 
           <Route>
