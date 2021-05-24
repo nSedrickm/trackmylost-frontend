@@ -46,10 +46,12 @@ const Header = () => {
         <NavLink as={Link} onClick={toggleNavbar} key="contact" to="/contact">Contact Us</NavLink>
       </NavContainer>
       <NavContainer key={2}>
-        <NavLink as={Link} onClick={toggleNavbar} key="login" to="/login">
+        <NavLink as={Link} onClick={toggleNavbar} key="login" to="/agent/login">
           <FiLogIn size={20} /> &nbsp; login
         </NavLink>
-        <NavLink as={Link} onClick={toggleNavbar} key="sign-up" to="/sign-up"><FiUserPlus /> &nbsp; Sign Up</NavLink>
+        <NavLink as={Link} onClick={toggleNavbar} key="sign-up" to="/agent/sign-up">
+          <FiUserPlus /> &nbsp; Sign Up
+        </NavLink>
       </NavContainer>
     </React.Fragment>
   ];
@@ -61,8 +63,8 @@ const Header = () => {
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="report-item" to="/report-item">Report Item</MobileNavLink>
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="alert-me" to="/alert-me">Alert Me</MobileNavLink>
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="contact" to="/contact">Contact Us</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="login" to="/login"><FiLogIn size={20} /> &nbsp; login</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="sign-up" to="/sign-up"><FiUserPlus /> &nbsp; Sign Up</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="login" to="/agent/login"><FiLogIn size={20} /> &nbsp; login</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="sign-up" to="/agent/sign-up"><FiUserPlus /> &nbsp; Sign Up</MobileNavLink>
     </React.Fragment>
   ];
 
