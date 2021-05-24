@@ -52,41 +52,43 @@ function App() {
 const MainSection = () => {
 
   return (
-    <AnimationRevealPage>
+    <>
       <Header />
+      <AnimationRevealPage>
 
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
 
-        <Route exact path="/search">
-          <SearchPage />
-        </Route>
+          <Route exact path="/search">
+            <SearchPage />
+          </Route>
 
-        <Route exact path="/report-item">
-          <ReportPage />
-        </Route>
+          <Route exact path="/report-item">
+            <ReportPage />
+          </Route>
 
-        <Route exact path="/alert-me">
-          <AlertPage />
-        </Route>
+          <Route exact path="/alert-me">
+            <AlertPage />
+          </Route>
 
-        <Route exact path="/login">
-          {isAuthorized ? <Redirect to="/dashboard" /> : <LoginPage />}
-        </Route>
+          <Route exact path="/login">
+            {isAuthorized ? <Redirect to="/dashboard" /> : <LoginPage />}
+          </Route>
 
-        <Route exact path="/sign-up">
-          <RegisterPage />
-        </Route>
+          <Route exact path="/sign-up">
+            <RegisterPage />
+          </Route>
 
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
+          <Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
 
-      <Footer />
-    </AnimationRevealPage>
+        <Footer />
+      </AnimationRevealPage>
+    </>
   );
 }
 
