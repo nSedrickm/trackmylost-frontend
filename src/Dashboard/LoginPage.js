@@ -34,7 +34,7 @@ const LoginPage = () => {
                 setToken("Logged in");
                 toast.success(response.data.message);
                 setTimeout(() => {
-                    window.location.replace("/dashboard")
+                    window.location.replace("/agent/dashboard")
                 }, 1000)
             })
             .catch(error => {
