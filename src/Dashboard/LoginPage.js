@@ -1,7 +1,7 @@
 import React from 'react';
 import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { useDashContext } from "Dashboard/DasbhoardContext";
+import { useDashContext } from "Dashboard/DashboardContext";
 import { FiLogIn } from "react-icons/fi";
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;

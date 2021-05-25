@@ -4,7 +4,7 @@ import useAnimatedNavToggler from "helpers/useAnimatedNavToggler.js";
 import logo from "images/logo.png";
 import { FiBell, FiLogOut, FiMenu as MenuIcon } from "react-icons/fi";
 import { Link } from 'react-router-dom';
-import { useDashContext } from "Dashboard/DasbhoardContext";
+import { useDashContext } from "Dashboard/DashboardContext";
 import { Drawer } from "rsuite";
 
 const MainHeader = tw.header`flex justify-between items-center max-w-none mx-auto bg-primary-500 shadow-lg`;
