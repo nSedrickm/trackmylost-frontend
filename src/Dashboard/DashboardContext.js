@@ -13,42 +13,61 @@ const useDashContext = () => useContext(DashContext);
 
 const Reducer = (state, action) => {
     switch (action.type) {
-        case "LOGIN":
+        case "LOGIN": {
             console.log("statebefore: ", state)
             return {
                 ...state,
                 isAuthorized: action.payload
-            };
-        case "SETUSERDATA":
+            }
+        }
+        case "SETUSERDATA": {
             return {
                 ...state,
                 userData: action.payload
-            };
-        case "LOGOUT":
+            }
+        }
+        case "LOGOUT": {
             return {
                 ...state,
                 isAuthorized: action.payload.isAuthorized,
                 userData: action.payload.userData
-            };
-        default:
-            return state;
+            }
+        }
+        default: {
+            throw new Error(`Unhandled action type: ${action.type}`)
+        }
     }
 };
 
-const DashProvider = () => {
+const notAuthorized = "notAuthorized";
+const Authorized = "Authorized";
 
-    const notAuthorized = "notAuthorized";
-    const Authorized = "Authorized";
+const setLocalState = (state) => {
+    sessionStorage.setItem("TrackMyLost", JSON.stringify(state))
+}
+
+const getLocalState = () => {
+    return JSON.parse(sessionStorage.getItem("TrackMyLost"));
+}
+
+let localState = getLocalState();
+
+let initialState = localState || {
+    isAuthorized: notAuthorized,
+    userData: {}
+}
+
+const DashProvider = () => {
 
     const [loading, setLoading] = useState(false);
 
     const [state, dispatch] = useReducer(
-        Reducer, {
-        isAuthorized: notAuthorized,
-        userData: {}
-    });
+        Reducer, initialState);
 
-    useEffect(() => { console.log(state); }, [state])
+    useEffect(() => {
+        setLocalState(state);
+        initialState = getLocalState();
+    }, [state])
 
     const handleLogin = (evt) => {
         evt.preventDefault();
@@ -137,6 +156,7 @@ const DashProvider = () => {
                         userData: {}
                     }
                 });
+                sessionStorage.removeItem("TrackMyLost");
                 setTimeout(() => { window.location.replace("/agent/login") }, 1000)
             })
             .catch(error => {
@@ -183,7 +203,8 @@ const DashProvider = () => {
                 </Route>
 
                 <Route path="/agent/dashboard">
-                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
+                    {/* {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />} */}
+                    <DashboardPage />
                 </Route>
             </Switch>
         </DashContext.Provider>
