@@ -1,18 +1,54 @@
-import AnimateLoader from "components/Loaders/AnimateLoader";
-import React, { useState, useContext } from "react";
+import React, { useState, useReducer, useContext, useEffect } from "react";
 import toast from 'react-hot-toast';
-import { getUser, userLogin, logOut, removeToken, setToken } from "services/auth.service";
+import LoginPage from "Dashboard/LoginPage";
+import RegisterPage from "Dashboard/RegisterPage";
+import DashboardPage from "Dashboard/DashboardPage";
+import AnimateLoader from "components/Loaders/AnimateLoader";
+
+import { Route, Switch } from "react-router-dom";
+import { getUser, userLogin, logOut } from "services/auth.service";
 
 const DashContext = React.createContext();
+const useDashContext = () => useContext(DashContext);
 
-const DashProvider = ({ children }) => {
+const Reducer = (state, action) => {
+    switch (action.type) {
+        case "LOGIN":
+            console.log("statebefore: ", state)
+            return {
+                ...state,
+                isAuthorized: action.payload
+            };
+        case "SETUSERDATA":
+            return {
+                ...state,
+                userData: action.payload
+            };
+        case "LOGOUT":
+            return {
+                ...state,
+                isAuthorized: action.payload.isAuthorized,
+                userData: action.payload.userData
+            };
+        default:
+            return state;
+    }
+};
+
+const DashProvider = () => {
 
     const notAuthorized = "notAuthorized";
     const Authorized = "Authorized";
 
-    const [isAuthorized, setAuthStatus] = useState(notAuthorized);
-    const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
+
+    const [state, dispatch] = useReducer(
+        Reducer, {
+        isAuthorized: notAuthorized,
+        userData: {}
+    });
+
+    useEffect(() => { console.log(state); }, [state])
 
     const handleLogin = (evt) => {
         evt.preventDefault();
@@ -21,17 +57,24 @@ const DashProvider = ({ children }) => {
             phone_number: evt.target.elements.phone_number?.value,
             password: evt.target.elements.password?.value,
         }
-        console.log(formData);
+
+        // console.log(formData);
 
         setLoading(true);
+
         userLogin(formData)
             .then(response => {
-                console.log(response.data);
-                setToken("Logged in");
+                // console.log(response.data);
                 toast.success(response.data.message);
-                setTimeout(() => {
-                    window.location.replace("/agent/dashboard")
-                }, 1000)
+                handleGetUser();
+                dispatch({
+                    type: "LOGIN",
+                    payload: Authorized
+                });
+                console.log("State efter: ", state);
+                // setTimeout(() => {
+                //     window.location.replace("/agent/dashboard")
+                // }, 1000)
             })
             .catch(error => {
                 if (error.response) {
@@ -53,8 +96,15 @@ const DashProvider = ({ children }) => {
             });
     }
 
+    //fetch user account details
     const handleGetUser = () => {
-        getUser().then(response => setUserData(response.data))
+        getUser()
+            .then(response => {
+                dispatch({
+                    type: "SETUSERDATA",
+                    payload: response.data
+                });
+            })
             .catch(error => {
                 if (error.response) {
                     // The request was made and the server responded with a status code
@@ -80,9 +130,13 @@ const DashProvider = ({ children }) => {
         logOut()
             .then(response => {
                 toast.success(response.data.message);
-                removeToken();
-                setUserData({});
-                setAuthStatus(notAuthorized);
+                dispatch({
+                    type: "LOGOUT",
+                    payload: {
+                        isAuthorized: notAuthorized,
+                        userData: {}
+                    }
+                });
                 setTimeout(() => { window.location.replace("/agent/login") }, 1000)
             })
             .catch(error => {
@@ -114,21 +168,26 @@ const DashProvider = ({ children }) => {
     return (
         <DashContext.Provider
             value={{
-                isAuthorized,
-                Authorized,
-                notAuthorized,
-                setAuthStatus,
-                userData,
+                state,
                 handleLogin,
                 handleLogOut,
             }}
         >
-            {children}
+            <Switch>
+                <Route exact path="/agent/login">
+                    <LoginPage />
+                </Route>
+
+                <Route exact path="/agent/sign-up">
+                    <RegisterPage />
+                </Route>
+
+                <Route path="/agent/dashboard">
+                    <DashboardPage />
+                </Route>
+            </Switch>
         </DashContext.Provider>
     );
 };
-
-
-const useDashContext = () => useContext(DashContext);
 
 export { useDashContext, DashProvider };
