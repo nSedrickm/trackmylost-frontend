@@ -5,7 +5,7 @@ import RegisterPage from "Dashboard/RegisterPage";
 import DashboardPage from "Dashboard/DashboardPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { getUser, userLogin, logOut } from "services/auth.service";
 
 const DashContext = React.createContext();
@@ -72,9 +72,9 @@ const DashProvider = () => {
                     payload: Authorized
                 });
                 console.log("State efter: ", state);
-                // setTimeout(() => {
-                //     window.location.replace("/agent/dashboard")
-                // }, 1000)
+                setTimeout(() => {
+                    window.location.replace("/agent/dashboard")
+                }, 1000)
             })
             .catch(error => {
                 if (error.response) {
@@ -175,7 +175,7 @@ const DashProvider = () => {
         >
             <Switch>
                 <Route exact path="/agent/login">
-                    <LoginPage />
+                    {state.isAuthorized === Authorized ? <Redirect to="/agent/dashboard" /> : <LoginPage />}
                 </Route>
 
                 <Route exact path="/agent/sign-up">
@@ -183,7 +183,7 @@ const DashProvider = () => {
                 </Route>
 
                 <Route path="/agent/dashboard">
-                    <DashboardPage />
+                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
                 </Route>
             </Switch>
         </DashContext.Provider>
