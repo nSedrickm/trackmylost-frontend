@@ -15,7 +15,7 @@ import SearchPage from 'pages/SearchPage';
 import ReportPage from "pages/ReportPage";
 import AlertPage from "pages/AlertPage";
 import NotFoundPage from "pages/NotFoundPage";
-import DashContainer from 'Dashboard/DashContainer';
+import { DashProvider } from 'Dashboard/DashboardContext';
 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
         <Switch>
 
           <Route path="/agent">
-            <DashContainer />
+            <DashProvider />
           </Route>
 
           <Route path="/">
