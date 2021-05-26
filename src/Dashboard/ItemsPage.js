@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiFileText, FiLoader } from "react-icons/fi";
+import { FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { Loader } from "rsuite";
 
 import toast from 'react-hot-toast';
 
-const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
-const Heading = tw.h1`sm:text-4xl text-2xl font-black  mb-4 text-primary-500`;
 const LoadingContainer = tw.div`h-screen text-center`;
-const Description = tw.p`lg:w-2/3 mx-auto leading-relaxed text-base`;
-const Header = tw.header`flex flex-col text-center w-full mb-4`;
-const Container = tw.div`container py-12 md:py-24 mx-auto`;
+const Heading = tw.h1`sm:text-4xl text-xl font-black md:mb-2 text-primary-500`;
+const Description = tw.p`mx-auto leading-relaxed text-xs md:text-base`;
+const Header = tw.header`flex justify-between w-full mb-4`;
+const HeaderItem = tw.div``;
+const Button = tw.button`inline-flex items-center transition duration-300 bg-primary-500 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium p-3 sm:p-6 no-underline  appearance-none`;
+const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
+const Container = tw.div`container py-12 mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
 const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
@@ -73,8 +75,13 @@ const ItemsPage = () => {
             <AnimationRevealPage>
                 <Container>
                     <Header>
-                        <Heading>Registered Items</Heading>
-                        <Description>We currently have these items</Description>
+                        <HeaderItem>
+                            <Heading>Registered Items</Heading>
+                            <Description>All items you have registered</Description>
+                        </HeaderItem>
+                        <HeaderItem>
+                            <Button><FiPlusCircle size={20} /> &nbsp; Add</Button>
+                        </HeaderItem>
                     </Header>
 
                     <Row>
@@ -100,21 +107,21 @@ const ItemsPage = () => {
 
     return (
         <AnimationRevealPage>
-        <Container>
-            <Header>
-                <Heading>No Items Found</Heading>
-                <Description>It seems no Items have been registered</Description>
-            </Header>
+            <Container>
+                <Header>
+                    <Heading>No Items Found</Heading>
+                    <Description>It seems no Items have been registered</Description>
+                </Header>
 
-            <Row>
-                <FormField tw="mt-8">
-                    <SearchButton onClick={() => handleGetItems()}>
-                        <FiLoader /> &nbsp; refresh
+                <Row>
+                    <FormField tw="mt-8">
+                        <SearchButton onClick={() => handleGetItems()}>
+                            <FiLoader /> &nbsp; refresh
                      </SearchButton>
-                </FormField>
-            </Row>
-        </Container>
-    </AnimationRevealPage>
+                    </FormField>
+                </Row>
+            </Container>
+        </AnimationRevealPage>
     );
 }
 export default ItemsPage;
