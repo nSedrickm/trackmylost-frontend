@@ -51,7 +51,7 @@ function AnimatedSlideInComponent({ direction = "left", offset = 10, children })
 }
 
 const AnimationRevealPage = (props) => (
-  <StyledDiv className="App">
+  <StyledDiv className="AnimationRevealPage">
     <AnimationReveal {...props} />
   </StyledDiv>
 );
