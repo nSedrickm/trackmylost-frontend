@@ -6,19 +6,20 @@ import { FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { Table } from 'rsuite';
 
-
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
 const Header = tw.header`flex flex-col sm:flex-row justify-between w-full mb-4`;
 const HeaderItem = tw.div`mb-3`;
 const Button = tw.button`inline-flex items-center transition duration-300 bg-primary-500 hover:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium p-3 sm:p-6 no-underline appearance-none`;
 const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
-const Container = tw.div`container py-12 mx-auto`;
+const Container = tw.div`container w-full py-12 mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
-
+const DataTable = tw(Table)`border border-primary-900`;
+const TableHeader = tw(HeaderCell)`text-primary-500 font-medium`;
+const TableCell = tw(Cell)``;
 
 const ItemsPage = () => {
 
@@ -71,12 +72,12 @@ const ItemsPage = () => {
                         <HeaderItem tw="inline-flex">
                             <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
                             <Button onClick={() => handleGetItems()}>
-                                <FiLoader size={16}/> &nbsp; refresh
+                                <FiLoader size={16} /> &nbsp; refresh
                             </Button>
                         </HeaderItem>
                     </Header>
 
-                    <Table
+                    <DataTable
                         virtualized
                         height={420}
                         autoHeight
@@ -87,49 +88,49 @@ const ItemsPage = () => {
                         loading={loading}
                     >
                         <Column width={50} align="center">
-                            <HeaderCell>Id</HeaderCell>
-                            <Cell dataKey="id" />
+                            <TableHeader>Id</TableHeader>
+                            <TableCell dataKey="id" />
                         </Column>
 
-                        <Column width={100}>
-                            <HeaderCell>First Name</HeaderCell>
-                            <Cell dataKey="first_name" />
+                        <Column flexGrow={1}>
+                            <TableHeader>First Name</TableHeader>
+                            <TableCell dataKey="first_name" />
                         </Column>
 
-                        <Column width={200}>
-                            <HeaderCell>Other Name(s)</HeaderCell>
-                            <Cell dataKey="other_names" />
+                        <Column flexGrow={1.5}>
+                            <TableHeader>Other Name(s)</TableHeader>
+                            <TableCell dataKey="other_names" />
                         </Column>
 
-                        <Column width={150}>
-                            <HeaderCell>Document Type</HeaderCell>
-                            <Cell dataKey="document_type" />
+                        <Column flexGrow={1}>
+                            <TableHeader>Document Type</TableHeader>
+                            <TableCell dataKey="document_type" />
                         </Column>
 
-                        <Column width={150}>
-                            <HeaderCell>Phone Number</HeaderCell>
-                            <Cell dataKey="phone_number" />
+                        <Column flexGrow={1}>
+                            <TableHeader>Phone Number</TableHeader>
+                            <TableCell dataKey="phone_number" />
                         </Column>
 
 
-                        <Column width={200}>
-                            <HeaderCell>Created</HeaderCell>
-                            <Cell dataKey="created_at" />
+                        <Column flexGrow={1}>
+                            <TableHeader>Created</TableHeader>
+                            <TableCell dataKey="created_at" />
                         </Column>
 
-                        <Column width={200}>
-                            <HeaderCell>Last Update</HeaderCell>
-                            <Cell dataKey="updated_at" />
+                        <Column flexGrow={1}>
+                            <TableHeader>Last Update</TableHeader>
+                            <TableCell dataKey="updated_at" />
                         </Column>
 
-                        <Column width={50}>
-                            <HeaderCell>Reward</HeaderCell>
-                            <Cell dataKey="reward" />
+                        <Column flexGrow={1}>
+                            <TableHeader>Reward</TableHeader>
+                            <TableCell dataKey="reward" />
                         </Column>
 
-                        <Column width={150} >
-                            <HeaderCell>Action</HeaderCell>
-                            <Cell>
+                        <Column flexGrow={1} >
+                            <TableHeader>Action</TableHeader>
+                            <TableCell>
                                 {rowData => {
                                     function handleAction() {
                                         alert(`id:${rowData.id}`);
@@ -141,9 +142,9 @@ const ItemsPage = () => {
                                         </span>
                                     );
                                 }}
-                            </Cell>
+                            </TableCell>
                         </Column>
-                    </Table>
+                    </DataTable>
                 </Container>
             </AnimationRevealPage>
         )
@@ -161,7 +162,7 @@ const ItemsPage = () => {
                     <FormField tw="mt-8">
                         <SearchButton onClick={() => handleGetItems()}>
                             <FiLoader /> &nbsp; refresh
-                     </SearchButton>
+                        </SearchButton>
                     </FormField>
                 </Row>
             </Container>
