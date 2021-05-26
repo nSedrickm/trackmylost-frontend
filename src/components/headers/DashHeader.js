@@ -31,8 +31,8 @@ const DashHeader = () => {
   const defaultLinks = [
     <React.Fragment key="nav">
       <NavContainer key={1}>
-        <NavLink onClick={toggleNavbar} key="home" to="/dashboard/items">Items</NavLink>
-        <NavLink onClick={toggleNavbar} key="Alerts" to="/dashboard/alerts">Alerts</NavLink>
+        <NavLink onClick={toggleNavbar} key="home" to="/agent/dashboard/items">Items</NavLink>
+        <NavLink onClick={toggleNavbar} key="Alerts" to="/agent/dashboard/alerts">Alerts</NavLink>
       </NavContainer>
       <NavContainer key={2}>
         <NavButton>
@@ -47,8 +47,8 @@ const DashHeader = () => {
 
   const altLinks = [
     <React.Fragment key="nav">
-      <MobileNavLink onClick={toggleNavbar} key="items" to="/dashboard/items">Items</MobileNavLink>
-      <MobileNavLink onClick={toggleNavbar} key="alerts" to="/dashboard/alerts">Alerts</MobileNavLink>
+      <MobileNavLink onClick={toggleNavbar} key="items" to="/agent/dashboard/items">Items</MobileNavLink>
+      <MobileNavLink onClick={toggleNavbar} key="alerts" to="/agent/dashboard/alerts">Alerts</MobileNavLink>
 
       <MobileNavButton>
         <FiBell size={20} />
