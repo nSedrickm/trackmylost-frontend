@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { Table } from 'rsuite';
+import { getSavedItems, saveItems } from "services/storage.service";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -25,40 +26,101 @@ const ItemsPage = () => {
 
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
+    const [tableData, setTableData] = useState([]);
+    const [pagination, setPagination] = useState({
+        displayLength: 10,
+        page: 1
+    })
+
+    const { displayLength, page } = pagination;
 
     const handleGetItems = () => {
         setLoading(true);
-        getItems()
-            .then(response => {
-                toast.success(`Fetch complete`);
-                setData(response.data);
-                console.log(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
 
-                    toast.error("No items found");
+        let items = getSavedItems();
+
+        if (items) {
+            setData(items);
+            handlePaginate();
+            setLoading(false);
+        } else {
+            getItems()
+                .then(response => {
+                    toast.success(`Fetch complete`);
+                    setData(response.data);
+                    saveItems(response.data);
+                    handlePaginate();
                     setLoading(false);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setLoading(false);
-                    toast.error("An error occurred Please check your network and try again");
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
-                    toast.error("An error occurred Please check your network and try again");
-                }
-            });
+                })
+                .catch(error => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+
+                        toast.error("No items found");
+                        setLoading(false);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        setLoading(false);
+                        toast.error("An error occurred Please check your network and try again");
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        setLoading(false);
+                        toast.error("An error occurred Please check your network and try again");
+                    }
+                });
+        }
+    }
+
+    const handleChangePage = (dataKey) => {
+        console.log("changePage", dataKey, pagination)
+        setPagination(pagination => {
+            return {
+                ...pagination,
+                page: dataKey
+            }
+        });
+        handlePaginate();
+    }
+    const handleChangeLength = (dataKey) => {
+        console.log("changeLength", dataKey, pagination)
+        setPagination(pagination => {
+            return {
+                ...pagination,
+                page: 1,
+                displayLength: dataKey
+            }
+        });
+        handlePaginate();
+    }
+
+    const handlePaginate = () => {
+        setLoading(true)
+        // filter the data as array
+        const start = displayLength * (page - 1);
+        const end = start + displayLength;
+        const input = Object.entries(data);
+        let result, objectResult, arrayResult;
+
+        result = input.filter((v, i) => i >= start && i < end);
+        console.log(result);
+
+        //convert the data back to object
+        objectResult = Object.fromEntries(result);
+
+        // convert the data to object array
+        arrayResult = Object.values(objectResult);
+
+        setTableData(arrayResult);
+        setLoading(false);
     }
 
     useEffect(() => {
         handleGetItems();
-    }, []);
+    }, [pagination]);
+
 
     if (data.length) {
         return (
@@ -81,7 +143,7 @@ const ItemsPage = () => {
                         virtualized
                         height={420}
                         autoHeight
-                        data={data}
+                        data={tableData}
                         onRowClick={data => {
                             console.log(data);
                         }}
@@ -145,6 +207,32 @@ const ItemsPage = () => {
                             </TableCell>
                         </Column>
                     </DataTable>
+
+                    <Pagination
+                        lengthMenu={[
+                            {
+                                value: 10,
+                                label: 10
+                            },
+                            {
+                                value: 20,
+                                label: 20
+                            },
+                            {
+                                value: 30,
+                                label: 30
+                            }
+                        ]}
+                        activePage={page}
+                        displayLength={displayLength}
+                        total={data.length}
+                        onChangePage={(evt) => {
+                            handleChangePage(evt)
+                        }}
+                        onChangeLength={(evt) => {
+                            handleChangeLength(evt);
+                        }}
+                    />
                 </Container>
             </AnimationRevealPage>
         )
@@ -152,8 +240,8 @@ const ItemsPage = () => {
 
     return (
         <AnimationRevealPage>
-            <Container>
-                <Header>
+            <Container tw="py-48">
+                <Header tw="block text-center">
                     <Heading>No Items Found</Heading>
                     <Description>It seems no Items have been registered</Description>
                 </Header>
