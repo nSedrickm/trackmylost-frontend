@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
+import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import toast from 'react-hot-toast';
 import { FiLoader, FiPlusCircle } from "react-icons/fi";
@@ -13,14 +14,24 @@ const Header = tw.header`flex flex-col sm:flex-row justify-between w-full mb-4`;
 const HeaderItem = tw.div`mb-3`;
 const Button = tw.button`inline-flex items-center transition duration-300 bg-primary-500 hover:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium p-3 sm:p-6 no-underline appearance-none`;
 const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
-const Container = tw.div`container w-full py-12 mx-auto`;
+const Container = tw.div`container w-full mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
-const DataTable = tw(Table)`border border-primary-900`;
-const TableHeader = tw(HeaderCell)`text-primary-500 font-medium`;
+const DataTable = styled(Table)`
+    .rs-table-cell-header .rs-table-cell-content {
+        ${tw`text-sm bg-primary-500 hocus:bg-primary-700`}
+    }
+`;
+const TableHeader = tw(HeaderCell)`text-white font-medium`;
 const TableCell = tw(Cell)``;
+const TablePagination = styled(Pagination)`
+    ${tw`p-2`}
+    .rs-picker-toggle-value {
+        ${tw`text-primary-500!`}
+    }
+`;
 
 const ItemsPage = () => {
 
@@ -103,45 +114,43 @@ const ItemsPage = () => {
         const end = start + displayLength;
         const input = Object.entries(data);
         let result, objectResult, arrayResult;
-
         result = input.filter((v, i) => i >= start && i < end);
-        console.log(result);
-
         //convert the data back to object
         objectResult = Object.fromEntries(result);
-
         // convert the data to object array
         arrayResult = Object.values(objectResult);
-
         setTableData(arrayResult);
         setLoading(false);
     }
 
     useEffect(() => {
         handleGetItems();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pagination]);
 
 
     if (data.length) {
         return (
             <AnimationRevealPage>
-                <Container>
-                    <Header>
-                        <HeaderItem>
-                            <Heading>Registered Items</Heading>
-                            <Description>All items you have registered</Description>
-                        </HeaderItem>
-                        <HeaderItem tw="inline-flex">
-                            <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
-                            <Button onClick={() => handleGetItems()}>
-                                <FiLoader size={16} /> &nbsp; refresh
-                            </Button>
-                        </HeaderItem>
-                    </Header>
 
+                <Header>
+                    <HeaderItem>
+                        <Heading>Registered Items</Heading>
+                        <Description>All items you have registered</Description>
+                    </HeaderItem>
+                    <HeaderItem tw="inline-flex">
+                        <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
+                        <Button onClick={() => handleGetItems()}>
+                            <FiLoader size={16} /> &nbsp; refresh
+                            </Button>
+                    </HeaderItem>
+                </Header>
+
+                <Container>
                     <DataTable
                         virtualized
                         height={420}
+                        headerHeight={50}
                         autoHeight
                         data={tableData}
                         onRowClick={data => {
@@ -208,7 +217,7 @@ const ItemsPage = () => {
                         </Column>
                     </DataTable>
 
-                    <Pagination
+                    <TablePagination
                         lengthMenu={[
                             {
                                 value: 10,
@@ -240,7 +249,7 @@ const ItemsPage = () => {
 
     return (
         <AnimationRevealPage>
-            <Container tw="py-48">
+            <Container tw="py-24">
                 <Header tw="block text-center">
                     <Heading>No Items Found</Heading>
                     <Description>It seems no Items have been registered</Description>
