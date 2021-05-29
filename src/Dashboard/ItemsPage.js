@@ -113,7 +113,7 @@ function reducer(state, action) {
 }
 
 const ItemsPage = () => {
-    const { handleRegisterItem, userData } = useDashContext();
+    const { handleRegisterItem, handleUpdateItem, userData } = useDashContext();
 
     const [loading, setLoading] = useState(false);
 
@@ -458,7 +458,7 @@ const ItemsPage = () => {
                                     <Modal.Body>
                                         <Form onSubmit={(evt) => {
                                             if (state.editItem) {
-                                                console.log("editing", evt.target);
+                                                handleUpdateItem(evt);
                                             } else {
                                                 handleRegisterItem(evt)
                                             }
