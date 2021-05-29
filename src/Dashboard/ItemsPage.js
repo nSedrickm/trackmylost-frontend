@@ -5,13 +5,14 @@ import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
-import { FiArrowRight, FiLoader, FiPlusCircle } from "react-icons/fi";
+import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown } from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
 import { getItems } from "services/api.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
+import { useDashContext } from "Dashboard/DashboardContext";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -31,9 +32,17 @@ const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
 const CardButton = tw(Button)`font-normal mt-2 p-1 px-2 rounded-2xl`;
+
+const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-2 px-9 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
+const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
+const Label = tw.label`leading-7 text-sm text-gray-600`;
+const Form = tw.form`mx-auto`;
+const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
+const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
+
 const DetailsModal = styled(Modal)`
     width: 20rem;
-    top: 20%;
+    top: 10%;
 `;
 const ItemDetails = tw.p`text-base font-medium`;
 
@@ -86,13 +95,19 @@ function reducer(state, action) {
                 modal: action.payload.modal,
                 item: action.payload.item
             };
+        case 'addItem':
+            return {
+                ...state,
+                addItem: action.payload
+            };
         default:
             throw new Error();
     }
 }
 
 const ItemsPage = () => {
-
+    const { handleRegisterItem, userData } = useDashContext();
+    console.log(userData);
     const [loading, setLoading] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, {
@@ -101,7 +116,8 @@ const ItemsPage = () => {
         displayLength: 10,
         page: 1,
         modal: false,
-        item: {}
+        item: {},
+        addItem: false
     });
 
     const { data, tableData, displayLength, page } = state;
@@ -184,7 +200,13 @@ const ItemsPage = () => {
                         <Description>All items you have registered</Description>
                     </HeaderItem>
                     <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
-                        <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
+                        <Button onClick={() => dispatch({
+                            type: "addItem",
+                            payload: true
+                        })}
+                        >
+                            <FiPlusCircle size={16} /> &nbsp; add
+                        </Button>
                         <Button onClick={() => handleRefresh()}>
                             <FiLoader size={16} /> &nbsp; refresh
                             </Button>
@@ -390,6 +412,93 @@ const ItemsPage = () => {
                                     <Modal.Footer>
                                     </Modal.Footer>
                                 </DetailsModal>
+
+
+                                <DetailsModal
+                                    size="xs"
+                                    show={state.addItem}
+                                    onHide={() => dispatch({
+                                        type: "addItem",
+                                        payload: false
+                                    })}
+                                >
+                                    <Modal.Header>
+                                        <Modal.Title>Add Item</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Form onSubmit={(evt) => handleRegisterItem(evt)}>
+                                            <div tw="p-2 w-full">
+                                                <Label htmlFor="document_type">
+                                                    Document type
+                                                    </Label>
+                                                <div tw="relative">
+                                                    <Select
+                                                        id="document_type"
+                                                        name="document_type"
+                                                        required>
+                                                        <option value="" hidden>Please Choose document type</option>
+                                                        <option value="id-card">ID Card</option>
+                                                        <option value="passport">Passport</option>
+                                                        <option value="driver-license">Driver License</option>
+                                                        <option value="credit-card">Credit Card</option>
+                                                    </Select>
+                                                    <SelectToggle>
+                                                        <FiChevronDown />
+                                                    </SelectToggle>
+                                                </div>
+                                            </div>
+                                            <div tw="p-2 w-full">
+                                                <div tw="relative">
+                                                    <Label htmlFor="first_name">First Name</Label>
+                                                    <Input required type="text" id="first_name" name="first_name" placeholder="First name on item" />
+                                                </div>
+                                            </div>
+                                            <div tw="p-2 w-full">
+                                                <div tw="relative">
+                                                    <Label htmlFor="other_names">Other Names</Label>
+                                                    <Input
+                                                        required
+                                                        type="text"
+                                                        id="other_names"
+                                                        name="other_names"
+                                                        placeholder="Other names"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <Input
+                                                required
+                                                hidden
+                                                type="tel"
+                                                id="phone_number"
+                                                name="phone_number"
+                                                placeholder="e.g 670020023"
+                                                size="9"
+                                                maxLength="9"
+                                                minLength="9"
+                                                pattern="(6|2)(2|3|[5-9])[0-9]{7}"
+                                                defaultValue={userData.phone_number}
+                                            />
+
+                                            <Input
+                                                defaultChecked
+                                                hidden
+                                                type="checkbox"
+                                                name="reward"
+                                                defaultValue="yes"
+                                            />
+
+                                            <div tw="p-2 w-full">
+                                                <SubmitButton type="submit">
+                                                    <FiPlusCircle size={20} /> &nbsp; add
+                                                </SubmitButton>
+                                            </div>
+                                        </Form>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                    </Modal.Footer>
+                                </DetailsModal>
+
+
                             </>
                         )}
                     </Row>
