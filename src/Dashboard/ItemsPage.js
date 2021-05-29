@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import toast from 'react-hot-toast';
-import { FiLoader, FiPlusCircle } from "react-icons/fi";
+import { FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { Table } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
@@ -17,6 +17,11 @@ const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-5
 const Container = tw.div`container w-full mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
+const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
+const Card = tw.div`mt-8 h-full flex items-center border-gray-200 border p-4 shadow-md rounded-lg`;
+const CardBody = tw.div`flex-grow`;
+const CardTitle = tw.span`text-gray-900 font-medium`;
+const CardInfo = tw.p`text-gray-500`;
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 const DataTable = styled(Table)`
@@ -164,7 +169,7 @@ const ItemsPage = () => {
                     </HeaderItem>
                 </Header>
 
-                <Container>
+                <Container tw="hidden md:block">
                     <DataTable
                         virtualized
                         height={420}
@@ -270,6 +275,25 @@ const ItemsPage = () => {
                             dispatch({ type: "paginate" })
                         }}
                     />
+                </Container>
+
+                <Container tw="md:hidden">
+                    <Row>
+                        {data.map((item) => (
+                            <Card key={item.id}>
+                                <CardIcon />
+                                <CardBody>
+                                    <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
+                                    <CardInfo>{item.document_type}</CardInfo>
+                                </CardBody>
+                            </Card>
+                        ))}
+                        <FormField tw="mt-8">
+                            <SearchButton onClick={() => handleRefresh()}>
+                                <FiLoader /> &nbsp; refresh
+                         </SearchButton>
+                        </FormField>
+                    </Row>
                 </Container>
             </AnimationRevealPage>
         )
