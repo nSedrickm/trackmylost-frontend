@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { Table } from 'rsuite';
+import { Pagination as MobilePagination } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
@@ -284,7 +285,25 @@ const ItemsPage = () => {
                             <AnimateLoader />
                         ) : (
                             <>
-                                {data.map((item) => (
+                                <div tw="my-2 flex items-center">
+                                    <MobilePagination
+                                        prev
+                                        last
+                                        next
+                                        first
+                                        size="md"
+                                        pages={data.length > 10 ? data.length / 10 : data.length}
+                                        activePage={page}
+                                        maxButtons={4}
+                                        boundaryLinks
+                                        onSelect={(evt) => {
+                                            console.log(evt);
+                                            dispatch({ type: "changePage", payload: evt })
+                                            dispatch({ type: "paginate" })
+                                        }}
+                                    />
+                                </div>
+                                {tableData.map((item) => (
                                     <Card key={item.id}>
                                         <CardIcon />
                                         <CardBody>
@@ -296,7 +315,7 @@ const ItemsPage = () => {
                                 <FormField tw="mt-8">
                                     <SearchButton onClick={() => handleRefresh()}>
                                         <FiLoader /> &nbsp; refresh
-                         </SearchButton>
+                                    </SearchButton>
                                 </FormField>
                             </>
                         )
