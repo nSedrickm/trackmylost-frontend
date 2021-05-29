@@ -40,3 +40,13 @@ export const getItems = () => {
 export const getAlerts = () => {
     return axios.get("/api/alerts").then(response => response)
 }
+
+export const updateItem = ({ id, document_type, first_name, other_names, phone_number, reward }) => {
+    return axios.put("/api/items/" + id, {
+        document_type: document_type,
+        first_name: first_name,
+        other_names: other_names,
+        phone_number: phone_number,
+        reward: reward
+    }).then(response => response)
+}
