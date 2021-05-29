@@ -7,7 +7,7 @@ import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getUser, userLogin, logOut } from "services/auth.service";
-import { clearItems } from "services/storage.service";
+import { getLocalState, setLocalState, clearLocalState, clearItems } from "services/storage.service";
 
 const DashContext = React.createContext();
 const useDashContext = () => useContext(DashContext);
@@ -42,14 +42,6 @@ const Reducer = (state, action) => {
 
 const notAuthorized = "notAuthorized";
 const Authorized = "Authorized";
-
-const setLocalState = (state) => {
-    sessionStorage.setItem("TrackMyLost", JSON.stringify(state))
-}
-
-const getLocalState = () => {
-    return JSON.parse(sessionStorage.getItem("TrackMyLost"));
-}
 
 let localState = getLocalState();
 
@@ -157,7 +149,7 @@ const DashProvider = () => {
                         userData: {}
                     }
                 });
-                sessionStorage.removeItem("TrackMyLost");
+                clearLocalState();
                 clearItems();
                 setTimeout(() => { window.location.replace("/agent/login") }, 1000)
             })
