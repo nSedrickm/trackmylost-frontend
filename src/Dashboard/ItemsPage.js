@@ -20,7 +20,7 @@ const Container = tw.div`container w-full mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
 const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
-const Card = tw.div`mt-8 h-full flex items-center border-gray-200 border p-4 shadow-md rounded-lg`;
+const Card = tw.div`mt-6 h-full flex items-center border-gray-200 border p-4 shadow-md rounded-lg`;
 const CardBody = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
@@ -297,7 +297,6 @@ const ItemsPage = () => {
                                         maxButtons={4}
                                         boundaryLinks
                                         onSelect={(evt) => {
-                                            console.log(evt);
                                             dispatch({ type: "changePage", payload: evt })
                                             dispatch({ type: "paginate" })
                                         }}
