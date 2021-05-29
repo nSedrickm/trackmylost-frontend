@@ -4,10 +4,9 @@ import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
-import { FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
+import { FiArrowRight, FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
-import { Table } from 'rsuite';
-import { Pagination as MobilePagination } from 'rsuite';
+import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
@@ -19,11 +18,16 @@ const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-5
 const Container = tw.div`container w-full mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
-const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
 const Card = tw.div`mt-6 h-full flex items-center border-gray-200 border p-4 shadow-md rounded-lg`;
-const CardBody = tw.div`flex-grow`;
+const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
+const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
+const CardButton = tw(Button)`font-normal mt-2 p-1 sm:p-3`;
+const DetailsModal = styled(Modal)`
+    width: 20rem;
+    top: 20%;
+`;
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 const DataTable = styled(Table)`
@@ -68,6 +72,12 @@ function reducer(state, action) {
                 ...state,
                 tableData: filteredData
             };
+        case 'showDetails':
+            return {
+                ...state,
+                modal: action.payload.modal,
+                item: action.payload.item
+            };
         default:
             throw new Error();
     }
@@ -81,7 +91,9 @@ const ItemsPage = () => {
         data: [],
         tableData: [],
         displayLength: 10,
-        page: 1
+        page: 1,
+        modal: false,
+        item: {}
     });
 
     const { data, tableData, displayLength, page } = state;
@@ -305,10 +317,21 @@ const ItemsPage = () => {
                                 {tableData.map((item) => (
                                     <Card key={item.id}>
                                         <CardIcon />
-                                        <CardBody>
+                                        <CardItem>
                                             <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
                                             <CardInfo>{item.document_type}</CardInfo>
-                                        </CardBody>
+                                            <CardButton
+                                                onClick={() => dispatch({
+                                                    type: "showDetails",
+                                                    payload: {
+                                                        modal: true,
+                                                        item: item
+                                                    }
+                                                })}
+                                            >
+                                                Details &nbsp; <FiArrowRight size={16} />
+                                            </CardButton>
+                                        </CardItem>
                                     </Card>
                                 ))}
                                 <FormField tw="mt-8">
@@ -316,9 +339,31 @@ const ItemsPage = () => {
                                         <FiLoader /> &nbsp; refresh
                                     </SearchButton>
                                 </FormField>
+
+                                <DetailsModal
+                                    size="xs"
+                                    show={state.modal}
+                                    onHide={() => dispatch({
+                                        type: "showDetails",
+                                        payload: {
+                                            modal: false,
+                                            item: {}
+                                        }
+                                    })}
+                                >
+                                    <Modal.Header>
+                                        <Modal.Title>Document details</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <p>Name: {state.item.first_name} &nbsp; {state.item.other_names}</p>
+                                        <p>Type: {state.item.document_type}</p>
+
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                    </Modal.Footer>
+                                </DetailsModal>
                             </>
-                        )
-                        }
+                        )}
                     </Row>
                 </Container>
             </AnimationRevealPage>
@@ -344,4 +389,5 @@ const ItemsPage = () => {
         </AnimationRevealPage>
     );
 }
+
 export default ItemsPage;
