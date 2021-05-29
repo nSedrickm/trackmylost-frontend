@@ -5,7 +5,7 @@ import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
-import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown } from "react-icons/fi";
+import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
@@ -60,6 +60,7 @@ const TablePagination = styled(Pagination)`
         ${tw`text-primary-500!`}
     }
 `;
+const TableAction = tw.span`cursor-pointer`;
 
 function reducer(state, action) {
     switch (action.type) {
@@ -100,6 +101,12 @@ function reducer(state, action) {
                 ...state,
                 addItem: action.payload
             };
+        case 'editItem':
+            return {
+                ...state,
+                editItem: action.payload.editItem,
+                item: action.payload.item
+            };
         default:
             throw new Error();
     }
@@ -107,7 +114,7 @@ function reducer(state, action) {
 
 const ItemsPage = () => {
     const { handleRegisterItem, userData } = useDashContext();
-    console.log(userData);
+
     const [loading, setLoading] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, {
@@ -117,7 +124,8 @@ const ItemsPage = () => {
         page: 1,
         modal: false,
         item: {},
-        addItem: false
+        addItem: false,
+        editItem: false
     });
 
     const { data, tableData, displayLength, page } = state;
@@ -275,8 +283,18 @@ const ItemsPage = () => {
                                     }
                                     return (
                                         <span>
-                                            <a href="#Sd" onClick={handleAction}> Edit </a> |{' '}
-                                            <a href="#sdf" onClick={handleAction}> Remove </a>
+                                            <TableAction tw="text-primary-500"
+                                                onClick={() => dispatch({
+                                                    type: "editItem",
+                                                    payload: {
+                                                        editItem: true,
+                                                        item: rowData
+                                                    }
+                                                })}
+                                            >
+                                                Edit
+                                            </TableAction> |{' '}
+                                            <TableAction tw="text-red-500" onClick={handleAction}> Remove </TableAction>
                                         </span>
                                     );
                                 }}
@@ -416,17 +434,42 @@ const ItemsPage = () => {
 
                                 <DetailsModal
                                     size="xs"
-                                    show={state.addItem}
-                                    onHide={() => dispatch({
-                                        type: "addItem",
-                                        payload: false
-                                    })}
+                                    show={state.addItem || state.editItem}
+                                    onHide={() => {
+                                        if (state.addItem) {
+                                            dispatch({
+                                                type: "addItem",
+                                                payload: false
+                                            })
+                                        } else {
+                                            dispatch({
+                                                type: "editItem",
+                                                payload: {
+                                                    editItem: false,
+                                                    item: {}
+                                                }
+                                            })
+                                        }
+                                    }}
                                 >
                                     <Modal.Header>
                                         <Modal.Title>Add Item</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                        <Form onSubmit={(evt) => handleRegisterItem(evt)}>
+                                        <Form onSubmit={(evt) => {
+                                            if (state.editItem) {
+                                                console.log("editing", evt.target);
+                                            } else {
+                                                handleRegisterItem(evt)
+                                            }
+                                        }}>
+                                            <Input
+                                                hidden
+                                                type="number"
+                                                id="id"
+                                                name="id"
+                                                defaultValue={state.editItem ? state.item?.id : ""}
+                                            />
                                             <div tw="p-2 w-full">
                                                 <Label htmlFor="document_type">
                                                     Document type
@@ -435,7 +478,9 @@ const ItemsPage = () => {
                                                     <Select
                                                         id="document_type"
                                                         name="document_type"
-                                                        required>
+                                                        defaultValue={state.item?.document_type}
+                                                        required
+                                                    >
                                                         <option value="" hidden>Please Choose document type</option>
                                                         <option value="id-card">ID Card</option>
                                                         <option value="passport">Passport</option>
@@ -450,7 +495,14 @@ const ItemsPage = () => {
                                             <div tw="p-2 w-full">
                                                 <div tw="relative">
                                                     <Label htmlFor="first_name">First Name</Label>
-                                                    <Input required type="text" id="first_name" name="first_name" placeholder="First name on item" />
+                                                    <Input
+                                                        required
+                                                        type="text"
+                                                        id="first_name"
+                                                        name="first_name"
+                                                        placeholder="First name on item"
+                                                        defaultValue={state.editItem ? state.item?.first_name : ""}
+                                                    />
                                                 </div>
                                             </div>
                                             <div tw="p-2 w-full">
@@ -462,6 +514,7 @@ const ItemsPage = () => {
                                                         id="other_names"
                                                         name="other_names"
                                                         placeholder="Other names"
+                                                        defaultValue={state.editItem ? state.item?.other_names : ""}
                                                     />
                                                 </div>
                                             </div>
@@ -488,9 +541,15 @@ const ItemsPage = () => {
                                             />
 
                                             <div tw="p-2 w-full">
-                                                <SubmitButton type="submit">
-                                                    <FiPlusCircle size={20} /> &nbsp; add
-                                                </SubmitButton>
+                                                {state.editItem ? (
+                                                    <SubmitButton type="submit">
+                                                        <FiEdit size={20} /> &nbsp; update
+                                                    </SubmitButton>
+                                                ) : (
+                                                    <SubmitButton type="submit">
+                                                        <FiPlusCircle size={20} /> &nbsp; add
+                                                    </SubmitButton>
+                                                )}
                                             </div>
                                         </Form>
                                     </Modal.Body>
