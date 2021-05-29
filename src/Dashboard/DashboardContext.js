@@ -58,6 +58,8 @@ const DashProvider = () => {
     const [state, dispatch] = useReducer(
         Reducer, initialState);
 
+    const { isAuthorized, userData } = state;
+
     useEffect(() => {
         setLocalState(state);
         initialState = getLocalState();
@@ -224,6 +226,8 @@ const DashProvider = () => {
         <DashContext.Provider
             value={{
                 state,
+                isAuthorized,
+                userData,
                 handleLogin,
                 handleLogOut,
                 handleRegisterItem,
