@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { Table } from 'rsuite';
-import { getSavedItems, saveItems } from "services/storage.service";
+import { getSavedItems, saveItems, clearItems } from "services/storage.service";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -123,6 +123,36 @@ const ItemsPage = () => {
         }
     }, []);
 
+    const handleRefresh = () => {
+        clearItems();
+        setLoading(true);
+        getItems()
+            .then(response => {
+                toast.success(`Fetch complete`);
+                dispatch({ type: "setData", payload: response.data });
+                dispatch({ type: "paginate" });
+                saveItems(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    toast.error("No items found");
+                    setLoading(false);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                }
+            });
+    }
 
     if (data.length) {
         return (
@@ -135,7 +165,7 @@ const ItemsPage = () => {
                     </HeaderItem>
                     <HeaderItem tw="inline-flex">
                         <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
-                        <Button onClick={() => console.log("refresh hit")}>
+                        <Button onClick={() => handleRefresh()}>
                             <FiLoader size={16} /> &nbsp; refresh
                             </Button>
                     </HeaderItem>
@@ -262,7 +292,7 @@ const ItemsPage = () => {
 
                 <Row>
                     <FormField tw="mt-8">
-                        <SearchButton onClick={() => console.log("refresh hit")}>
+                        <SearchButton onClick={() => handleRefresh()}>
                             <FiLoader /> &nbsp; refresh
                         </SearchButton>
                     </FormField>
