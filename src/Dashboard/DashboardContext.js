@@ -197,8 +197,7 @@ const DashProvider = () => {
                 </Route>
 
                 <Route path="/agent/dashboard">
-                    {/* {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />} */}
-                    <DashboardPage />
+                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
                 </Route>
             </Switch>
         </DashContext.Provider>
