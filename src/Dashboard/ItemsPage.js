@@ -113,7 +113,7 @@ function reducer(state, action) {
 }
 
 const ItemsPage = () => {
-    const { handleRegisterItem, handleUpdateItem, userData } = useDashContext();
+    const { handleRegisterItem, handleUpdateItem, handleDeleteItem, userData } = useDashContext();
 
     const [loading, setLoading] = useState(false);
 
@@ -278,9 +278,6 @@ const ItemsPage = () => {
                             <TableHeader>Action</TableHeader>
                             <TableCell>
                                 {rowData => {
-                                    function handleAction() {
-                                        alert(`id:${rowData.id}`);
-                                    }
                                     return (
                                         <span>
                                             <TableAction tw="text-primary-500"
@@ -294,7 +291,11 @@ const ItemsPage = () => {
                                             >
                                                 Edit
                                             </TableAction> |{' '}
-                                            <TableAction tw="text-red-500" onClick={handleAction}> Remove </TableAction>
+                                            <TableAction tw="text-red-500"
+                                                onClick={() => handleDeleteItem(rowData.id)}
+                                            >
+                                                Remove
+                                             </TableAction>
                                         </span>
                                     );
                                 }}
