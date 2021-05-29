@@ -50,3 +50,7 @@ export const updateItem = ({ id, document_type, first_name, other_names, phone_n
         reward: reward
     }).then(response => response)
 }
+
+export const deleteItem = (id) => {
+    return axios.delete("/api/items/" + id).then(response => response)
+}
