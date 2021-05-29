@@ -427,6 +427,25 @@ const ItemsPage = () => {
                                         <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
                                         <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
                                         <ItemDetails>Contact: {state.item.phone_number}</ItemDetails>
+
+                                        <div tw="mt-4">
+                                            <TableAction tw="text-base text-primary-500"
+                                                onClick={() => dispatch({
+                                                    type: "editItem",
+                                                    payload: {
+                                                        editItem: true,
+                                                        item: state.item
+                                                    }
+                                                })}
+                                            >
+                                                Edit
+                                            </TableAction> |{' '}
+                                            <TableAction tw="text-base text-red-500"
+                                                onClick={() => handleDeleteItem(state.item.id)}
+                                            >
+                                                Remove
+                                             </TableAction>
+                                        </div>
                                     </Modal.Body>
                                     <Modal.Footer>
                                     </Modal.Footer>
