@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
@@ -43,6 +43,7 @@ const ItemsPage = () => {
         page: 1
     })
 
+    console.log("init", data, tableData);
     const { displayLength, page } = pagination;
 
     const handleGetItems = () => {
@@ -95,6 +96,7 @@ const ItemsPage = () => {
         });
         handlePaginate();
     }
+
     const handleChangeLength = (dataKey) => {
         console.log("changeLength", dataKey, pagination)
         setPagination(pagination => {
@@ -107,7 +109,7 @@ const ItemsPage = () => {
         handlePaginate();
     }
 
-    const handlePaginate = () => {
+    const handlePaginate = useCallback(() => {
         setLoading(true)
         // filter the data as array
         const start = displayLength * (page - 1);
@@ -121,12 +123,47 @@ const ItemsPage = () => {
         arrayResult = Object.values(objectResult);
         setTableData(arrayResult);
         setLoading(false);
-    }
+    }, [page, displayLength, data])
 
+    // useEffect(() => {
+    //     handleGetItems();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [pagination]);
     useEffect(() => {
-        handleGetItems();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pagination]);
+        setLoading(true);
+        let items = getSavedItems();
+        if (items) {
+            setData(items);
+            setLoading(false);
+        } else {
+            getItems()
+                .then(response => {
+                    toast.success(`Fetch complete`);
+                    setData(response.data);
+                    saveItems(response.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+
+                        toast.error("No items found");
+                        setLoading(false);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        setLoading(false);
+                        toast.error("An error occurred Please check your network and try again");
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        setLoading(false);
+                        toast.error("An error occurred Please check your network and try again");
+                    }
+                });
+        }
+    }, []);
 
 
     if (data.length) {
