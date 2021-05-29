@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
+import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 import { FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
 import { getItems } from "services/api.service";
@@ -279,20 +280,27 @@ const ItemsPage = () => {
 
                 <Container tw="md:hidden">
                     <Row>
-                        {data.map((item) => (
-                            <Card key={item.id}>
-                                <CardIcon />
-                                <CardBody>
-                                    <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
-                                    <CardInfo>{item.document_type}</CardInfo>
-                                </CardBody>
-                            </Card>
-                        ))}
-                        <FormField tw="mt-8">
-                            <SearchButton onClick={() => handleRefresh()}>
-                                <FiLoader /> &nbsp; refresh
+                        {loading ? (
+                            <AnimateLoader />
+                        ) : (
+                            <>
+                                {data.map((item) => (
+                                    <Card key={item.id}>
+                                        <CardIcon />
+                                        <CardBody>
+                                            <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
+                                            <CardInfo>{item.document_type}</CardInfo>
+                                        </CardBody>
+                                    </Card>
+                                ))}
+                                <FormField tw="mt-8">
+                                    <SearchButton onClick={() => handleRefresh()}>
+                                        <FiLoader /> &nbsp; refresh
                          </SearchButton>
-                        </FormField>
+                                </FormField>
+                            </>
+                        )
+                        }
                     </Row>
                 </Container>
             </AnimationRevealPage>
