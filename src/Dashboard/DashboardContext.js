@@ -234,6 +234,7 @@ const DashProvider = () => {
             .then(response => {
                 console.log(response);
                 toast.success(`Item updated`);
+                clearItems();
                 setLoading(false);
             })
             .catch(error => {
