@@ -228,9 +228,6 @@ const ItemsPage = () => {
                         headerHeight={50}
                         autoHeight
                         data={tableData}
-                        onRowClick={data => {
-                            console.log(data);
-                        }}
                         loading={loading}
                     >
                         <Column width={50} align="center">
