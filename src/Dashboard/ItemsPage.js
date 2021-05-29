@@ -13,7 +13,7 @@ const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
 const Header = tw.header`flex flex-col sm:flex-row justify-between w-full mb-4`;
 const HeaderItem = tw.div`mb-3`;
-const Button = tw.button`inline-flex items-center transition duration-300 bg-primary-500 hover:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium p-3 sm:p-6 no-underline appearance-none`;
+const Button = tw.button`inline-flex flex-auto items-center transition duration-300 bg-primary-500 hover:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium p-3 sm:p-6 no-underline appearance-none`;
 const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Container = tw.div`container w-full mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
@@ -158,11 +158,11 @@ const ItemsPage = () => {
             <AnimationRevealPage>
 
                 <Header>
-                    <HeaderItem>
+                    <HeaderItem tw="text-center md:text-left mb-8 sm:mb-0">
                         <Heading>Registered Items</Heading>
                         <Description>All items you have registered</Description>
                     </HeaderItem>
-                    <HeaderItem tw="inline-flex">
+                    <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
                         <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
                         <Button onClick={() => handleRefresh()}>
                             <FiLoader size={16} /> &nbsp; refresh
