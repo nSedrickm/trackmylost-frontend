@@ -4,7 +4,11 @@ import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
-import { FiArrowRight, FiFileText, FiLoader, FiPlusCircle } from "react-icons/fi";
+
+import { FiArrowRight, FiLoader, FiPlusCircle } from "react-icons/fi";
+import { BsCreditCard } from "react-icons/bs";
+import { FaPassport, FaIdCard } from "react-icons/fa";
+import { AiOutlineIdcard } from "react-icons/ai";
 import { getItems } from "services/api.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
@@ -19,11 +23,14 @@ const Container = tw.div`container w-full mx-auto`;
 const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
 const FormField = tw.div`p-2 w-full mb-4`;
 const Card = tw.div`mt-6 h-full flex items-center border-gray-200 border p-4 shadow-md rounded-lg`;
-const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
+const DriverLicenseIcon = tw(AiOutlineIdcard)`text-primary-500  w-14 h-14 mr-10`;
+const CreditCardIcon = tw(BsCreditCard)`text-primary-500  w-14 h-14 mr-10`;
+const IdCardIcon = tw(FaIdCard)`text-primary-500  w-14 h-14 mr-10`;
+const PassportIcon = tw(FaPassport)`text-primary-500  w-14 h-14 mr-10`;
 const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
-const CardButton = tw(Button)`font-normal mt-2 p-1 px-2 sm:p-3 rounded-2xl`;
+const CardButton = tw(Button)`font-normal mt-2 p-1 px-2 rounded-2xl`;
 const DetailsModal = styled(Modal)`
     width: 20rem;
     top: 20%;
@@ -315,26 +322,44 @@ const ItemsPage = () => {
                                         }}
                                     />
                                 </div>
-                                {tableData.map((item) => (
-                                    <Card key={item.id}>
-                                        <CardIcon />
-                                        <CardItem>
-                                            <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
-                                            <CardInfo>{item.document_type}</CardInfo>
-                                            <CardButton
-                                                onClick={() => dispatch({
-                                                    type: "showDetails",
-                                                    payload: {
-                                                        modal: true,
-                                                        item: item
-                                                    }
-                                                })}
-                                            >
-                                                Details &nbsp; <FiArrowRight size={16} />
-                                            </CardButton>
-                                        </CardItem>
-                                    </Card>
-                                ))}
+                                {tableData.map((item) => {
+                                    let icon
+                                    switch (item.document_type) {
+                                        case "credit-card":
+                                            icon = <CreditCardIcon />
+                                            break;
+                                        case "driver-license":
+                                            icon = <DriverLicenseIcon />
+                                            break;
+                                        case "passport":
+                                            icon = <PassportIcon />
+                                            break
+                                        default: {
+                                            icon = <IdCardIcon />
+                                        }
+
+                                    }
+
+                                    return (
+                                        <Card key={item.id}>
+                                            {icon}
+                                            <CardItem>
+                                                <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
+                                                <CardInfo>{item.document_type}</CardInfo>
+                                                <CardButton
+                                                    onClick={() => dispatch({
+                                                        type: "showDetails",
+                                                        payload: {
+                                                            modal: true,
+                                                            item: item
+                                                        }
+                                                    })}
+                                                >
+                                                    Details &nbsp; <FiArrowRight size={16} />
+                                                </CardButton>
+                                            </CardItem>
+                                        </Card>)
+                                })}
                                 <FormField tw="mt-8">
                                     <SearchButton onClick={() => handleRefresh()}>
                                         <FiLoader /> &nbsp; refresh
