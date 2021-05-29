@@ -56,17 +56,10 @@ function reducer(state, action) {
             // filter the data as array
             const start = state.displayLength * (state.page - 1);
             const end = start + state.displayLength;
-            const input = Object.entries(state.data);
-            let result, objectResult, arrayResult;
-            result = input.filter((v, i) => i >= start && i < end);
-            //convert the data back to object
-            objectResult = Object.fromEntries(result);
-            // convert the data to object array
-            arrayResult = Object.values(objectResult);
-            //setLoading(false);
+            let filteredData = Object.values(Object.fromEntries(Object.entries(state.data).filter((v, i) => i >= start && i < end)));
             return {
                 ...state,
-                tableData: arrayResult
+                tableData: filteredData
             };
         default:
             throw new Error();
