@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
@@ -33,113 +33,79 @@ const TablePagination = styled(Pagination)`
     }
 `;
 
+function reducer(state, action) {
+    switch (action.type) {
+        case 'setData':
+            return {
+                ...state,
+                data: action.payload
+            };
+        case 'changeLength':
+            return {
+                ...state,
+                page: 1,
+                displayLength: action.payload
+            };
+        case 'changePage':
+            return {
+                ...state,
+                page: action.payload
+            };
+        case 'paginate':
+            // setLoading(true)
+            // filter the data as array
+            const start = state.displayLength * (state.page - 1);
+            const end = start + state.displayLength;
+            const input = Object.entries(state.data);
+            let result, objectResult, arrayResult;
+            result = input.filter((v, i) => i >= start && i < end);
+            //convert the data back to object
+            objectResult = Object.fromEntries(result);
+            // convert the data to object array
+            arrayResult = Object.values(objectResult);
+            //setLoading(false);
+            return {
+                ...state,
+                tableData: arrayResult
+            };
+        default:
+            throw new Error();
+    }
+}
+
 const ItemsPage = () => {
 
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({});
-    const [tableData, setTableData] = useState([]);
-    const [pagination, setPagination] = useState({
+
+    const [state, dispatch] = useReducer(reducer, {
+        data: [],
+        tableData: [],
         displayLength: 10,
         page: 1
-    })
+    });
 
-    console.log("init", data, tableData);
-    const { displayLength, page } = pagination;
+    console.log("init", state);
 
-    const handleGetItems = () => {
-        setLoading(true);
-
-        let items = getSavedItems();
-
-        if (items) {
-            setData(items);
-            handlePaginate();
-            setLoading(false);
-        } else {
-            getItems()
-                .then(response => {
-                    toast.success(`Fetch complete`);
-                    setData(response.data);
-                    saveItems(response.data);
-                    handlePaginate();
-                    setLoading(false);
-                })
-                .catch(error => {
-                    if (error.response) {
-                        // The request was made and the server responded with a status code
-                        // that falls out of the range of 2xx
-
-                        toast.error("No items found");
-                        setLoading(false);
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                        // http.ClientRequest in node.js
-                        setLoading(false);
-                        toast.error("An error occurred Please check your network and try again");
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        setLoading(false);
-                        toast.error("An error occurred Please check your network and try again");
-                    }
-                });
-        }
-    }
-
-    const handleChangePage = (dataKey) => {
-        console.log("changePage", dataKey, pagination)
-        setPagination(pagination => {
-            return {
-                ...pagination,
-                page: dataKey
-            }
-        });
-        handlePaginate();
-    }
-
-    const handleChangeLength = (dataKey) => {
-        console.log("changeLength", dataKey, pagination)
-        setPagination(pagination => {
-            return {
-                ...pagination,
-                page: 1,
-                displayLength: dataKey
-            }
-        });
-        handlePaginate();
-    }
-
-    const handlePaginate = useCallback(() => {
-        setLoading(true)
-        // filter the data as array
-        const start = displayLength * (page - 1);
-        const end = start + displayLength;
-        const input = Object.entries(data);
-        let result, objectResult, arrayResult;
-        result = input.filter((v, i) => i >= start && i < end);
-        //convert the data back to object
-        objectResult = Object.fromEntries(result);
-        // convert the data to object array
-        arrayResult = Object.values(objectResult);
-        setTableData(arrayResult);
-        setLoading(false);
-    }, [page, displayLength, data])
+    const { data, tableData, displayLength, page } = state;
 
     // useEffect(() => {
     //     handleGetItems();
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [pagination]);
+
     useEffect(() => {
         setLoading(true);
         let items = getSavedItems();
         if (items) {
-            setData(items);
+            dispatch({ type: "setData", payload: items });
+            dispatch({ type: "paginate" });
             setLoading(false);
         } else {
             getItems()
                 .then(response => {
                     toast.success(`Fetch complete`);
-                    setData(response.data);
+                    dispatch({ type: "setData", payload: response.data });
+                    dispatch({ type: "paginate" });
                     saveItems(response.data);
                     setLoading(false);
                 })
@@ -147,7 +113,6 @@ const ItemsPage = () => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
-
                         toast.error("No items found");
                         setLoading(false);
                     } else if (error.request) {
@@ -177,7 +142,7 @@ const ItemsPage = () => {
                     </HeaderItem>
                     <HeaderItem tw="inline-flex">
                         <Button><FiPlusCircle size={16} /> &nbsp; add</Button>
-                        <Button onClick={() => handleGetItems()}>
+                        <Button onClick={() => console.log("refresh hit")}>
                             <FiLoader size={16} /> &nbsp; refresh
                             </Button>
                     </HeaderItem>
@@ -273,10 +238,12 @@ const ItemsPage = () => {
                         displayLength={displayLength}
                         total={data.length}
                         onChangePage={(evt) => {
-                            handleChangePage(evt)
+                            dispatch({ type: "changePage", payload: evt })
+                            dispatch({ type: "paginate" })
                         }}
                         onChangeLength={(evt) => {
-                            handleChangeLength(evt);
+                            dispatch({ type: "changeLength", payload: evt })
+                            dispatch({ type: "paginate" })
                         }}
                     />
                 </Container>
@@ -294,7 +261,7 @@ const ItemsPage = () => {
 
                 <Row>
                     <FormField tw="mt-8">
-                        <SearchButton onClick={() => handleGetItems()}>
+                        <SearchButton onClick={() => console.log("refresh hit")}>
                             <FiLoader /> &nbsp; refresh
                         </SearchButton>
                     </FormField>
