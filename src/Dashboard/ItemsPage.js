@@ -77,14 +77,7 @@ const ItemsPage = () => {
         page: 1
     });
 
-    console.log("init", state);
-
     const { data, tableData, displayLength, page } = state;
-
-    // useEffect(() => {
-    //     handleGetItems();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [pagination]);
 
     useEffect(() => {
         setLoading(true);
