@@ -7,7 +7,7 @@ import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getUser, userLogin, logOut } from "services/auth.service";
-import { registerItem } from "services/api.service";
+import { registerItem, updateItem } from "services/api.service";
 import { getLocalState, setLocalState, clearLocalState, clearItems } from "services/storage.service";
 
 const DashContext = React.createContext();
@@ -216,6 +216,47 @@ const DashProvider = () => {
             });
     }
 
+    const handleUpdateItem = (evt) => {
+        evt.preventDefault();
+
+        let formData = {
+            id: evt.target.elements.id?.value,
+            document_type: evt.target.elements.document_type?.value,
+            first_name: evt.target.elements.first_name?.value,
+            other_names: evt.target.elements.other_names?.value,
+            phone_number: evt.target.elements.phone_number?.value,
+            reward: evt.target.elements.reward?.checked ? "yes" : "no"
+        }
+        console.log(formData);
+
+        setLoading(true);
+        updateItem(formData)
+            .then(response => {
+                console.log(response);
+                toast.success(`Item updated`);
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+
+                }
+            });
+    }
+
     if (loading) {
         return (
             <AnimateLoader />
@@ -231,6 +272,7 @@ const DashProvider = () => {
                 handleLogin,
                 handleLogOut,
                 handleRegisterItem,
+                handleUpdateItem,
             }}
         >
             <Switch>
