@@ -7,6 +7,7 @@ import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getUser, userLogin, logOut } from "services/auth.service";
+import { clearItems } from "services/storage.service";
 
 const DashContext = React.createContext();
 const useDashContext = () => useContext(DashContext);
@@ -157,6 +158,7 @@ const DashProvider = () => {
                     }
                 });
                 sessionStorage.removeItem("TrackMyLost");
+                clearItems();
                 setTimeout(() => { window.location.replace("/agent/login") }, 1000)
             })
             .catch(error => {
