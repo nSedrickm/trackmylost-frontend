@@ -23,11 +23,12 @@ const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12
 const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
-const CardButton = tw(Button)`font-normal mt-2 p-1 sm:p-3`;
+const CardButton = tw(Button)`font-normal mt-2 p-1 px-2 sm:p-3 rounded-2xl`;
 const DetailsModal = styled(Modal)`
     width: 20rem;
     top: 20%;
 `;
+const ItemDetails = tw.p`text-base font-medium`;
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 const DataTable = styled(Table)`
@@ -355,9 +356,11 @@ const ItemsPage = () => {
                                         <Modal.Title>Document details</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                        <p>Name: {state.item.first_name} &nbsp; {state.item.other_names}</p>
-                                        <p>Type: {state.item.document_type}</p>
-
+                                        <ItemDetails>Name: {state.item.first_name} &nbsp; {state.item.other_names}</ItemDetails>
+                                        <ItemDetails>Type: {state.item.document_type}</ItemDetails>
+                                        <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
+                                        <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
+                                        <ItemDetails>Contact: {state.item.phone_number}</ItemDetails>
                                     </Modal.Body>
                                     <Modal.Footer>
                                     </Modal.Footer>
