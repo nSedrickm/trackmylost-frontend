@@ -16,6 +16,7 @@ import ReportPage from "pages/ReportPage";
 import AlertPage from "pages/AlertPage";
 import NotFoundPage from "pages/NotFoundPage";
 import { DashProvider } from 'Dashboard/DashboardContext';
+import { AdminProvider } from "Admin/AdminContext";
 
 function App() {
 
@@ -28,6 +29,10 @@ function App() {
 
           <Route path="/agent">
             <DashProvider />
+          </Route>
+
+          <Route path="/admin">
+            <AdminProvider />
           </Route>
 
           <Route path="/">
