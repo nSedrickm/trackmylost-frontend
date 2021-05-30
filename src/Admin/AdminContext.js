@@ -86,7 +86,6 @@ const AdminProvider = () => {
                     type: "LOGIN",
                     payload: Authorized
                 });
-                console.log("State efter: ", state);
                 setTimeout(() => {
                     window.location.replace("/admin/dashboard")
                 }, 1000)

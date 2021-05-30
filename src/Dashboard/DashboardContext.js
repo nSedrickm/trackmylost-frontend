@@ -88,7 +88,6 @@ const DashProvider = () => {
                     type: "LOGIN",
                     payload: Authorized
                 });
-                console.log("State efter: ", state);
                 setTimeout(() => {
                     window.location.replace("/agent/dashboard")
                 }, 1000)
