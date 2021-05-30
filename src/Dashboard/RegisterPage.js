@@ -52,7 +52,7 @@ const RegisterPage = () => {
         registerUser(formData)
             .then(response => {
                 toast.success(response.data.message);
-                setTimeout(() => { window.location.replace("/login") }, 1500);
+                setTimeout(() => { window.location.replace("/agent/login") }, 1500);
             })
             .catch(error => {
                 if (error.response) {
