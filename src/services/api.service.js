@@ -37,6 +37,15 @@ export const getItems = () => {
     return axios.get("/api/items").then(response => response)
 }
 
+export const getUserItems = (phone_number) => {
+    return axios.get("/api/items",
+        {
+            params: {
+                phone_number: phone_number
+            }
+        }).then(response => response)
+}
+
 export const getAlerts = () => {
     return axios.get("/api/alerts").then(response => response)
 }
