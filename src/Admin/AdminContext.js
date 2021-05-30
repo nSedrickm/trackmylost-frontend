@@ -1,11 +1,9 @@
 import React, { useState, useReducer, useContext, useEffect } from "react";
 import toast from 'react-hot-toast';
-import LoginPage from "Dashboard/LoginPage";
-import RegisterPage from "Dashboard/RegisterPage";
-import DashboardPage from "Dashboard/DashboardPage";
+import LoginPage from "Admin/LoginPage";
+import DashboardPage from "Admin/DashboardPage";
 import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
-import Header from "components/headers/Header";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getUser, userLogin, logOut } from "services/auth.service";
@@ -308,17 +306,12 @@ const AdminProvider = () => {
                 handleDeleteItem
             }}
         >
-            {state.isAuthorized === notAuthorized ? <Header /> : null}
             <Switch>
-                <Route exact path="/agent/login">
-                    {state.isAuthorized === Authorized ? <Redirect to="/agent/dashboard" /> : <LoginPage />}
+                <Route exact path="/admin/login">
+                    {state.isAuthorized === Authorized ? <Redirect to="/admin/dashboard" /> : <LoginPage />}
                 </Route>
 
-                <Route exact path="/agent/sign-up">
-                    <RegisterPage />
-                </Route>
-
-                <Route path="/agent/dashboard">
+                <Route path="/admin/dashboard">
                     {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
                 </Route>
 
