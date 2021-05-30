@@ -153,6 +153,7 @@ const AdminProvider = () => {
                 });
                 clearLocalAdminState();
                 clearAdminItems();
+                clearAdminItems();
                 setTimeout(() => { window.location.replace("/admin/login") }, 1000)
             })
             .catch(error => {
