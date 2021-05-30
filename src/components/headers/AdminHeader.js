@@ -33,6 +33,7 @@ const DashHeader = () => {
       <NavContainer key={1}>
         <NavLink onClick={toggleNavbar} key="home" to="/admin/dashboard/items">Items</NavLink>
         <NavLink onClick={toggleNavbar} key="Alerts" to="/admin/dashboard/alerts">Alerts</NavLink>
+        <NavLink onClick={toggleNavbar} key="Agents" to="/admin/dashboard/agents">Agents</NavLink>
       </NavContainer>
       <NavContainer key={2}>
         <NavButton>
@@ -49,6 +50,7 @@ const DashHeader = () => {
     <React.Fragment key="nav">
       <MobileNavLink onClick={toggleNavbar} key="items" to="/admin/dashboard/items">Items</MobileNavLink>
       <MobileNavLink onClick={toggleNavbar} key="alerts" to="/admin/dashboard/alerts">Alerts</MobileNavLink>
+      <MobileNavLink onClick={toggleNavbar} key="agents" to="/admin/dashboard/agents">Agents</MobileNavLink>
 
       <MobileNavButton>
         <FiBell size={20} />
