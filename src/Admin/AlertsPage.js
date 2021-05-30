@@ -113,7 +113,7 @@ function reducer(state, action) {
 }
 
 const AlertsPage = () => {
-    const { handleRegisterAlert, handleUpdateAlert, handleDeleteAlert, userData } = useAdminContext();
+    const { handleSetAlert, handleUpdateAlert, handleDeleteAlert, userData } = useAdminContext();
 
     const [loading, setLoading] = useState(false);
 
@@ -466,7 +466,7 @@ const AlertsPage = () => {
                                         if (state.editAlert) {
                                             handleUpdateAlert(evt);
                                         } else {
-                                            handleRegisterAlert(evt)
+                                            handleSetAlert(evt)
                                         }
                                     }}>
                                         <Input
