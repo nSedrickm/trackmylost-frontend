@@ -88,7 +88,7 @@ const AdminProvider = () => {
                 });
                 console.log("State efter: ", state);
                 setTimeout(() => {
-                    window.location.replace("/agent/dashboard")
+                    window.location.replace("/admin/dashboard")
                 }, 1000)
             })
             .catch(error => {
