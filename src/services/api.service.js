@@ -53,11 +53,10 @@ export const deleteItem = (id) => {
 }
 
 // alert routes
-export const setAlert = ({ name, document_type, email, phone_number }) => {
+export const setAlert = ({ name, document_type, phone_number }) => {
     return axios.post("/api/alerts", {
         name: name,
         document_type: document_type,
-        email: email,
         phone_number: phone_number
     }).then(response => response)
 }
