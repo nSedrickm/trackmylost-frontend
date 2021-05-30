@@ -204,7 +204,7 @@ const ItemsPage = () => {
             <Header>
                 <HeaderItem tw="text-center md:text-left mb-8 sm:mb-0">
                     <Heading>Registered Items</Heading>
-                    <Description>All items you have registered</Description>
+                    <Description>All registered Items</Description>
                 </HeaderItem>
                 <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
                     <Button onClick={() => dispatch({
@@ -469,7 +469,7 @@ const ItemsPage = () => {
                                 }}
                             >
                                 <Modal.Header>
-                                    <Modal.Title>Add Item</Modal.Title>
+                                    <Modal.Title>{state.editItem ? "Edit Item" : "Add Item"}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Form onSubmit={(evt) => {
@@ -494,7 +494,7 @@ const ItemsPage = () => {
                                                 <Select
                                                     id="document_type"
                                                     name="document_type"
-                                                    defaultValue={state.item?.document_type}
+                                                    defaultValue={state.editItem ? state.item?.document_type : ""}
                                                     required
                                                 >
                                                     <option value="" hidden>Please Choose document type</option>
