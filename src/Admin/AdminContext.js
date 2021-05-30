@@ -301,6 +301,7 @@ const AdminProvider = () => {
             .then(response => {
                 console.log(response);
                 toast.success(`Alert for ${formData.name} set`);
+                clearAdminAlerts();
                 setLoading(false);
             })
             .catch(error => {
