@@ -4,7 +4,7 @@ import useAnimatedNavToggler from "helpers/useAnimatedNavToggler.js";
 import logo from "images/logo.png";
 import { FiBell, FiLogOut, FiMenu as MenuIcon } from "react-icons/fi";
 import { Link } from 'react-router-dom';
-import { useDashContext } from "Dashboard/DashboardContext";
+import { useAdminContext } from "Admin/AdminContext";
 import { Drawer } from "rsuite";
 
 const MainHeader = tw.header`flex justify-between items-center max-w-none mx-auto bg-primary-500 shadow-lg`;
@@ -24,15 +24,15 @@ const NavToggle = tw(NavButton)`lg:hidden z-50 focus:outline-none focus:bg-prima
 
 const DashHeader = () => {
 
-  const { handleLogOut } = useDashContext();
+  const { handleLogOut } = useAdminContext();
   const [drawer, showDrawer] = useState(false);
   const { toggleNavbar } = useAnimatedNavToggler();
 
   const defaultLinks = [
     <React.Fragment key="nav">
       <NavContainer key={1}>
-        <NavLink onClick={toggleNavbar} key="home" to="/agent/dashboard/items">Items</NavLink>
-        <NavLink onClick={toggleNavbar} key="Alerts" to="/agent/dashboard/alerts">Alerts</NavLink>
+        <NavLink onClick={toggleNavbar} key="home" to="/admin/dashboard/items">Items</NavLink>
+        <NavLink onClick={toggleNavbar} key="Alerts" to="/admin/dashboard/alerts">Alerts</NavLink>
       </NavContainer>
       <NavContainer key={2}>
         <NavButton>
@@ -47,8 +47,8 @@ const DashHeader = () => {
 
   const altLinks = [
     <React.Fragment key="nav">
-      <MobileNavLink onClick={toggleNavbar} key="items" to="/agent/dashboard/items">Items</MobileNavLink>
-      <MobileNavLink onClick={toggleNavbar} key="alerts" to="/agent/dashboard/alerts">Alerts</MobileNavLink>
+      <MobileNavLink onClick={toggleNavbar} key="items" to="/admin/dashboard/items">Items</MobileNavLink>
+      <MobileNavLink onClick={toggleNavbar} key="alerts" to="/admin/dashboard/alerts">Alerts</MobileNavLink>
 
       <MobileNavButton>
         <FiBell size={20} />
