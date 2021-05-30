@@ -7,8 +7,8 @@ import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getAdminUser, adminLogin, logOut } from "services/admin.service";
-import { registerItem, updateItem, deleteItem } from "services/api.service";
-import { getLocalAdminState, setLocalAdminState, clearLocalAdminState, clearAdminItems } from "services/storage.service";
+import { registerItem, updateItem, deleteItem, updateAlert, deleteAlert } from "services/api.service";
+import { getLocalAdminState, setLocalAdminState, clearLocalAdminState, clearAdminItems, clearAdminAlerts } from "services/storage.service";
 
 const AdminContext = React.createContext();
 const useAdminContext = () => useContext(AdminContext);
@@ -286,6 +286,75 @@ const AdminProvider = () => {
             });
     }
 
+    const handleUpdateAlert = (evt) => {
+        evt.preventDefault();
+
+        let formData = {
+            id: evt.target.elements.id?.value,
+            name: evt.target.elements.name?.value,
+            document_type: evt.target.elements.document_type?.value,
+            phone_number: evt.target.elements.phone_number?.value,
+        }
+        console.log(formData);
+
+        setLoading(true);
+        updateAlert(formData)
+            .then(response => {
+                console.log(response);
+                toast.success(`Alert updated`);
+                clearAdminAlerts();
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+
+                }
+            });
+    }
+
+    const handleDeleteAlert = (id) => {
+        setLoading(true);
+        deleteAlert(id)
+            .then(response => {
+                toast.success(`Alert deleted`);
+                clearAdminAlerts();
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+
+                }
+            });
+    }
+
     if (loading) {
         return (
             <AnimateLoader />
@@ -302,7 +371,9 @@ const AdminProvider = () => {
                 handleLogOut,
                 handleRegisterItem,
                 handleUpdateItem,
-                handleDeleteItem
+                handleDeleteItem,
+                handleUpdateAlert,
+                handleDeleteAlert
             }}
         >
             <Switch>
