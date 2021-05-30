@@ -23,10 +23,6 @@ const DashboardPage = () => {
                     <Route exact path="/agent/dashboard/items">
                         <ItemsPage />
                     </Route>
-
-                    <Route exact path="/agent/dashboard/alerts">
-                        <AlertsPage />
-                    </Route>
                 </Switch>
             </AnimationRevealPage>
         </>
