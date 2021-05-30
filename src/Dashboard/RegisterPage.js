@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiUserPlus } from "react-icons/fi";
-
+import toast from 'react-hot-toast';
+import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
 import { registerUser } from "services/auth.service";
 import { Loader } from "rsuite";
-import toast from 'react-hot-toast';
+import { Link } from "react-router-dom";
+
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Input = tw.input`w-full rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
 const Label = tw.label`leading-7 text-xs text-gray-600 uppercase tracking-wide font-medium block mb-2`;
 const Form = tw.form`mx-auto md:w-2/5 md:p-10 md:border border-primary-500 rounded-2xl`;
 const LoadingContainer = tw.div`h-screen text-center`;
-
+const ToggleButton = tw.span`absolute inset-y-0 right-5 flex items-center  cursor-pointer`;
+const NavLink = tw(Link)`
+     inline-flex items-center transition duration-300 hocus:text-primary-700 hocus:outline-none  text-primary-500 font-medium no-underline hocus:no-underline  appearance-none
+`;
 
 const RegisterPage = () => {
 
@@ -20,6 +24,10 @@ const RegisterPage = () => {
     const [password, setPassword] = useState();
     const [password2, setPassword2] = useState();
     const [isInvalid, setInvalid] = useState(false);
+    const [toggle, setToggle] = useState(false);
+    const [toggle2, setToggle2] = useState(false);
+
+
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -44,7 +52,7 @@ const RegisterPage = () => {
         registerUser(formData)
             .then(response => {
                 toast.success(response.data.message);
-                setTimeout(() => { window.location.replace("/login") }, 1500);
+                setTimeout(() => { window.location.replace("/agent/login") }, 1500);
             })
             .catch(error => {
                 if (error.response) {
@@ -81,6 +89,7 @@ const RegisterPage = () => {
                         <div tw="flex flex-col text-center w-full mb-12">
                             <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Agent Registration</h1>
                             <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">TrackMyLost agent registration portal</p>
+                            <p tw="leading-relaxed text-base text-center mt-2">Already an agent ? <NavLink to="/agent/login"> Log in </NavLink></p>
                         </div>
 
                         <Form onSubmit={(evt) => handleSubmit(evt)}>
@@ -130,24 +139,27 @@ const RegisterPage = () => {
                                     </div>
                                 </div>
                                 <div tw="p-2 w-full">
+                                    <Label htmlFor="password">Password</Label>
                                     <div tw="relative">
-                                        <Label htmlFor="password">Password</Label>
+
                                         <Input required
-                                            type="password"
+                                            type={toggle ? "text" : "password"}
                                             id="password"
                                             name="password"
                                             placeholder="Enter password"
                                             minLength="4"
                                             onChange={(evt) => setPassword(evt.target.value)}
-
                                         />
+                                        <ToggleButton onClick={() => setToggle(!toggle)}>
+                                            {toggle ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                                        </ToggleButton>
                                     </div>
                                 </div>
                                 <div tw="p-2 w-full">
+                                    <Label htmlFor="password">Confirm Password</Label>
                                     <div tw="relative">
-                                        <Label htmlFor="password">Confirm Password</Label>
                                         <Input required
-                                            type="password"
+                                            type={toggle2 ? "text" : "password"}
                                             id="password2"
                                             name="password2"
                                             placeholder="re-enter password"
@@ -159,6 +171,9 @@ const RegisterPage = () => {
                                             }
                                             style={isInvalid ? { border: "1px solid red" } : {}}
                                         />
+                                        <ToggleButton onClick={() => setToggle2(!toggle2)}>
+                                            {toggle2 ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                                        </ToggleButton>
                                     </div>
                                 </div>
                             </div>

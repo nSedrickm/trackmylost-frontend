@@ -3,8 +3,9 @@ import "rsuite/dist/styles/rsuite-default.css";
 import "tailwindcss/dist/base.css";
 import './App.css';
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
+
 import ScrollToTop from "helpers/ScrollToTop";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import Header from "components/headers/Header";
@@ -14,17 +15,8 @@ import SearchPage from 'pages/SearchPage';
 import ReportPage from "pages/ReportPage";
 import AlertPage from "pages/AlertPage";
 import NotFoundPage from "pages/NotFoundPage";
-import LoginPage from "pages/LoginPage";
-import RegisterPage from "pages/RegisterPage";
-import DashboardPage from "Dashboard/DashboardPage";
-import { getToken } from "services/auth.service";
-
-let token = getToken();
-let isAuthorized = false;
-
-if (token) {
-  isAuthorized = true;
-}
+import { DashProvider } from 'Dashboard/DashboardContext';
+import { AdminProvider } from "Admin/AdminContext";
 
 function App() {
 
@@ -35,8 +27,12 @@ function App() {
 
         <Switch>
 
-          <Route path="/dashboard">
-            {isAuthorized ? <DashboardPage /> : <Redirect to="/login" />}
+          <Route path="/agent">
+            <DashProvider />
+          </Route>
+
+          <Route path="/admin">
+            <AdminProvider />
           </Route>
 
           <Route path="/">
@@ -52,41 +48,35 @@ function App() {
 const MainSection = () => {
 
   return (
-    <AnimationRevealPage>
+    <>
       <Header />
+      <AnimationRevealPage>
 
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
 
-        <Route exact path="/search">
-          <SearchPage />
-        </Route>
+          <Route exact path="/search">
+            <SearchPage />
+          </Route>
 
-        <Route exact path="/report-item">
-          <ReportPage />
-        </Route>
+          <Route exact path="/report-item">
+            <ReportPage />
+          </Route>
 
-        <Route exact path="/alert-me">
-          <AlertPage />
-        </Route>
+          <Route exact path="/alert-me">
+            <AlertPage />
+          </Route>
 
-        <Route exact path="/login">
-          {isAuthorized ? <Redirect to="/dashboard" /> : <LoginPage />}
-        </Route>
+          <Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
 
-        <Route exact path="/sign-up">
-          <RegisterPage />
-        </Route>
-
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-
-      <Footer />
-    </AnimationRevealPage>
+        <Footer />
+      </AnimationRevealPage>
+    </>
   );
 }
 

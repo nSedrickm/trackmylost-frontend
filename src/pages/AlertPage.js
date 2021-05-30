@@ -28,7 +28,6 @@ const AlertPage = () => {
         let formData = {
             name: evt.target.elements.name?.value,
             document_type: evt.target.elements.document_type?.value,
-            email: evt.target.elements.email?.value,
             phone_number: evt.target.elements.phone_number?.value,
         }
         console.log(formData);
@@ -108,17 +107,6 @@ const AlertPage = () => {
                                             <SelectToggle>
                                                 <FiChevronDown />
                                             </SelectToggle>
-                                        </div>
-                                    </div>
-                                    <div tw="p-2 w-full">
-                                        <div tw="relative">
-                                            <Label htmlFor="email">Email</Label>
-                                            <Input required
-                                                type="email"
-                                                id="email"
-                                                name="email"
-                                                placeholder="e.g user@gmail.com"
-                                            />
                                         </div>
                                     </div>
                                     <div tw="p-2 w-full">
