@@ -4,6 +4,7 @@ import LoginPage from "Dashboard/LoginPage";
 import RegisterPage from "Dashboard/RegisterPage";
 import DashboardPage from "Dashboard/DashboardPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
+import Header from "components/headers/Header";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getUser, userLogin, logOut } from "services/auth.service";
@@ -306,6 +307,7 @@ const DashProvider = () => {
                 handleDeleteItem
             }}
         >
+            {state.isAuthorized === notAuthorized ? <Header /> : null}
             <Switch>
                 <Route exact path="/agent/login">
                     {state.isAuthorized === Authorized ? <Redirect to="/agent/dashboard" /> : <LoginPage />}
