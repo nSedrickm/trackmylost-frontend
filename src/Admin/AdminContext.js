@@ -6,9 +6,9 @@ import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
-import { getUser, userLogin, logOut } from "services/auth.service";
+import { getAdminUser, adminLogin, logOut } from "services/admin.service";
 import { registerItem, updateItem, deleteItem } from "services/api.service";
-import { getLocalState, setLocalState, clearLocalState, clearItems } from "services/storage.service";
+import { getLocalAdminState, setLocalAdminState, clearLocalAdminState, clearAdminItems } from "services/storage.service";
 
 const AdminContext = React.createContext();
 const useAdminContext = () => useContext(AdminContext);
@@ -44,7 +44,7 @@ const Reducer = (state, action) => {
 const notAuthorized = "notAuthorized";
 const Authorized = "Authorized";
 
-let localState = getLocalState();
+let localState = getLocalAdminState();
 
 let initialState = localState || {
     isAuthorized: notAuthorized,
@@ -61,8 +61,8 @@ const AdminProvider = () => {
     const { isAuthorized, userData } = state;
 
     useEffect(() => {
-        setLocalState(state);
-        initialState = getLocalState();
+        setLocalAdminState(state);
+        initialState = getLocalAdminState();
     }, [state])
 
     const handleLogin = (evt) => {
@@ -77,7 +77,7 @@ const AdminProvider = () => {
 
         setLoading(true);
 
-        userLogin(formData)
+        adminLogin(formData)
             .then(response => {
                 // console.log(response.data);
                 toast.success(response.data.message);
@@ -113,7 +113,7 @@ const AdminProvider = () => {
 
     //fetch user account details
     const handleGetUser = () => {
-        getUser()
+        getAdminUser()
             .then(response => {
                 dispatch({
                     type: "SETUSERDATA",
@@ -152,8 +152,8 @@ const AdminProvider = () => {
                         userData: {}
                     }
                 });
-                clearLocalState();
-                clearItems();
+                clearLocalAdminState();
+                clearAdminItems();
                 setTimeout(() => { window.location.replace("/agent/login") }, 1000)
             })
             .catch(error => {
@@ -234,7 +234,7 @@ const AdminProvider = () => {
             .then(response => {
                 console.log(response);
                 toast.success(`Item updated`);
-                clearItems();
+                clearAdminItems();
                 setLoading(false);
             })
             .catch(error => {
@@ -263,7 +263,7 @@ const AdminProvider = () => {
         deleteItem(id)
             .then(response => {
                 toast.success(`Item deleted`);
-                clearItems();
+                clearAdminItems();
                 setLoading(false);
             })
             .catch(error => {
