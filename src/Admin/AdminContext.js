@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import LoginPage from "Dashboard/LoginPage";
 import RegisterPage from "Dashboard/RegisterPage";
 import DashboardPage from "Dashboard/DashboardPage";
+import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import Header from "components/headers/Header";
 
@@ -11,8 +12,8 @@ import { getUser, userLogin, logOut } from "services/auth.service";
 import { registerItem, updateItem, deleteItem } from "services/api.service";
 import { getLocalState, setLocalState, clearLocalState, clearItems } from "services/storage.service";
 
-const DashContext = React.createContext();
-const useDashContext = () => useContext(DashContext);
+const AdminContext = React.createContext();
+const useAdminContext = () => useContext(AdminContext);
 
 const Reducer = (state, action) => {
     switch (action.type) {
@@ -52,7 +53,7 @@ let initialState = localState || {
     userData: {}
 }
 
-const DashProvider = () => {
+const AdminProvider = () => {
 
     const [loading, setLoading] = useState(false);
 
@@ -295,7 +296,7 @@ const DashProvider = () => {
     }
 
     return (
-        <DashContext.Provider
+        <AdminContext.Provider
             value={{
                 state,
                 isAuthorized,
@@ -320,9 +321,13 @@ const DashProvider = () => {
                 <Route path="/agent/dashboard">
                     {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
                 </Route>
+
+                <Route>
+                    <NotFoundPage />
+                </Route>
             </Switch>
-        </DashContext.Provider>
+        </AdminContext.Provider>
     );
 };
 
-export { useDashContext, DashProvider };
+export { useAdminContext, AdminProvider };
