@@ -2,7 +2,6 @@ import React from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import DashHeader from 'components/headers/DashHeader';
 import ItemsPage from "Dashboard/ItemsPage";
-import AlertsPage from "Dashboard/AlertsPage";
 import { Route, Switch } from "react-router-dom";
 import { useDashContext } from "Dashboard/DashboardContext";
 
