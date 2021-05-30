@@ -198,7 +198,7 @@ const ItemsPage = () => {
             });
     }
 
-    if (data.length) {
+    // if (data.length) {
         return (
             <AnimationRevealPage>
 
@@ -581,26 +581,26 @@ const ItemsPage = () => {
                 </Container>
             </AnimationRevealPage>
         )
-    }
+    // }
 
-    return (
-        <AnimationRevealPage>
-            <Container tw="py-24">
-                <Header tw="block text-center">
-                    <Heading>No Items Found</Heading>
-                    <Description>It seems no Items have been registered</Description>
-                </Header>
+    // return (
+    //     <AnimationRevealPage>
+    //         <Container tw="py-24">
+    //             <Header tw="block text-center">
+    //                 <Heading>No Items Found</Heading>
+    //                 <Description>It seems no Items have been registered</Description>
+    //             </Header>
 
-                <Row>
-                    <FormField tw="mt-8">
-                        <SearchButton onClick={() => handleRefresh()}>
-                            <FiLoader /> &nbsp; refresh
-                        </SearchButton>
-                    </FormField>
-                </Row>
-            </Container>
-        </AnimationRevealPage>
-    );
+    //             <Row>
+    //                 <FormField tw="mt-8">
+    //                     <SearchButton onClick={() => handleRefresh()}>
+    //                         <FiLoader /> &nbsp; refresh
+    //                     </SearchButton>
+    //                 </FormField>
+    //             </Row>
+    //         </Container>
+    //     </AnimationRevealPage>
+    // );
 }
 
 export default ItemsPage;
