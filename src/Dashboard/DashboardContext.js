@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import LoginPage from "Dashboard/LoginPage";
 import RegisterPage from "Dashboard/RegisterPage";
 import DashboardPage from "Dashboard/DashboardPage";
+import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import Header from "components/headers/Header";
 
@@ -319,6 +320,10 @@ const DashProvider = () => {
 
                 <Route path="/agent/dashboard">
                     {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
+                </Route>
+
+                <Route>
+                    <NotFoundPage />
                 </Route>
             </Switch>
         </DashContext.Provider>
