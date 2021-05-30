@@ -5,6 +5,7 @@ axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 axios.get('/sanctum/csrf-cookie')
 
+// item routes
 export const registerItem = ({ document_type, first_name, other_names, phone_number, reward }) => {
     return axios.post("/api/items", {
         document_type: document_type,
@@ -12,15 +13,6 @@ export const registerItem = ({ document_type, first_name, other_names, phone_num
         other_names: other_names,
         phone_number: phone_number,
         reward: reward
-    }).then(response => response)
-}
-
-export const setAlert = ({ name, document_type, email, phone_number }) => {
-    return axios.post("/api/alerts", {
-        name: name,
-        document_type: document_type,
-        email: email,
-        phone_number: phone_number
     }).then(response => response)
 }
 
@@ -46,10 +38,6 @@ export const getUserItems = (phone_number) => {
         }).then(response => response)
 }
 
-export const getAlerts = () => {
-    return axios.get("/api/alerts").then(response => response)
-}
-
 export const updateItem = ({ id, document_type, first_name, other_names, phone_number, reward }) => {
     return axios.put("/api/items/" + id, {
         document_type: document_type,
@@ -62,4 +50,30 @@ export const updateItem = ({ id, document_type, first_name, other_names, phone_n
 
 export const deleteItem = (id) => {
     return axios.delete("/api/items/" + id).then(response => response)
+}
+
+// alert routes
+export const setAlert = ({ name, document_type, email, phone_number }) => {
+    return axios.post("/api/alerts", {
+        name: name,
+        document_type: document_type,
+        email: email,
+        phone_number: phone_number
+    }).then(response => response)
+}
+
+export const getAlerts = () => {
+    return axios.get("/api/alerts").then(response => response)
+}
+
+export const updateAlert = ({ id, name, document_type, phone_number }) => {
+    return axios.put("/api/alerts/" + id, {
+        name: name,
+        document_type: document_type,
+        phone_number: phone_number,
+    }).then(response => response)
+}
+
+export const deleteAlert = (id) => {
+    return axios.delete("/api/alerts/" + id).then(response => response)
 }
