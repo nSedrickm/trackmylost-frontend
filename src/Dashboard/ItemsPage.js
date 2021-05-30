@@ -9,7 +9,7 @@ import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "rea
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
-import { getItems } from "services/api.service";
+import { getUserItems } from "services/api.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
 import { useDashContext } from "Dashboard/DashboardContext";
@@ -138,7 +138,7 @@ const ItemsPage = () => {
             dispatch({ type: "paginate" });
             setLoading(false);
         } else {
-            getItems()
+            getUserItems(userData.phone_number)
                 .then(response => {
                     toast.success(`Fetch complete`);
                     dispatch({ type: "setData", payload: response.data });
@@ -165,12 +165,12 @@ const ItemsPage = () => {
                     }
                 });
         }
-    }, []);
+    }, [userData.phone_number]);
 
     const handleRefresh = () => {
         clearItems();
         setLoading(true);
-        getItems()
+        getUserItems(userData.phone_number)
             .then(response => {
                 toast.success(`Fetch complete`);
                 dispatch({ type: "setData", payload: response.data });
