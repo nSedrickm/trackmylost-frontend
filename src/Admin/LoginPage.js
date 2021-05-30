@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { useDashContext } from "Dashboard/DashboardContext";
+import { useAdminContext } from "Admin/AdminContext";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
@@ -12,7 +12,7 @@ const ToggleButton = tw.span`absolute inset-y-0 right-5 flex items-center  curso
 
 const LoginPage = () => {
 
-    const { handleLogin } = useDashContext();
+    const { handleLogin } = useAdminContext();
     const [toggle, setToggle] = useState(false);
 
     return (
@@ -20,8 +20,8 @@ const LoginPage = () => {
             <section tw="text-gray-600 relative">
                 <div tw="container py-28 mx-auto">
                     <div tw="flex flex-col text-center w-full mb-12">
-                        <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Agent Login</h1>
-                        <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">TrackMyLost agent portal</p>
+                        <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Admin login</h1>
+                        <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">TrackMyLost administrative portal</p>
                     </div>
 
                     <Form onSubmit={(evt) => handleLogin(evt)}>
