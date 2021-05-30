@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
 import { registerUser } from "services/auth.service";
 import { Loader } from "rsuite";
+import { Link } from "react-router-dom";
 
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
@@ -13,7 +14,9 @@ const Label = tw.label`leading-7 text-xs text-gray-600 uppercase tracking-wide f
 const Form = tw.form`mx-auto md:w-2/5 md:p-10 md:border border-primary-500 rounded-2xl`;
 const LoadingContainer = tw.div`h-screen text-center`;
 const ToggleButton = tw.span`absolute inset-y-0 right-5 flex items-center  cursor-pointer`;
-
+const NavLink = tw(Link)`
+     inline-flex items-center transition duration-300 hocus:text-primary-700 hocus:outline-none  text-primary-500 font-medium no-underline hocus:no-underline  appearance-none
+`;
 
 const RegisterPage = () => {
 
@@ -86,6 +89,7 @@ const RegisterPage = () => {
                         <div tw="flex flex-col text-center w-full mb-12">
                             <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Agent Registration</h1>
                             <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">TrackMyLost agent registration portal</p>
+                            <p tw="leading-relaxed text-base text-center mt-2">Already an agent ? <NavLink to="/agent/login"> Log in </NavLink></p>
                         </div>
 
                         <Form onSubmit={(evt) => handleSubmit(evt)}>
