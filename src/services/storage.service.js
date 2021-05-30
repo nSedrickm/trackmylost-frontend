@@ -24,3 +24,28 @@ export const getSavedItems = () => {
 export const clearItems = () => {
     localStorage.removeItem("TrackMyLostItems")
 }
+
+// storage management for Admin section
+export const setLocalAdminState = (state) => {
+    sessionStorage.setItem("TrackMyLostAdmin", JSON.stringify(state))
+}
+
+export const getLocalAdminState = () => {
+    return JSON.parse(sessionStorage.getItem("TrackMyLostAdmin"));
+}
+
+export const clearLocalAdminState = () => {
+    sessionStorage.removeItem("TrackMyLostAdmin");
+}
+
+export const saveAdminItems = (data) => {
+    localStorage.setItem("TrackMyLostAdminItems", JSON.stringify(data))
+}
+
+export const getSavedAdminItems = () => {
+    return JSON.parse(localStorage.getItem("TrackMyLostAdminItems"))
+}
+
+export const clearAdminItems = () => {
+    localStorage.removeItem("TrackMyLostAdminItems")
+}
