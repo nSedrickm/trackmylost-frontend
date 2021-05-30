@@ -3,13 +3,16 @@ import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { useDashContext } from "Dashboard/DashboardContext";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Input = tw.input`w-full rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
 const Label = tw.label`leading-7 text-xs text-gray-600 uppercase tracking-wide font-medium block mb-2`;
 const Form = tw.form`mx-auto md:w-2/5 md:p-10 md:border border-primary-500 rounded-2xl`;
 const ToggleButton = tw.span`absolute inset-y-0 right-5 flex items-center  cursor-pointer`;
-
+const NavLink = tw(Link)`
+     inline-flex items-center transition duration-300 hocus:text-primary-700 hocus:outline-none  text-primary-500 font-medium no-underline hocus:no-underline  appearance-none
+`;
 const LoginPage = () => {
 
     const { handleLogin } = useDashContext();
@@ -63,6 +66,8 @@ const LoginPage = () => {
                                 <FiLogIn /> &nbsp; login
                             </SubmitButton>
                         </div>
+                        <p tw="leading-relaxed text-base text-center mt-2">Not an agent ? <NavLink to="/agent/sign-up"> Sign up </NavLink></p>
+
                     </Form>
 
                 </div>
