@@ -12,7 +12,7 @@ import { AiOutlineIdcard } from "react-icons/ai";
 import { getItems } from "services/api.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedItems, saveItems, clearItems } from "services/storage.service";
-import { useDashContext } from "Dashboard/DashboardContext";
+import { useAdminContext } from "Admin/AdminContext";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -113,7 +113,7 @@ function reducer(state, action) {
 }
 
 const ItemsPage = () => {
-    const { handleRegisterItem, handleUpdateItem, handleDeleteItem, userData } = useDashContext();
+    const { handleRegisterItem, handleUpdateItem, handleDeleteItem, userData } = useAdminContext();
 
     const [loading, setLoading] = useState(false);
 
