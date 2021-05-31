@@ -44,3 +44,31 @@ export const setToken = (token) => {
 export const removeToken = () => {
     sessionStorage.removeItem('MYLOST_ADMIN');
 }
+
+//agents 
+export const registerUser = ({ first_name, last_name, phone_number, town, password }) => {
+    return axios.post("/admin/users/", {
+        first_name: first_name,
+        last_name: last_name,
+        phone_number: phone_number,
+        town: town,
+        password: password
+    }).then(response => response)
+}
+
+export const getUsers = () => {
+    return axios.get("/admin/users").then(response => response)
+}
+
+export const updateUser = ({ id, first_name, last_name, phone_number, town }) => {
+    return axios.put("/admin/users/" + id, {
+        first_name: first_name,
+        last_name: last_name,
+        phone_number: phone_number,
+        town: town
+    }).then(response => response)
+}
+
+export const deleteUser = (id) => {
+    return axios.delete("/admin/users/" + id).then(response => response)
+}
