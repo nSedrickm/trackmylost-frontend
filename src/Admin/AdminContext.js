@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useContext, useEffect } from "react";
 import toast from 'react-hot-toast';
 import LoginPage from "Admin/LoginPage";
+import RegisterPage from "Admin/RegisterPage";
 import DashboardPage from "Admin/DashboardPage";
 import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
@@ -534,6 +535,10 @@ const AdminProvider = () => {
             <Switch>
                 <Route exact path="/admin/login">
                     {state.isAuthorized === Authorized ? <Redirect to="/admin/dashboard" /> : <LoginPage />}
+                </Route>
+
+                <Route exact path="/admin/sign-up">
+                    <RegisterPage />
                 </Route>
 
                 <Route path="/admin/dashboard">
