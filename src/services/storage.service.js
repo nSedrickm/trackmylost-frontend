@@ -61,3 +61,15 @@ export const getSavedAdminAlerts = () => {
 export const clearAdminAlerts = () => {
     localStorage.removeItem("TrackMyLostAdminAlerts")
 }
+
+export const saveUsers = (data) => {
+    localStorage.setItem("TrackMyLostUsers", JSON.stringify(data))
+}
+
+export const getSavedUsers = () => {
+    return JSON.parse(localStorage.getItem("TrackMyLostUsers"))
+}
+
+export const clearUsers = () => {
+    localStorage.removeItem("TrackMyLostUsers")
+}
