@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import LoginPage from "Admin/LoginPage";
 import RegisterPage from "Admin/RegisterPage";
 import DashboardPage from "Admin/DashboardPage";
-import NotFoundPage from "pages/NotFoundPage";
+// import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -542,11 +542,12 @@ const AdminProvider = () => {
                 </Route>
 
                 <Route path="/admin/dashboard">
-                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
+                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/admin/login" />}
                 </Route>
 
                 <Route>
-                    <NotFoundPage />
+                    {/* <NotFoundPage /> */}
+                    <Redirect to="/admin/login" />
                 </Route>
             </Switch>
         </AdminContext.Provider>
