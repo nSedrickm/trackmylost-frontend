@@ -543,22 +543,23 @@ const AgentsPage = () => {
                                             </div>
                                         </div>
 
-                                        <div tw="p-2 w-full">
-                                            <Label htmlFor="password">Password</Label>
-                                            <div tw="relative">
-
-                                                <Input required
-                                                    type={toggle ? "text" : "password"}
-                                                    id="password"
-                                                    name="password"
-                                                    placeholder="Enter password"
-                                                    minLength="4"
-                                                />
-                                                <ToggleButton onClick={() => setToggle(!toggle)}>
-                                                    {toggle ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-                                                </ToggleButton>
+                                        {state.addAgent ? (
+                                            <div tw="p-2 w-full">
+                                                <Label htmlFor="password">Password</Label>
+                                                <div tw="relative">
+                                                    <Input required
+                                                        type={toggle ? "text" : "password"}
+                                                        id="password"
+                                                        name="password"
+                                                        placeholder="Enter password"
+                                                        minLength="4"
+                                                    />
+                                                    <ToggleButton onClick={() => setToggle(!toggle)}>
+                                                        {toggle ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                                                    </ToggleButton>
+                                                </div>
                                             </div>
-                                        </div>
+                                        ) : null}
 
                                         <div tw="p-2 w-full">
                                             {state.editAgent ? (
