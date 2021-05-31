@@ -421,7 +421,7 @@ const AdminProvider = () => {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
                     setLoading(false);
-                    toast.error("An error occurred Please check your network and try again");
+                    toast.error(error.response.data.errors.phone_number[0]);
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
