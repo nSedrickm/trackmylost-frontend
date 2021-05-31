@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import LoginPage from "Dashboard/LoginPage";
 import RegisterPage from "Dashboard/RegisterPage";
 import DashboardPage from "Dashboard/DashboardPage";
-import NotFoundPage from "pages/NotFoundPage";
+// import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import Header from "components/headers/Header";
 
@@ -322,7 +322,8 @@ const DashProvider = () => {
                 </Route>
 
                 <Route>
-                    <NotFoundPage />
+                    {/* <NotFoundPage /> */}
+                    <Redirect to="/agent/login" />
                 </Route>
             </Switch>
         </DashContext.Provider>
