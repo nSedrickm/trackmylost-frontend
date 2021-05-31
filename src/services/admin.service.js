@@ -5,7 +5,7 @@ axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 axios.get('/sanctum/csrf-cookie')
 export const registerAdminUser = ({ first_name, last_name, phone_number, town, password }) => {
-    return axios.post("/api/admin/register",
+    return axios.post("/admin/register",
         {
             first_name: first_name,
             last_name: last_name,
@@ -16,7 +16,7 @@ export const registerAdminUser = ({ first_name, last_name, phone_number, town, p
 }
 
 export const adminLogin = async ({ phone_number, password }) => {
-    return axios.post("/api/admin/login",
+    return axios.post("/admin/login",
         {
             phone_number: phone_number,
             password: password
@@ -24,12 +24,12 @@ export const adminLogin = async ({ phone_number, password }) => {
 };
 
 export const getAdminUser = () => {
-    return axios.get("/api/admin/user")
+    return axios.get("/admin/user")
         .then(response => response)
 }
 
 export const logOut = () => {
-    return axios.get("/api/admin/logout")
+    return axios.get("/admin/logout")
         .then(response => response)
 }
 
