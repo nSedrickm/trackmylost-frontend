@@ -5,13 +5,13 @@ import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
-import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "react-icons/fi";
+import { FiArrowRight, FiLoader, FiPlusCircle, FiEdit, FiEye, FiEyeOff } from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
-import { getAlerts } from "services/api.service";
+import { getUsers } from "services/admin.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
-import { getSavedAdminAlerts, saveAdminAlerts, clearAdminAlerts } from "services/storage.service";
+import { getSavedUsers, saveUsers, clearUsers } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
@@ -32,13 +32,12 @@ const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
 const CardButton = tw(Button)`font-normal mt-2 p-1 px-2 rounded-2xl`;
+const ToggleButton = tw.span`absolute inset-y-0 right-5 flex items-center  cursor-pointer`;
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-2 px-9 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
 const Label = tw.label`leading-7 text-sm text-gray-600`;
 const Form = tw.form`mx-auto`;
-const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
-const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
 
 const DetailsModal = styled(Modal)`
     width: 20rem;
@@ -94,18 +93,18 @@ function reducer(state, action) {
             return {
                 ...state,
                 modal: action.payload.modal,
-                alert: action.payload.alert
+                agent: action.payload.agent
             };
-        case 'addAlert':
+        case 'addAgent':
             return {
                 ...state,
-                addAlert: action.payload
+                addAgent: action.payload
             };
-        case 'editAlert':
+        case 'editAgent':
             return {
                 ...state,
-                editAlert: action.payload.editAlert,
-                alert: action.payload.alert
+                editAgent: action.payload.editAgent,
+                agent: action.payload.agent
             };
         default:
             throw new Error();
@@ -113,9 +112,10 @@ function reducer(state, action) {
 }
 
 const AgentsPage = () => {
-    const { handleSetAlert, handleUpdateAlert, handleDeleteAlert, userData } = useAdminContext();
+    const { handleRegisterAgent, handleUpdateAgent, handleDeleteAgent } = useAdminContext();
 
     const [loading, setLoading] = useState(false);
+    const [toggle, setToggle] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, {
         data: [],
@@ -123,27 +123,27 @@ const AgentsPage = () => {
         displayLength: 10,
         page: 1,
         modal: false,
-        alert: {},
-        addAlert: false,
-        editAlert: false
+        agent: {},
+        addAgent: false,
+        editAgent: false
     });
 
     const { data, tableData, displayLength, page } = state;
 
     useEffect(() => {
         setLoading(true);
-        let alerts = getSavedAdminAlerts();
-        if (alerts) {
-            dispatch({ type: "setData", payload: alerts });
+        let agents = getSavedUsers();
+        if (agents) {
+            dispatch({ type: "setData", payload: agents });
             dispatch({ type: "paginate" });
             setLoading(false);
         } else {
-            getAlerts()
+            getUsers()
                 .then(response => {
                     toast.success(`Fetch complete`);
                     dispatch({ type: "setData", payload: response.data });
                     dispatch({ type: "paginate" });
-                    saveAdminAlerts(response.data);
+                    saveUsers(response.data);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -168,14 +168,14 @@ const AgentsPage = () => {
     }, []);
 
     const handleRefresh = () => {
-        clearAdminAlerts();
+        clearUsers();
         setLoading(true);
-        getAlerts()
+        getUsers()
             .then(response => {
                 toast.success(`Fetch complete`);
                 dispatch({ type: "setData", payload: response.data });
                 dispatch({ type: "paginate" });
-                saveAdminAlerts(response.data);
+                saveUsers(response.data);
                 setLoading(false);
             })
             .catch(error => {
@@ -208,7 +208,7 @@ const AgentsPage = () => {
                 </HeaderItem>
                 <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
                     <Button onClick={() => dispatch({
-                        type: "addAlert",
+                        type: "addAgent",
                         payload: true
                     })}
                     >
@@ -234,14 +234,14 @@ const AgentsPage = () => {
                         <TableCell dataKey="id" />
                     </Column>
 
-                    <Column flexGrow={1.5}>
-                        <TableHeader>Full Name(s)</TableHeader>
-                        <TableCell dataKey="name" />
+                    <Column flexGrow={1}>
+                        <TableHeader>First Name</TableHeader>
+                        <TableCell dataKey="first_name" />
                     </Column>
 
                     <Column flexGrow={1}>
-                        <TableHeader>Document Type</TableHeader>
-                        <TableCell dataKey="document_type" />
+                        <TableHeader>Last Name</TableHeader>
+                        <TableCell dataKey="last_name" />
                     </Column>
 
                     <Column flexGrow={1}>
@@ -249,6 +249,10 @@ const AgentsPage = () => {
                         <TableCell dataKey="phone_number" />
                     </Column>
 
+                    <Column flexGrow={1}>
+                        <TableHeader>Town</TableHeader>
+                        <TableCell dataKey="town" />
+                    </Column>
 
                     <Column flexGrow={1}>
                         <TableHeader>Created</TableHeader>
@@ -268,17 +272,17 @@ const AgentsPage = () => {
                                     <span>
                                         <TableAction tw="text-primary-500"
                                             onClick={() => dispatch({
-                                                type: "editAlert",
+                                                type: "editAgent",
                                                 payload: {
-                                                    editAlert: true,
-                                                    alert: rowData
+                                                    editAgent: true,
+                                                    agent: rowData
                                                 }
                                             })}
                                         >
                                             Edit
                                             </TableAction> |{' '}
                                         <TableAction tw="text-red-500"
-                                            onClick={() => handleDeleteAlert(rowData.id)}
+                                            onClick={() => handleDeleteAgent(rowData.id)}
                                         >
                                             Remove
                                              </TableAction>
@@ -349,9 +353,9 @@ const AgentsPage = () => {
                                     }}
                                 />
                             </div>
-                            {tableData.map((alert) => {
+                            {tableData.map((agent) => {
                                 let icon
-                                switch (alert.document_type) {
+                                switch (agent.document_type) {
                                     case "credit-card":
                                         icon = <CreditCardIcon />
                                         break;
@@ -368,17 +372,17 @@ const AgentsPage = () => {
                                 }
 
                                 return (
-                                    <Card key={alert.id}>
+                                    <Card key={agent.id}>
                                         {icon}
                                         <CardItem>
-                                            <CardTitle>{alert.name}</CardTitle>
-                                            <CardInfo>{alert.document_type}</CardInfo>
+                                            <CardTitle>{agent.first_name} &nbsp; {agent.other_names}</CardTitle>
+                                            <CardInfo>{agent.document_type}</CardInfo>
                                             <CardButton
                                                 onClick={() => dispatch({
                                                     type: "showDetails",
                                                     payload: {
                                                         modal: true,
-                                                        alert: alert
+                                                        agent: agent
                                                     }
                                                 })}
                                             >
@@ -400,37 +404,37 @@ const AgentsPage = () => {
                                     type: "showDetails",
                                     payload: {
                                         modal: false,
-                                        alert: {}
+                                        agent: {}
                                     }
                                 })}
                             >
                                 <Modal.Header>
-                                    <Modal.Title>Document details</Modal.Title>
+                                    <Modal.Title>Agent details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    <ItemDetails>Name: {state.alert.name}</ItemDetails>
-                                    <ItemDetails>Type: {state.alert.document_type}</ItemDetails>
-                                    <ItemDetails>Created: {new Date(state.alert.created_at).toLocaleString()}</ItemDetails>
-                                    <ItemDetails>Updated: {new Date(state.alert.updated_at).toLocaleString()}</ItemDetails>
-                                    <ItemDetails>Contact: {state.alert.phone_number}</ItemDetails>
+                                    <ItemDetails>Name: {state.agent.first_name} &nbsp; {state.agent.other_names}</ItemDetails>
+                                    <ItemDetails>Created: {new Date(state.agent.created_at).toLocaleString()}</ItemDetails>
+                                    <ItemDetails>Updated: {new Date(state.agent.updated_at).toLocaleString()}</ItemDetails>
+                                    <ItemDetails>Contact: {state.agent.phone_number}</ItemDetails>
+                                    <ItemDetails>Town: {state.agent.town}</ItemDetails>
 
                                     <div tw="mt-4">
                                         <TableAction tw="text-base text-primary-500"
                                             onClick={() => dispatch({
-                                                type: "editAlert",
+                                                type: "editAgent",
                                                 payload: {
-                                                    editAlert: true,
-                                                    alert: state.alert
+                                                    editAgent: true,
+                                                    agent: state.agent
                                                 }
                                             })}
                                         >
                                             Edit
-                                            </TableAction> |{' '}
+                                        </TableAction> |{' '}
                                         <TableAction tw="text-base text-red-500"
-                                            onClick={() => handleDeleteAlert(state.alert.id)}
+                                            onClick={() => handleDeleteAgent(state.agent.id)}
                                         >
                                             Remove
-                                             </TableAction>
+                                        </TableAction>
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>
@@ -440,33 +444,33 @@ const AgentsPage = () => {
 
                             <DetailsModal
                                 size="xs"
-                                show={state.addAlert || state.editAlert}
+                                show={state.addAgent || state.editAgent}
                                 onHide={() => {
-                                    if (state.addAlert) {
+                                    if (state.addAgent) {
                                         dispatch({
-                                            type: "addAlert",
+                                            type: "addAgent",
                                             payload: false
                                         })
                                     } else {
                                         dispatch({
-                                            type: "editAlert",
+                                            type: "editAgent",
                                             payload: {
-                                                editAlert: false,
-                                                alert: {}
+                                                editAgent: false,
+                                                agent: {}
                                             }
                                         })
                                     }
                                 }}
                             >
                                 <Modal.Header>
-                                    <Modal.Title>{state.editAlert ? "Edit Alert" : "Add Alert"}</Modal.Title>
+                                    <Modal.Title>{state.editAgent ? "Edit Agent" : "Add Agent"}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Form onSubmit={(evt) => {
-                                        if (state.editAlert) {
-                                            handleUpdateAlert(evt);
+                                        if (state.editAgent) {
+                                            handleUpdateAgent(evt);
                                         } else {
-                                            handleSetAlert(evt)
+                                            handleRegisterAgent(evt)
                                         }
                                     }}>
                                         <Input
@@ -474,43 +478,38 @@ const AgentsPage = () => {
                                             type="number"
                                             id="id"
                                             name="id"
-                                            defaultValue={state.editAlert ? state.alert?.id : ""}
+                                            defaultValue={state.editAgent ? state.agent?.id : ""}
                                         />
                                         <div tw="p-2 w-full">
-                                            <Label htmlFor="document_type">
-                                                Document type
-                                                    </Label>
-                                            <div tw="relative">
-                                                <Select
-                                                    id="document_type"
-                                                    name="document_type"
-                                                    defaultValue={state.editAlert ? state.alert?.document_type : ""}
-                                                    required
-                                                >
-                                                    <option value="" hidden>Please Choose document type</option>
-                                                    <option value="id-card">ID Card</option>
-                                                    <option value="passport">Passport</option>
-                                                    <option value="driver-license">Driver License</option>
-                                                    <option value="credit-card">Credit Card</option>
-                                                </Select>
-                                                <SelectToggle>
-                                                    <FiChevronDown />
-                                                </SelectToggle>
+                                            <div tw="p-2 w-full">
+                                                <div tw="relative">
+                                                    <Label htmlFor="first_name">First name</Label>
+                                                    <Input
+                                                        required
+                                                        type="text"
+                                                        id="first_name"
+                                                        name="first_name"
+                                                        placeholder="First name"
+                                                        defaultValue={state.editAgent ? state.agent?.first_name : ""}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
+
                                         <div tw="p-2 w-full">
                                             <div tw="relative">
-                                                <Label htmlFor="name">Full Name(s)</Label>
+                                                <Label htmlFor="last_name">Last Name</Label>
                                                 <Input
                                                     required
                                                     type="text"
-                                                    id="name"
-                                                    name="name"
-                                                    placeholder="Full name(s)"
-                                                    defaultValue={state.editAlert ? state.alert?.name : ""}
+                                                    id="last_name"
+                                                    name="last_name"
+                                                    placeholder="last name(s)"
+                                                    defaultValue={state.editAgent ? state.agent?.last_name : ""}
                                                 />
                                             </div>
                                         </div>
+
                                         <div tw="p-2 w-full">
                                             <div tw="relative">
                                                 <Label htmlFor="other_names">Phone Number</Label>
@@ -524,14 +523,46 @@ const AgentsPage = () => {
                                                     maxLength="9"
                                                     minLength="9"
                                                     pattern="(6|2)(2|3|[5-9])[0-9]{7}"
-                                                    defaultValue={state.editAlert ? state.alert?.phone_number : userData.phone_number}
+                                                    defaultValue={state.editAgent ? state.agent?.phone_number : ""}
 
                                                 />
                                             </div>
                                         </div>
 
                                         <div tw="p-2 w-full">
-                                            {state.editAlert ? (
+                                            <div tw="relative">
+                                                <Label htmlFor="town">Town</Label>
+                                                <Input
+                                                    required
+                                                    type="text"
+                                                    id="town"
+                                                    name="town"
+                                                    placeholder="last name(s)"
+                                                    defaultValue={state.editAgent ? state.agent?.town : ""}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {state.addAgent ? (
+                                            <div tw="p-2 w-full">
+                                                <Label htmlFor="password">Password</Label>
+                                                <div tw="relative">
+                                                    <Input required
+                                                        type={toggle ? "text" : "password"}
+                                                        id="password"
+                                                        name="password"
+                                                        placeholder="Enter password"
+                                                        minLength="4"
+                                                    />
+                                                    <ToggleButton onClick={() => setToggle(!toggle)}>
+                                                        {toggle ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                                                    </ToggleButton>
+                                                </div>
+                                            </div>
+                                        ) : null}
+
+                                        <div tw="p-2 w-full">
+                                            {state.editAgent ? (
                                                 <SubmitButton type="submit">
                                                     <FiEdit size={20} /> &nbsp; update
                                                 </SubmitButton>

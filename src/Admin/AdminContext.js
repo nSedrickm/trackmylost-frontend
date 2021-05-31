@@ -1,14 +1,15 @@
 import React, { useState, useReducer, useContext, useEffect } from "react";
 import toast from 'react-hot-toast';
 import LoginPage from "Admin/LoginPage";
+import RegisterPage from "Admin/RegisterPage";
 import DashboardPage from "Admin/DashboardPage";
-import NotFoundPage from "pages/NotFoundPage";
+// import NotFoundPage from "pages/NotFoundPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
-import { getAdminUser, adminLogin, logOut } from "services/admin.service";
+import { getAdminUser, adminLogin, logOut, registerUser, updateUser, deleteUser } from "services/admin.service";
 import { registerItem, updateItem, deleteItem, setAlert, updateAlert, deleteAlert } from "services/api.service";
-import { getLocalAdminState, setLocalAdminState, clearLocalAdminState, clearAdminItems, clearAdminAlerts } from "services/storage.service";
+import { getLocalAdminState, setLocalAdminState, clearLocalAdminState, clearAdminItems, clearAdminAlerts, clearUsers } from "services/storage.service";
 
 const AdminContext = React.createContext();
 const useAdminContext = () => useContext(AdminContext);
@@ -153,7 +154,8 @@ const AdminProvider = () => {
                 });
                 clearLocalAdminState();
                 clearAdminItems();
-                clearAdminItems();
+                clearAdminAlerts();
+                clearUsers();
                 setTimeout(() => { window.location.replace("/admin/login") }, 1000)
             })
             .catch(error => {
@@ -396,6 +398,116 @@ const AdminProvider = () => {
             });
     }
 
+    const handleRegisterAgent = (evt) => {
+        evt.preventDefault();
+
+        let formData = {
+            first_name: evt.target.elements.first_name?.value,
+            last_name: evt.target.elements.last_name?.value,
+            phone_number: evt.target.elements.phone_number?.value,
+            town: evt.target.elements.town?.value,
+            password: evt.target.elements.password?.value,
+        }
+        console.log(formData);
+
+        setLoading(true);
+        registerUser(formData)
+            .then(response => {
+                console.log(response);
+                toast.success(`Agent ${formData.phone_number} registered`);
+                clearUsers();
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error(error.response.data.errors.phone_number[0]);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+
+                }
+            });
+    }
+
+    const handleUpdateAgent = (evt) => {
+        evt.preventDefault();
+
+        let formData = {
+            first_name: evt.target.elements.first_name?.value,
+            last_name: evt.target.elements.last_name?.value,
+            phone_number: evt.target.elements.phone_number?.value,
+            town: evt.target.elements.town?.value
+        }
+        console.log(formData);
+
+        setLoading(true);
+        updateUser(formData)
+            .then(response => {
+                console.log(response);
+                toast.success(`Agent updated`);
+                clearUsers();
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+
+                }
+            });
+    }
+
+    const handleDeleteAgent = (id) => {
+        setLoading(true);
+        deleteUser(id)
+            .then(response => {
+                toast.success(`Agent deleted`);
+                clearUsers();
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setLoading(false);
+                    toast.error("An error occurred Please check your network and try again");
+
+                }
+            });
+    }
+
     if (loading) {
         return (
             <AnimateLoader />
@@ -415,7 +527,10 @@ const AdminProvider = () => {
                 handleDeleteItem,
                 handleSetAlert,
                 handleUpdateAlert,
-                handleDeleteAlert
+                handleDeleteAlert,
+                handleRegisterAgent,
+                handleUpdateAgent,
+                handleDeleteAgent
             }}
         >
             <Switch>
@@ -423,12 +538,17 @@ const AdminProvider = () => {
                     {state.isAuthorized === Authorized ? <Redirect to="/admin/dashboard" /> : <LoginPage />}
                 </Route>
 
+                <Route exact path="/admin/sign-up">
+                    <RegisterPage />
+                </Route>
+
                 <Route path="/admin/dashboard">
-                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/agent/login" />}
+                    {state.isAuthorized === Authorized ? <DashboardPage /> : <Redirect to="/admin/login" />}
                 </Route>
 
                 <Route>
-                    <NotFoundPage />
+                    {/* <NotFoundPage /> */}
+                    <Redirect to="/admin/login" />
                 </Route>
             </Switch>
         </AdminContext.Provider>
