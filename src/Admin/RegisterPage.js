@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import toast from 'react-hot-toast';
 import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
-import { registerUser } from "services/admin.service";
+import { registerAdminUser } from "services/admin.service";
 import { Loader } from "rsuite";
 import { Link } from "react-router-dom";
 
@@ -14,8 +14,7 @@ const Label = tw.label`leading-7 text-xs text-gray-600 uppercase tracking-wide f
 const Form = tw.form`mx-auto md:w-2/5 md:p-10 md:border border-primary-500 rounded-2xl`;
 const LoadingContainer = tw.div`h-screen text-center`;
 const ToggleButton = tw.span`absolute inset-y-0 right-5 flex items-center  cursor-pointer`;
-const NavLink = tw(Link)`
-     inline-flex items-center transition duration-300 hocus:text-primary-700 hocus:outline-none  text-primary-500 font-medium no-underline hocus:no-underline  appearance-none
+const NavLink = tw(Link)`inline-flex items-center transition duration-300 hocus:text-primary-700 hocus:outline-none  text-primary-500 font-medium no-underline hocus:no-underline  appearance-none
 `;
 
 const RegisterPage = () => {
@@ -49,7 +48,7 @@ const RegisterPage = () => {
         console.log(formData);
 
         setLoading(true);
-        registerUser(formData)
+        registerAdminUser(formData)
             .then(response => {
                 toast.success(response.data.message);
                 setTimeout(() => { window.location.replace("/admin/login") }, 1500);
