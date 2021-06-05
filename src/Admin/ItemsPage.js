@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
@@ -122,6 +122,11 @@ function reducer(state, action) {
                 editItem: action.payload.editItem,
                 item: action.payload.item
             };
+        case 'loading':
+            return {
+                ...state,
+                loading: action.payload
+            };
         default:
             throw new Error();
     }
@@ -130,7 +135,7 @@ function reducer(state, action) {
 const ItemsPage = () => {
     const { handleRegisterItem, handleUpdateItem, handleDeleteItem, userData } = useAdminContext();
 
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, {
         data: [],
@@ -141,18 +146,19 @@ const ItemsPage = () => {
         item: {},
         addItem: false,
         editItem: false,
-        filter: false
+        filter: false,
+        loading: false
     });
 
     const { data, tableData, displayLength, page } = state;
 
     useEffect(() => {
-        setLoading(true);
+        dispatch({ type: "loading", payload: true });
         let items = getSavedAdminItems();
         if (items) {
             dispatch({ type: "setData", payload: items });
             dispatch({ type: "paginate" });
-            setLoading(false);
+            dispatch({ type: "loading", payload: false });
         } else {
             getItems()
                 .then(response => {
@@ -160,23 +166,27 @@ const ItemsPage = () => {
                     dispatch({ type: "setData", payload: response.data });
                     dispatch({ type: "paginate" });
                     saveAdminItems(response.data);
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
+
                 })
                 .catch(error => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
                         toast.error("No items found");
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
+
                     } else if (error.request) {
                         // The request was made but no response was received
                         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                         // http.ClientRequest in node.js
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
+
                         toast.error("An error occurred Please check your network and try again");
                     } else {
                         // Something happened in setting up the request that triggered an Error
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
+
                         toast.error("An error occurred Please check your network and try again");
                     }
                 });
@@ -185,30 +195,34 @@ const ItemsPage = () => {
 
     const handleRefresh = () => {
         clearAdminItems();
-        setLoading(true);
+        dispatch({ type: "loading", payload: true });
         getItems()
             .then(response => {
                 toast.success(`Fetch complete`);
                 dispatch({ type: "setData", payload: response.data });
                 dispatch({ type: "paginate" });
                 saveAdminItems(response.data);
-                setLoading(false);
+                dispatch({ type: "loading", payload: false });
+
             })
             .catch(error => {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
                     toast.error("No items found");
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
+
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
+
                     toast.error("An error occurred Please check your network and try again");
                 } else {
                     // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
+
                     toast.error("An error occurred Please check your network and try again");
                 }
             });
@@ -284,7 +298,7 @@ const ItemsPage = () => {
                     headerHeight={50}
                     autoHeight
                     data={tableData}
-                    loading={loading}
+                    loading={state.loading}
                 >
                     <Column width={50} align="center">
                         <TableHeader>Id</TableHeader>
@@ -395,7 +409,7 @@ const ItemsPage = () => {
 
             <Container tw="md:hidden">
                 <Row>
-                    {loading ? (
+                    {state.loading ? (
                         <AnimateLoader />
                     ) : (
                         <>
