@@ -5,7 +5,7 @@ import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
-import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "react-icons/fi";
+import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit, FiSearch, FiX } from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
@@ -34,11 +34,13 @@ const CardInfo = tw.p`text-gray-500`;
 const CardButton = tw(Button)`font-normal mt-2 p-1 px-2 rounded-2xl`;
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-2 px-9 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
-const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
+const Input = tw.input`w-full bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
 const Label = tw.label`leading-7 text-sm text-gray-600`;
 const Form = tw.form`mx-auto`;
-const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
+const Select = tw.select`block appearance-none w-full bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
+const ToggleButton = tw.span`absolute inset-y-0 right-0 px-5 flex items-center cursor-pointer bg-primary-500 hover:bg-primary-700 text-white rounded-r-lg`;
+const SearchInput = tw(Input)`rounded-lg`
 
 const DetailsModal = styled(Modal)`
     width: 20rem;
@@ -90,6 +92,19 @@ function reducer(state, action) {
                 ...state,
                 tableData: filteredData
             };
+        case 'filter':
+            let filterStr = action.payload;
+            let filtered = Object.values(Object.fromEntries(Object.entries(state.data).filter((value) => Object.values(value[1]).includes(filterStr))));
+            console.log(filtered)
+            return {
+                ...state,
+                tableData: filtered
+            };
+        case 'toggleFilter':
+            return {
+                ...state,
+                filter: action.payload,
+            };
         case 'showDetails':
             return {
                 ...state,
@@ -125,7 +140,8 @@ const ItemsPage = () => {
         modal: false,
         item: {},
         addItem: false,
-        editItem: false
+        editItem: false,
+        filter: false
     });
 
     const { data, tableData, displayLength, page } = state;
@@ -213,12 +229,41 @@ const ItemsPage = () => {
                     })}
                     >
                         <FiPlusCircle size={16} /> &nbsp; add
-                        </Button>
+                    </Button>
                     <Button onClick={() => handleRefresh()}>
                         <FiLoader size={16} /> &nbsp; refresh
-                            </Button>
+                    </Button>
+                    <Button onClick={() => dispatch({
+                        type: "toggleFilter",
+                        payload: !state.filter
+                    })}
+                    >
+                        {state.filter ? (<><FiX size={16} /> &nbsp; close</>) : (<><FiSearch size={16} /> &nbsp; search</>)}
+                    </Button>
                 </HeaderItem>
             </Header>
+
+            {state.filter && (
+                <Container tw="mb-5">
+                    <div tw="w-full">
+                        <div tw="relative">
+                            <SearchInput required
+                                type="search"
+                                placeholder="Search"
+                                onChange={(evt) => {
+                                    dispatch({
+                                        type: "filter",
+                                        payload: evt.target.value
+                                    })
+                                }}
+                            />
+                            <ToggleButton onClick={() => console.log("clicked")}>
+                                <FiSearch size={20} />
+                            </ToggleButton>
+                        </div>
+                    </div>
+                </Container>
+            )}
 
             <Container tw="hidden md:block">
                 <DataTable
