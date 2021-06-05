@@ -98,7 +98,8 @@ function reducer(state, action) {
             console.log(filtered)
             return {
                 ...state,
-                tableData: filtered
+                tableData: filtered,
+                loading: !state.loading
             };
         case 'toggleFilter':
             return {
@@ -270,12 +271,15 @@ const ItemsPage = () => {
                                 placeholder="Search"
                                 onChange={(evt) => {
                                     if (evt.target.value === "") {
+                                        dispatch({ type: "loading", payload: true });
                                         dispatch({
                                             type: "setData",
                                             payload: getSavedAdminItems()
                                         });
                                         dispatch({ type: "paginate" })
+                                        dispatch({ type: "loading", payload: false });
                                     } else {
+                                        dispatch({ type: "loading", payload: true });
                                         dispatch({
                                             type: "filter",
                                             payload: evt.target.value
