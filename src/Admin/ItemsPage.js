@@ -39,7 +39,7 @@ const Label = tw.label`leading-7 text-sm text-gray-600`;
 const Form = tw.form`mx-auto`;
 const Select = tw.select`block appearance-none w-full bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
-const ToggleButton = tw.span`absolute inset-y-0 right-0 px-5 flex items-center cursor-pointer bg-primary-500 hover:bg-primary-700 text-white rounded-r-lg`;
+const ToggleButton = tw.span`absolute inset-y-0 right-0 px-5 flex items-center rounded-r-lg`;
 const SearchInput = tw(Input)`rounded-lg`
 
 const DetailsModal = styled(Modal)`
@@ -262,16 +262,14 @@ const ItemsPage = () => {
                                         });
                                         dispatch({ type: "paginate" })
                                     } else {
-                                        setLoading(true);
                                         dispatch({
                                             type: "filter",
                                             payload: evt.target.value
                                         })
-                                        setLoading(false)
                                     }
                                 }}
                             />
-                            <ToggleButton onClick={() => console.log("clicked")}>
+                            <ToggleButton>
                                 <FiSearch size={20} />
                             </ToggleButton>
                         </div>
