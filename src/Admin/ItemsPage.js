@@ -238,7 +238,11 @@ const ItemsPage = () => {
                         payload: !state.filter
                     })}
                     >
-                        {state.filter ? (<><FiX size={16} /> &nbsp; close</>) : (<><FiSearch size={16} /> &nbsp; search</>)}
+                        {state.filter ? (
+                            <><FiX size={16} /> &nbsp; close</>
+                        ) : (
+                            <><FiSearch size={16} /> &nbsp; search</>
+                        )}
                     </Button>
                 </HeaderItem>
             </Header>
@@ -251,10 +255,20 @@ const ItemsPage = () => {
                                 type="search"
                                 placeholder="Search"
                                 onChange={(evt) => {
-                                    dispatch({
-                                        type: "filter",
-                                        payload: evt.target.value
-                                    })
+                                    if (evt.target.value === "") {
+                                        dispatch({
+                                            type: "setData",
+                                            payload: getSavedAdminItems()
+                                        });
+                                        dispatch({ type: "paginate" })
+                                    } else {
+                                        setLoading(true);
+                                        dispatch({
+                                            type: "filter",
+                                            payload: evt.target.value
+                                        })
+                                        setLoading(false)
+                                    }
                                 }}
                             />
                             <ToggleButton onClick={() => console.log("clicked")}>
