@@ -88,7 +88,6 @@ function reducer(state, action) {
 const AgentsPage = () => {
     const { handleRegisterAgent, handleUpdateAgent, handleDeleteAgent } = useAdminContext();
 
-    const [loading, setLoading] = useState(false);
     const [toggle, setToggle] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, {
@@ -107,12 +106,12 @@ const AgentsPage = () => {
     const { data, tableData, displayLength, page } = state;
 
     useEffect(() => {
-        setLoading(true);
+        dispatch({ type: "loading", payload: true });
         let agents = getSavedUsers();
         if (agents) {
             dispatch({ type: "setData", payload: agents });
             dispatch({ type: "paginate" });
-            setLoading(false);
+            dispatch({ type: "loading", payload: false });
         } else {
             getUsers()
                 .then(response => {
@@ -120,23 +119,23 @@ const AgentsPage = () => {
                     dispatch({ type: "setData", payload: response.data });
                     dispatch({ type: "paginate" });
                     saveUsers(response.data);
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                 })
                 .catch(error => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
                         toast.error("No items found");
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
                     } else if (error.request) {
                         // The request was made but no response was received
                         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                         // http.ClientRequest in node.js
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
                         toast.error("An error occurred Please check your network and try again");
                     } else {
                         // Something happened in setting up the request that triggered an Error
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
                         toast.error("An error occurred Please check your network and try again");
                     }
                 });
@@ -145,30 +144,30 @@ const AgentsPage = () => {
 
     const handleRefresh = () => {
         clearUsers();
-        setLoading(true);
+        dispatch({ type: "loading", payload: true });
         getUsers()
             .then(response => {
                 toast.success(`Fetch complete`);
                 dispatch({ type: "setData", payload: response.data });
                 dispatch({ type: "paginate" });
                 saveUsers(response.data);
-                setLoading(false);
+                dispatch({ type: "loading", payload: false });
             })
             .catch(error => {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
                     toast.error("No items found");
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                     toast.error("An error occurred Please check your network and try again");
                 } else {
                     // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                     toast.error("An error occurred Please check your network and try again");
                 }
             });
@@ -193,7 +192,7 @@ const AgentsPage = () => {
                     headerHeight={50}
                     autoHeight
                     data={tableData}
-                    loading={loading}
+                    loading={state.loading}
                 >
                     <Column width={50} align="center">
                         <TableHeader>Id</TableHeader>
@@ -251,7 +250,7 @@ const AgentsPage = () => {
                                             onClick={() => handleDeleteAgent(rowData.id)}
                                         >
                                             Remove
-                                             </TableAction>
+                                        </TableAction>
                                     </span>
                                 );
                             }}
@@ -298,7 +297,7 @@ const AgentsPage = () => {
 
             <Container tw="md:hidden">
                 <Row>
-                    {loading ? (
+                    {state.loading ? (
                         <AnimateLoader />
                     ) : (
                         <>
