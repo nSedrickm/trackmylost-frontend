@@ -1,43 +1,21 @@
 import React, { useState, useEffect, useReducer } from "react";
-import tw from "twin.macro";
-import styled from "styled-components";
+import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
 import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "react-icons/fi";
 import { getAlerts } from "services/api.service";
-import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedAdminAlerts, saveAdminAlerts, clearAdminAlerts } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
 
 import {
     Header, HeaderItem, Heading, Description, Button, Container, Row, CreditCardIcon,
     DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
-    CardButton, FormField, SearchButton, Form, Input, Label, Select, SelectToggle, SubmitButton
+    CardButton, FormField, SearchButton, Form, Input, Label,
+    SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
+    TablePagination, DetailsModal, MobilePagination, Select, SelectToggle
 } from "components/General";
-
-const DetailsModal = styled(Modal)`
-    width: 20rem;
-    top: 10%;
-`;
-const ItemDetails = tw.p`text-base font-medium`;
-
-const { Column, HeaderCell, Cell, Pagination } = Table;
-const DataTable = styled(Table)`
-    .rs-table-cell-header .rs-table-cell-content {
-        ${tw`text-sm bg-primary-500 hocus:bg-primary-700`}
-    }
-`;
-const TableHeader = tw(HeaderCell)`text-white font-medium`;
-const TableCell = tw(Cell)``;
-const TablePagination = styled(Pagination)`
-    ${tw`p-2`}
-    .rs-picker-toggle-value {
-        ${tw`text-primary-500!`}
-    }
-`;
-const TableAction = tw.span`cursor-pointer`;
 
 function reducer(state, action) {
     switch (action.type) {
@@ -381,10 +359,10 @@ const AlertsPage = () => {
                                     }
                                 })}
                             >
-                                <Modal.Header>
-                                    <Modal.Title>Document details</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
+                                <DetailsModal.Header>
+                                    <DetailsModal.Title>Document details</DetailsModal.Title>
+                                </DetailsModal.Header>
+                                <DetailsModal.Body>
                                     <ItemDetails>Name: {state.alert.name}</ItemDetails>
                                     <ItemDetails>Type: {state.alert.document_type}</ItemDetails>
                                     <ItemDetails>Created: {new Date(state.alert.created_at).toLocaleString()}</ItemDetails>
@@ -409,9 +387,9 @@ const AlertsPage = () => {
                                             Remove
                                              </TableAction>
                                     </div>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                </Modal.Footer>
+                                </DetailsModal.Body>
+                                <DetailsModal.Footer>
+                                </DetailsModal.Footer>
                             </DetailsModal>
 
 
@@ -435,10 +413,10 @@ const AlertsPage = () => {
                                     }
                                 }}
                             >
-                                <Modal.Header>
-                                    <Modal.Title>{state.editAlert ? "Edit Alert" : "Add Alert"}</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
+                                <DetailsModal.Header>
+                                    <DetailsModal.Title>{state.editAlert ? "Edit Alert" : "Add Alert"}</DetailsModal.Title>
+                                </DetailsModal.Header>
+                                <DetailsModal.Body>
                                     <Form onSubmit={(evt) => {
                                         if (state.editAlert) {
                                             handleUpdateAlert(evt);
@@ -519,9 +497,9 @@ const AlertsPage = () => {
                                             )}
                                         </div>
                                     </Form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                </Modal.Footer>
+                                </DetailsModal.Body>
+                                <DetailsModal.Footer>
+                                </DetailsModal.Footer>
                             </DetailsModal>
 
                         </>
