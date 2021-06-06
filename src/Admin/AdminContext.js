@@ -56,8 +56,7 @@ const AdminProvider = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const [state, dispatch] = useReducer(
-        Reducer, initialState);
+    const [state, dispatch] = useReducer(Reducer, initialState);
 
     const { isAuthorized, userData } = state;
 
@@ -74,13 +73,10 @@ const AdminProvider = () => {
             password: evt.target.elements.password?.value,
         }
 
-        // console.log(formData);
-
         setLoading(true);
 
         adminLogin(formData)
             .then(response => {
-                // console.log(response.data);
                 toast.success(response.data.message);
                 handleGetUser();
                 dispatch({

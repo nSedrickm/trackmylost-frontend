@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import tw from "twin.macro";
 import useAnimatedNavToggler from "helpers/useAnimatedNavToggler.js";
 import logo from "images/logo.png";
-import { FiBell, FiLogOut, FiMenu as MenuIcon } from "react-icons/fi";
+import { FiBell, FiLogOut, FiMenu as MenuIcon, FiSearch } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import { useDashContext } from "Dashboard/DashboardContext";
 import { Drawer } from "rsuite";
@@ -34,6 +34,9 @@ const DashHeader = () => {
         <NavLink onClick={toggleNavbar} key="home" to="/agent/dashboard/items">Items</NavLink>
       </NavContainer>
       <NavContainer key={2}>
+        <NavLink onClick={toggleNavbar} key="search" to="/agent/dashboard/search">
+          <FiSearch size={20} />
+        </NavLink>
         <NavButton>
           <FiBell size={20} />
         </NavButton>
