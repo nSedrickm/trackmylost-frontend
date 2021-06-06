@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
@@ -87,8 +87,6 @@ function reducer(state, action) {
 const AlertsPage = () => {
     const { handleSetAlert, handleUpdateAlert, handleDeleteAlert, userData } = useAdminContext();
 
-    const [loading, setLoading] = useState(false);
-
     const [state, dispatch] = useReducer(reducer, {
         data: [],
         tableData: [],
@@ -105,12 +103,12 @@ const AlertsPage = () => {
     const { data, tableData, displayLength, page } = state;
 
     useEffect(() => {
-        setLoading(true);
+        dispatch({ type: "loading", payload: true });
         let alerts = getSavedAdminAlerts();
         if (alerts) {
             dispatch({ type: "setData", payload: alerts });
             dispatch({ type: "paginate" });
-            setLoading(false);
+            dispatch({ type: "loading", payload: false });
         } else {
             getAlerts()
                 .then(response => {
@@ -118,23 +116,23 @@ const AlertsPage = () => {
                     dispatch({ type: "setData", payload: response.data });
                     dispatch({ type: "paginate" });
                     saveAdminAlerts(response.data);
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                 })
                 .catch(error => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
                         toast.error("No items found");
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
                     } else if (error.request) {
                         // The request was made but no response was received
                         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                         // http.ClientRequest in node.js
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
                         toast.error("An error occurred Please check your network and try again");
                     } else {
                         // Something happened in setting up the request that triggered an Error
-                        setLoading(false);
+                        dispatch({ type: "loading", payload: false });
                         toast.error("An error occurred Please check your network and try again");
                     }
                 });
@@ -143,30 +141,30 @@ const AlertsPage = () => {
 
     const handleRefresh = () => {
         clearAdminAlerts();
-        setLoading(true);
+        dispatch({ type: "loading", payload: true });
         getAlerts()
             .then(response => {
                 toast.success(`Fetch complete`);
                 dispatch({ type: "setData", payload: response.data });
                 dispatch({ type: "paginate" });
                 saveAdminAlerts(response.data);
-                setLoading(false);
+                dispatch({ type: "loading", payload: false });
             })
             .catch(error => {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
                     toast.error("No items found");
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                     toast.error("An error occurred Please check your network and try again");
                 } else {
                     // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
+                    dispatch({ type: "loading", payload: false });
                     toast.error("An error occurred Please check your network and try again");
                 }
             });
@@ -191,7 +189,7 @@ const AlertsPage = () => {
                     headerHeight={50}
                     autoHeight
                     data={tableData}
-                    loading={loading}
+                    loading={state.loading}
                 >
                     <Column width={50} align="center">
                         <TableHeader>Id</TableHeader>
@@ -292,7 +290,7 @@ const AlertsPage = () => {
 
             <Container tw="md:hidden">
                 <Row>
-                    {loading ? (
+                    {state.loading ? (
                         <AnimateLoader />
                     ) : (
                         <>
