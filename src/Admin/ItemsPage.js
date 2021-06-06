@@ -14,6 +14,7 @@ import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedAdminItems, saveAdminItems, clearAdminItems } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
 import { filterData, paginateData } from "helpers";
+import { SearchBar } from "components";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -40,8 +41,6 @@ const Label = tw.label`leading-7 text-sm text-gray-600`;
 const Form = tw.form`mx-auto`;
 const Select = tw.select`block appearance-none w-full bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
-const ToggleButton = tw.span`absolute inset-y-0 right-0 px-5 flex items-center rounded-r-lg`;
-const SearchInput = tw(Input)`rounded-lg`
 
 const DetailsModal = styled(Modal)`
     width: 20rem;
@@ -262,36 +261,11 @@ const ItemsPage = () => {
             </Header>
 
             {state.filter && (
-                <Container tw="mb-5">
-                    <div tw="w-full">
-                        <div tw="relative">
-                            <SearchInput required
-                                type="search"
-                                placeholder="Search"
-                                onChange={(evt) => {
-                                    if (evt.target.value === "") {
-                                        dispatch({ type: "loading", payload: true });
-                                        dispatch({
-                                            type: "setData",
-                                            payload: getSavedAdminItems()
-                                        });
-                                        dispatch({ type: "paginate" })
-                                        dispatch({ type: "loading", payload: false });
-                                    } else {
-                                        dispatch({ type: "loading", payload: true });
-                                        dispatch({
-                                            type: "filter",
-                                            payload: evt.target.value
-                                        })
-                                    }
-                                }}
-                            />
-                            <ToggleButton>
-                                <FiSearch size={20} />
-                            </ToggleButton>
-                        </div>
-                    </div>
-                </Container>
+
+                <SearchBar
+                    dispatch={dispatch}
+                    resetItems={getSavedAdminItems}
+                />
             )}
 
             <Container tw="hidden md:block">
@@ -448,7 +422,6 @@ const ItemsPage = () => {
                                     default: {
                                         icon = <IdCardIcon />
                                     }
-
                                 }
 
                                 return (
@@ -474,7 +447,7 @@ const ItemsPage = () => {
                             <FormField tw="mt-8">
                                 <SearchButton onClick={() => handleRefresh()}>
                                     <FiLoader /> &nbsp; refresh
-                                    </SearchButton>
+                                </SearchButton>
                             </FormField>
 
                             <DetailsModal
