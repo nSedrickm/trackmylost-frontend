@@ -104,10 +104,8 @@ function reducer(state, action) {
                     }
                 });
                 if (flag) return values;
-                // return Object.values(value[1]).includes(filterStr)
                 return null;
-            })));
-            console.log(filtered)
+            })))
             return {
                 ...state,
                 tableData: filtered,
