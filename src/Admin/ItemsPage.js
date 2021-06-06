@@ -4,18 +4,18 @@ import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 import {
-    Header, HeaderItem, Heading, Description, Button, Container, Row, CreditCardIcon,
+    Container, Row, CreditCardIcon,
     DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
     CardButton, FormField, SearchButton, Form, Input, Label,
     SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
     TablePagination, DetailsModal, MobilePagination, Select, SelectToggle
 } from "components/General";
-import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit, FiSearch, FiX } from "react-icons/fi";
+import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "react-icons/fi";
 import { getItems } from "services/api.service";
 import { getSavedAdminItems, saveAdminItems, clearAdminItems } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
 import { filterData, paginateData } from "helpers";
-import { SearchBar } from "components";
+import { DashControlHeader } from "components";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -85,9 +85,8 @@ function reducer(state, action) {
 }
 
 const ItemsPage = () => {
-    const { handleRegisterItem, handleUpdateItem, handleDeleteItem, userData } = useAdminContext();
 
-    // const [loading, setLoading] = useState(false);
+    const { handleRegisterItem, handleUpdateItem, handleDeleteItem, userData } = useAdminContext();
 
     const [state, dispatch] = useReducer(reducer, {
         data: [],
@@ -182,43 +181,15 @@ const ItemsPage = () => {
 
     return (
         <AnimationRevealPage>
-            <Header>
-                <HeaderItem tw="text-center md:text-left mb-8 sm:mb-0">
-                    <Heading>Registered Items</Heading>
-                    <Description>All registered Items</Description>
-                </HeaderItem>
-                <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
-                    <Button onClick={() => dispatch({
-                        type: "addItem",
-                        payload: true
-                    })}
-                    >
-                        <FiPlusCircle size={16} /> &nbsp; add
-                    </Button>
-                    <Button onClick={() => handleRefresh()}>
-                        <FiLoader size={16} /> &nbsp; refresh
-                    </Button>
-                    <Button onClick={() => dispatch({
-                        type: "toggleFilter",
-                        payload: !state.filter
-                    })}
-                    >
-                        {state.filter ? (
-                            <><FiX size={16} /> &nbsp; close</>
-                        ) : (
-                            <><FiSearch size={16} /> &nbsp; search</>
-                        )}
-                    </Button>
-                </HeaderItem>
-            </Header>
 
-            {state.filter && (
-
-                <SearchBar
-                    dispatch={dispatch}
-                    resetItems={getSavedAdminItems}
-                />
-            )}
+            <DashControlHeader
+                heading="Registered Items"
+                description="All registered Items"
+                state={state}
+                dispatch={dispatch}
+                resetItems={getSavedAdminItems}
+                refreshFunc={handleRefresh}
+            />
 
             <Container tw="hidden md:block">
                 <DataTable

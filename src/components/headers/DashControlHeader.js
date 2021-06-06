@@ -1,4 +1,5 @@
 import React from "react";
+import tw from "twin.macro" //eslint-disable-line
 import PropTypes from "prop-types";
 import { FiLoader, FiPlusCircle, FiSearch, FiX } from "react-icons/fi";
 import { SearchBar } from "components";
