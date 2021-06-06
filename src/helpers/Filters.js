@@ -1,0 +1,18 @@
+
+
+export const filterData = (data, filterStr) => {
+    const filteredData = Object.values(Object.fromEntries(Object.entries(data).filter((value) => {
+        let values = Object.values(value[1])
+        let flag = false;
+        Object.values(values).forEach((val) => {
+            if (String(val).indexOf(filterStr) > -1) {
+                flag = true;
+                return;
+            }
+        });
+        if (flag) return values;
+        return null;
+    })))
+
+    return filteredData;
+}
