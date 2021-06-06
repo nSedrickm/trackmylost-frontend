@@ -8,9 +8,11 @@ import { FiArrowRight, FiLoader, FiPlusCircle, FiEdit, FiEye, FiEyeOff } from "r
 import { getUsers } from "services/admin.service";
 import { getSavedUsers, saveUsers, clearUsers } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
+import { filterData, paginateData } from "helpers";
+import { DashControlHeader } from "components";
 
 import {
-    Header, HeaderItem, Heading, Description, Button, Container, Row, CreditCardIcon,
+    Container, Row, CreditCardIcon,
     DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
     CardButton, FormField, SearchButton, Form, Input, Label, ToggleButton,
     SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
@@ -37,14 +39,24 @@ function reducer(state, action) {
                 page: action.payload
             };
         case 'paginate':
-            // setLoading(true)
-            // filter the data as array
             const start = state.displayLength * (state.page - 1);
             const end = start + state.displayLength;
-            let filteredData = Object.values(Object.fromEntries(Object.entries(state.data).filter((v, i) => i >= start && i < end)));
+            let filteredData = paginateData(state.data, start, end);
             return {
                 ...state,
                 tableData: filteredData
+            };
+        case 'filter':
+            let filtered = filterData(state.data, action.payload);
+            return {
+                ...state,
+                tableData: filtered,
+                loading: !state.loading
+            };
+        case 'toggleFilter':
+            return {
+                ...state,
+                filter: action.payload,
             };
         case 'showDetails':
             return {
@@ -62,6 +74,11 @@ function reducer(state, action) {
                 ...state,
                 editAgent: action.payload.editAgent,
                 agent: action.payload.agent
+            };
+        case 'loading':
+            return {
+                ...state,
+                loading: action.payload
             };
         default:
             throw new Error();
@@ -82,7 +99,9 @@ const AgentsPage = () => {
         modal: false,
         agent: {},
         addAgent: false,
-        editAgent: false
+        editAgent: false,
+        filter: false,
+        loading: false
     });
 
     const { data, tableData, displayLength, page } = state;
@@ -158,24 +177,14 @@ const AgentsPage = () => {
     return (
         <AnimationRevealPage>
 
-            <Header>
-                <HeaderItem tw="text-center md:text-left mb-8 sm:mb-0">
-                    <Heading>Registered Agents</Heading>
-                    <Description>All registered Agents</Description>
-                </HeaderItem>
-                <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
-                    <Button onClick={() => dispatch({
-                        type: "addAgent",
-                        payload: true
-                    })}
-                    >
-                        <FiPlusCircle size={16} /> &nbsp; add
-                        </Button>
-                    <Button onClick={() => handleRefresh()}>
-                        <FiLoader size={16} /> &nbsp; refresh
-                            </Button>
-                </HeaderItem>
-            </Header>
+            <DashControlHeader
+                heading="Registered Agents"
+                description="All registered agents"
+                state={state}
+                dispatch={dispatch}
+                resetItems={getSavedUsers}
+                refreshFunc={handleRefresh}
+            />
 
             <Container tw="hidden md:block">
                 <DataTable
