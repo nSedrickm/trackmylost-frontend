@@ -8,9 +8,11 @@ import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit } from "rea
 import { getAlerts } from "services/api.service";
 import { getSavedAdminAlerts, saveAdminAlerts, clearAdminAlerts } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
+import { filterData, paginateData } from "helpers";
+import { DashControlHeader } from "components";
 
 import {
-    Header, HeaderItem, Heading, Description, Button, Container, Row, CreditCardIcon,
+    Container, Row, CreditCardIcon,
     DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
     CardButton, FormField, SearchButton, Form, Input, Label,
     SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
@@ -36,14 +38,24 @@ function reducer(state, action) {
                 page: action.payload
             };
         case 'paginate':
-            // setLoading(true)
-            // filter the data as array
             const start = state.displayLength * (state.page - 1);
             const end = start + state.displayLength;
-            let filteredData = Object.values(Object.fromEntries(Object.entries(state.data).filter((v, i) => i >= start && i < end)));
+            let filteredData = paginateData(state.data, start, end);
             return {
                 ...state,
                 tableData: filteredData
+            };
+        case 'filter':
+            let filtered = filterData(state.data, action.payload);
+            return {
+                ...state,
+                tableData: filtered,
+                loading: !state.loading
+            };
+        case 'toggleFilter':
+            return {
+                ...state,
+                filter: action.payload,
             };
         case 'showDetails':
             return {
@@ -61,6 +73,11 @@ function reducer(state, action) {
                 ...state,
                 editAlert: action.payload.editAlert,
                 alert: action.payload.alert
+            };
+        case 'loading':
+            return {
+                ...state,
+                loading: action.payload
             };
         default:
             throw new Error();
@@ -80,7 +97,9 @@ const AlertsPage = () => {
         modal: false,
         alert: {},
         addAlert: false,
-        editAlert: false
+        editAlert: false,
+        filter: false,
+        loading: false
     });
 
     const { data, tableData, displayLength, page } = state;
@@ -156,24 +175,14 @@ const AlertsPage = () => {
     return (
         <AnimationRevealPage>
 
-            <Header>
-                <HeaderItem tw="text-center md:text-left mb-8 sm:mb-0">
-                    <Heading>Registered Alerts</Heading>
-                    <Description>All registered alerts</Description>
-                </HeaderItem>
-                <HeaderItem tw="space-x-2 sm:space-x-0 inline-flex">
-                    <Button onClick={() => dispatch({
-                        type: "addAlert",
-                        payload: true
-                    })}
-                    >
-                        <FiPlusCircle size={16} /> &nbsp; add
-                        </Button>
-                    <Button onClick={() => handleRefresh()}>
-                        <FiLoader size={16} /> &nbsp; refresh
-                            </Button>
-                </HeaderItem>
-            </Header>
+            <DashControlHeader
+                heading="Registered Alerts"
+                description="All registered alerts"
+                state={state}
+                dispatch={dispatch}
+                resetItems={getSavedAdminAlerts}
+                refreshFunc={handleRefresh}
+            />
 
             <Container tw="hidden md:block">
                 <DataTable
