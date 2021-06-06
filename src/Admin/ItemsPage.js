@@ -36,8 +36,6 @@ function reducer(state, action) {
                 page: action.payload
             };
         case 'paginate':
-            // setLoading(true)
-            // filter the data as array
             const start = state.displayLength * (state.page - 1);
             const end = start + state.displayLength;
             let filteredData = paginateData(state.data, start, end);
