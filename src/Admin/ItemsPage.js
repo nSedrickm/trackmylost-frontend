@@ -94,7 +94,19 @@ function reducer(state, action) {
             };
         case 'filter':
             let filterStr = action.payload;
-            let filtered = Object.values(Object.fromEntries(Object.entries(state.data).filter((value) => Object.values(value[1]).includes(filterStr))));
+            let filtered = Object.values(Object.fromEntries(Object.entries(state.data).filter((value) => {
+                let values = Object.values(value[1])
+                let flag = false;
+                Object.values(values).forEach((val) => {
+                    if (String(val).indexOf(filterStr) > -1) {
+                        flag = true;
+                        return;
+                    }
+                });
+                if (flag) return values;
+                // return Object.values(value[1]).includes(filterStr)
+                return null;
+            })));
             console.log(filtered)
             return {
                 ...state,
