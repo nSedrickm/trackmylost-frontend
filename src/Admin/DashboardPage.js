@@ -4,6 +4,7 @@ import AdminHeader from 'components/headers/AdminHeader';
 import ItemsPage from "Admin/ItemsPage";
 import AlertsPage from "Admin/AlertsPage";
 import AgentsPage from "Admin/AgentsPage";
+import SearchPage from "pages/SearchPage";
 import { Route, Switch } from "react-router-dom";
 import { useAdminContext } from "Admin/AdminContext";
 
@@ -31,6 +32,10 @@ const DashboardPage = () => {
 
                     <Route exact path="/admin/dashboard/agents">
                         <AgentsPage />
+                    </Route>
+
+                    <Route exact path="/admin/dashboard/search">
+                        <SearchPage />
                     </Route>
                 </Switch>
             </AnimationRevealPage>
