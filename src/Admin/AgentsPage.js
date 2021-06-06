@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
+import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';

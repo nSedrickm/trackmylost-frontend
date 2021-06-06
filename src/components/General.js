@@ -1,7 +1,9 @@
 import tw from "twin.macro";
+import styled from "styled-components";
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
+import { Table, Pagination as DefaultPagination, Modal } from 'rsuite';
 
 export const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 export const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -28,3 +30,26 @@ export const Label = tw.label`leading-7 text-sm text-gray-600`;
 export const Form = tw.form`mx-auto`;
 export const Select = tw.select`block appearance-none w-full bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 export const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
+export const ItemDetails = tw.p`text-base font-medium`;
+
+export const DetailsModal = styled(Modal)`
+    width: 20rem;
+    top: 10%;
+`;
+
+export const { Column, HeaderCell, Cell, Pagination } = Table;
+export const DataTable = styled(Table)`
+    .rs-table-cell-header .rs-table-cell-content {
+        ${tw`text-sm bg-primary-500 hocus:bg-primary-700`}
+    }
+`;
+export const TableHeader = tw(HeaderCell)`text-white font-medium`;
+export const TableCell = tw(Cell)``;
+export const TablePagination = styled(Pagination)`
+    ${tw`p-2`}
+    .rs-picker-toggle-value {
+        ${tw`text-primary-500!`}
+    }
+`;
+export const TableAction = tw.span`cursor-pointer`;
+export const MobilePagination = tw(DefaultPagination)``;

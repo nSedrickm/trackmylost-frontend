@@ -1,44 +1,21 @@
 import React, { useEffect, useReducer } from "react";
-import tw from "twin.macro";
-import styled from "styled-components";
+import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 import {
     Header, HeaderItem, Heading, Description, Button, Container, Row, CreditCardIcon,
     DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
-    CardButton, FormField, SearchButton, Form, Input, Label, Select, SelectToggle, SubmitButton
+    CardButton, FormField, SearchButton, Form, Input, Label,
+    SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
+    TablePagination, DetailsModal, MobilePagination, Select, SelectToggle
 } from "components/General";
 import { FiArrowRight, FiLoader, FiPlusCircle, FiChevronDown, FiEdit, FiSearch, FiX } from "react-icons/fi";
 import { getItems } from "services/api.service";
-import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedAdminItems, saveAdminItems, clearAdminItems } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
 import { filterData, paginateData } from "helpers";
 import { SearchBar } from "components";
-
-
-const DetailsModal = styled(Modal)`
-    width: 20rem;
-    top: 10%;
-`;
-const ItemDetails = tw.p`text-base font-medium`;
-
-const { Column, HeaderCell, Cell, Pagination } = Table;
-const DataTable = styled(Table)`
-    .rs-table-cell-header .rs-table-cell-content {
-        ${tw`text-sm bg-primary-500 hocus:bg-primary-700`}
-    }
-`;
-const TableHeader = tw(HeaderCell)`text-white font-medium`;
-const TableCell = tw(Cell)``;
-const TablePagination = styled(Pagination)`
-    ${tw`p-2`}
-    .rs-picker-toggle-value {
-        ${tw`text-primary-500!`}
-    }
-`;
-const TableAction = tw.span`cursor-pointer`;
 
 function reducer(state, action) {
     switch (action.type) {
@@ -205,7 +182,6 @@ const ItemsPage = () => {
 
     return (
         <AnimationRevealPage>
-
             <Header>
                 <HeaderItem tw="text-center md:text-left mb-8 sm:mb-0">
                     <Heading>Registered Items</Heading>
@@ -437,10 +413,10 @@ const ItemsPage = () => {
                                     }
                                 })}
                             >
-                                <Modal.Header>
-                                    <Modal.Title>Document details</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
+                                <DetailsModal.Header>
+                                    <DetailsModal.Title>Document details</DetailsModal.Title>
+                                </DetailsModal.Header>
+                                <DetailsModal.Body>
                                     <ItemDetails>Name: {state.item.first_name} &nbsp; {state.item.other_names}</ItemDetails>
                                     <ItemDetails>Type: {state.item.document_type}</ItemDetails>
                                     <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
@@ -465,9 +441,9 @@ const ItemsPage = () => {
                                             Remove
                                              </TableAction>
                                     </div>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                </Modal.Footer>
+                                </DetailsModal.Body>
+                                <DetailsModal.Footer>
+                                </DetailsModal.Footer>
                             </DetailsModal>
 
 
@@ -491,10 +467,10 @@ const ItemsPage = () => {
                                     }
                                 }}
                             >
-                                <Modal.Header>
-                                    <Modal.Title>{state.editItem ? "Edit Item" : "Add Item"}</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
+                                <DetailsModal.Header>
+                                    <DetailsModal.Title>{state.editItem ? "Edit Item" : "Add Item"}</DetailsModal.Title>
+                                </DetailsModal.Header>
+                                <DetailsModal.Body>
                                     <Form onSubmit={(evt) => {
                                         if (state.editItem) {
                                             handleUpdateItem(evt);
@@ -591,9 +567,9 @@ const ItemsPage = () => {
                                             )}
                                         </div>
                                     </Form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                </Modal.Footer>
+                                </DetailsModal.Body>
+                                <DetailsModal.Footer>
+                                </DetailsModal.Footer>
                             </DetailsModal>
 
                         </>
