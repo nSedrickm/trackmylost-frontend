@@ -1,43 +1,21 @@
 import React, { useState, useEffect, useReducer } from "react";
-import tw from "twin.macro";
-import styled from "styled-components";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
 import { FiArrowRight, FiLoader, FiPlusCircle, FiEdit, FiEye, FiEyeOff } from "react-icons/fi";
 import { getUsers } from "services/admin.service";
-import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedUsers, saveUsers, clearUsers } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
 
 import {
     Header, HeaderItem, Heading, Description, Button, Container, Row, CreditCardIcon,
     DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
-    CardButton, FormField, SearchButton, Form, Input, Label, ToggleButton, SubmitButton
+    CardButton, FormField, SearchButton, Form, Input, Label, ToggleButton,
+    SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
+    TablePagination, DetailsModal, MobilePagination
 } from "components/General";
 
-const DetailsModal = styled(Modal)`
-    width: 20rem;
-    top: 10%;
-`;
-const ItemDetails = tw.p`text-base font-medium`;
-
-const { Column, HeaderCell, Cell, Pagination } = Table;
-const DataTable = styled(Table)`
-    .rs-table-cell-header .rs-table-cell-content {
-        ${tw`text-sm bg-primary-500 hocus:bg-primary-700`}
-    }
-`;
-const TableHeader = tw(HeaderCell)`text-white font-medium`;
-const TableCell = tw(Cell)``;
-const TablePagination = styled(Pagination)`
-    ${tw`p-2`}
-    .rs-picker-toggle-value {
-        ${tw`text-primary-500!`}
-    }
-`;
-const TableAction = tw.span`cursor-pointer`;
 
 function reducer(state, action) {
     switch (action.type) {
@@ -386,10 +364,10 @@ const AgentsPage = () => {
                                     }
                                 })}
                             >
-                                <Modal.Header>
-                                    <Modal.Title>Agent details</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
+                                <DetailsModal.Header>
+                                    <DetailsModal.Title>Agent details</DetailsModal.Title>
+                                </DetailsModal.Header>
+                                <DetailsModal.Body>
                                     <ItemDetails>Name: {state.agent.first_name} &nbsp; {state.agent.other_names}</ItemDetails>
                                     <ItemDetails>Created: {new Date(state.agent.created_at).toLocaleString()}</ItemDetails>
                                     <ItemDetails>Updated: {new Date(state.agent.updated_at).toLocaleString()}</ItemDetails>
@@ -414,9 +392,9 @@ const AgentsPage = () => {
                                             Remove
                                         </TableAction>
                                     </div>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                </Modal.Footer>
+                                </DetailsModal.Body>
+                                <DetailsModal.Footer>
+                                </DetailsModal.Footer>
                             </DetailsModal>
 
 
@@ -440,10 +418,10 @@ const AgentsPage = () => {
                                     }
                                 }}
                             >
-                                <Modal.Header>
-                                    <Modal.Title>{state.editAgent ? "Edit Agent" : "Add Agent"}</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
+                                <DetailsModal.Header>
+                                    <DetailsModal.Title>{state.editAgent ? "Edit Agent" : "Add Agent"}</DetailsModal.Title>
+                                </DetailsModal.Header>
+                                <DetailsModal.Body>
                                     <Form onSubmit={(evt) => {
                                         if (state.editAgent) {
                                             handleUpdateAgent(evt);
@@ -551,9 +529,9 @@ const AgentsPage = () => {
                                             )}
                                         </div>
                                     </Form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                </Modal.Footer>
+                                </DetailsModal.Body>
+                                <DetailsModal.Footer>
+                                </DetailsModal.Footer>
                             </DetailsModal>
 
                         </>
