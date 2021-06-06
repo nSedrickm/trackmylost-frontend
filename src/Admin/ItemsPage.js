@@ -13,7 +13,7 @@ import { getItems } from "services/api.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedAdminItems, saveAdminItems, clearAdminItems } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
-import { filterData } from "helpers";
+import { filterData, paginateData } from "helpers";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -88,7 +88,7 @@ function reducer(state, action) {
             // filter the data as array
             const start = state.displayLength * (state.page - 1);
             const end = start + state.displayLength;
-            let filteredData = Object.values(Object.fromEntries(Object.entries(state.data).filter((v, i) => i >= start && i < end)));
+            let filteredData = paginateData(state.data, start, end);
             return {
                 ...state,
                 tableData: filteredData
