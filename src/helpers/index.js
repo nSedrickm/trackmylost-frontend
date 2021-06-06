@@ -1,3 +1,3 @@
-import { filterData } from "helpers/Filters";
+import { filterData, paginateData } from "helpers/Filters";
 
-export { filterData }
+export { filterData, paginateData }

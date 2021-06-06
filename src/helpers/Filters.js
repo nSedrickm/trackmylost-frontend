@@ -1,7 +1,7 @@
 
 
 export const filterData = (data, filterStr) => {
-    const filteredData = Object.values(Object.fromEntries(Object.entries(data).filter((value) => {
+    let filteredData = Object.values(Object.fromEntries(Object.entries(data).filter((value) => {
         let values = Object.values(value[1])
         let flag = false;
         Object.values(values).forEach((val) => {
@@ -13,6 +13,10 @@ export const filterData = (data, filterStr) => {
         if (flag) return values;
         return null;
     })))
+    return filteredData;
+}
 
+export const paginateData = (data, start, end) => {
+    let filteredData = Object.values(Object.fromEntries(Object.entries(data).filter((v, i) => i >= start && i < end)));
     return filteredData;
 }
