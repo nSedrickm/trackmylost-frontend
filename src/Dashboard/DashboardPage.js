@@ -2,6 +2,7 @@ import React from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import DashHeader from 'components/headers/DashHeader';
 import ItemsPage from "Dashboard/ItemsPage";
+import SearchPage from "pages/SearchPage";
 import { Route, Switch } from "react-router-dom";
 import { useDashContext } from "Dashboard/DashboardContext";
 
@@ -21,6 +22,10 @@ const DashboardPage = () => {
 
                     <Route exact path="/agent/dashboard/items">
                         <ItemsPage />
+                    </Route>
+
+                    <Route exact path="/agent/dashboard/search">
+                        <SearchPage />
                     </Route>
                 </Switch>
             </AnimationRevealPage>
