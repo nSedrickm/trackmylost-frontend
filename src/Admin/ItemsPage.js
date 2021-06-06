@@ -13,6 +13,7 @@ import { getItems } from "services/api.service";
 import { Table, Pagination as MobilePagination, Modal } from 'rsuite';
 import { getSavedAdminItems, saveAdminItems, clearAdminItems } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
+import { filterData } from "helpers";
 
 const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -93,19 +94,7 @@ function reducer(state, action) {
                 tableData: filteredData
             };
         case 'filter':
-            let filterStr = action.payload;
-            let filtered = Object.values(Object.fromEntries(Object.entries(state.data).filter((value) => {
-                let values = Object.values(value[1])
-                let flag = false;
-                Object.values(values).forEach((val) => {
-                    if (String(val).indexOf(filterStr) > -1) {
-                        flag = true;
-                        return;
-                    }
-                });
-                if (flag) return values;
-                return null;
-            })))
+            let filtered = filterData(state.data, action.payload);
             return {
                 ...state,
                 tableData: filtered,
