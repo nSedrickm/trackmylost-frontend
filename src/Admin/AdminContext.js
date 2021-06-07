@@ -152,6 +152,7 @@ const AdminProvider = () => {
                 clearAdminItems();
                 clearAdminAlerts();
                 clearUsers();
+                //set timeout so the state gets properly cleared
                 setTimeout(() => { window.location.replace("/admin/login") }, 1000)
             })
             .catch(error => {
