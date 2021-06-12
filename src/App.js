@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 
 import ScrollToTop from "helpers/ScrollToTop";
-import AnimationRevealPage from "helpers/AnimationRevealPage";
 import Header from "components/headers/Header";
 import Footer from "components/footers/Footer";
 import HomePage from "pages/HomePage";

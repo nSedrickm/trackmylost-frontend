@@ -1,5 +1,4 @@
 import React from "react";
-import AnimationRevealPage from "helpers/AnimationRevealPage";
 import DashHeader from 'components/headers/DashHeader';
 import ItemsPage from "Dashboard/ItemsPage";
 import SearchPage from "pages/SearchPage";
@@ -14,7 +13,6 @@ const DashboardPage = () => {
     return (
         <>
             <DashHeader />
-            <AnimationRevealPage>
                 <Switch>
                     <Route exact path="/agent/dashboard">
                         <ItemsPage />
@@ -28,7 +26,6 @@ const DashboardPage = () => {
                         <SearchPage />
                     </Route>
                 </Switch>
-            </AnimationRevealPage>
         </>
     )
 }

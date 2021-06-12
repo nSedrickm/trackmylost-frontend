@@ -37,7 +37,7 @@ const CustomerCompany = tw.p`mt-1 text-sm`
 
 
 const HomePage = ({
-    heading = "You lose , We care",
+    heading = "You lose, We care",
     description = "We have put smiles on Faces! TrackMyLost reunites you with your lost documents ",
     imageSrc = headerImg,
     imageDecoratorBlob = true,
