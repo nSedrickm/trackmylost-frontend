@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { BsCreditCard } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
-import { Table, Pagination as DefaultPagination, Modal } from 'rsuite';
+import { Table, Pagination as DefaultPagination, Modal, Drawer } from 'rsuite';
+import { Link } from "react-router-dom";
 
 export const Heading = tw.h1`sm:text-3xl text-2xl font-black md:mb-2 text-primary-500`;
 export const Description = tw.p`mx-auto leading-relaxed text-base`;
@@ -54,3 +55,28 @@ export const TablePagination = styled(Pagination)`
 `;
 export const TableAction = tw.span`cursor-pointer`;
 export const MobilePagination = tw(DefaultPagination)``;
+
+// Navs
+export const MainHeader = tw.header`flex justify-between items-center max-w-none mx-auto bg-primary-500 shadow-lg`;
+export const NavContainer = tw.div`inline-flex`;
+export const NavDrawer = styled(Drawer)`
+.rs-drawer-content {
+  ${tw`bg-primary-500 left-10`}
+}
+.rs-drawer-header .rs-drawer-title, .rs-drawer-header-close {
+  ${tw`text-white right-10`}
+}
+`;
+export const NavButton = tw.button`h-20 inline-flex items-center transition duration-300 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium px-6 py-3 no-underline  appearance-none`;
+export const NavLink = tw(Link)`
+    h-20 flex items-center transition duration-300 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium px-6 py-3 no-underline hocus:no-underline  appearance-none
+`;
+export const MobileNavLink = tw(Link)`
+    h-20 flex items-center transition duration-300 hocus:bg-primary-700 hocus:outline-none text-white hocus:text-white font-medium px-6 py-3 no-underline hocus:no-underline appearance-none
+`;
+export const Logo = tw.img`h-20 py-2 px-4 bg-white`;
+export const DesktopNav = tw.nav`hidden lg:flex flex-1 justify-between items-center`;
+export const MobileNav = tw.nav`lg:hidden flex flex-1 items-center justify-between`;
+export const MobileNavButton = tw.button`h-20 w-full flex items-center transition duration-300 bg-primary-500 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium px-6 py-3 no-underline appearance-none`;
+export const NavToggle = tw(NavButton)`lg:hidden z-50 focus:outline-none focus:bg-primary-500 hocus:text-white transition duration-300`;
+export const DrawerContainer = tw.div`mt-6 bg-primary-500 -mb-48`;
