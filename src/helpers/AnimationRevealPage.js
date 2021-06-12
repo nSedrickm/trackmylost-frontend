@@ -1,12 +1,21 @@
 import React from "react";
 import tw from "twin.macro";
+import styled from "styled-components";
+import pattern from "images/patternpad2.svg"
 
 /* framer-motion and useInView here are used to animate the sections in when we reach them in the viewport
  */
 import { motion } from "framer-motion";
 import useInView from "@owaiswiz/use-in-view";
 
-const StyledDiv = tw.div`font-display min-h-screen text-secondary-500 p-5 overflow-hidden`;
+const StyledDiv = styled.div`
+  ${tw`font-display min-h-screen text-secondary-500 p-10 overflow-hidden bg-opacity-5`}
+  background-image: url(${pattern});
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+`;
+
 function AnimationReveal({ disabled, children }) {
   if (disabled) {
     return <>{children}</>;
