@@ -62,7 +62,7 @@ const Header = () => {
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="report-item" to="/report-item"><FiFilePlus size={16} /> &nbsp; Report Item</MobileNavLink>
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="alert-me" to="/alert-me"><FiBell size={16} /> &nbsp; Alert Me</MobileNavLink>
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="contact" to="/contact"><FiMail size={16} /> &nbsp; Contact Us</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="login" to="/agent/login"><FiLogIn size={16} /> &nbsp; login</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="login" to="/agent/login"><FiLogIn size={16} /> &nbsp; Login</MobileNavLink>
       <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="sign-up" to="/agent/sign-up"><FiUserPlus size={16} /> &nbsp; Sign Up</MobileNavLink>
     </React.Fragment>
   ];
