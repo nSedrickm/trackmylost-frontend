@@ -14,7 +14,7 @@ import headerImg from "images/women.jpg";
 const Row = tw.div`flex flex-col lg:flex-row justify-between items-center lg:pt-8 max-w-screen-2xl mx-auto sm:px-8`;
 const Column = tw.div``;
 const TextColumn = tw(Column)`mr-auto lg:mr-0 max-w-lg lg:max-w-xl xl:max-w-2xl`;
-const Heading = tw(SectionHeading)`text-left text-primary-500 leading-snug xl:text-5xl mb-6 font-black`;
+const Heading = tw(SectionHeading)`text-left text-primary-500 leading-snug text-2.5xl xl:text-5xl mb-6 font-black`;
 const Description = tw(SectionDescription)`lg:text-base text-gray-700 max-w-lg`;
 const FeatureList = tw.ul`leading-loose`;
 const Feature = tw.li`flex items-center`;
