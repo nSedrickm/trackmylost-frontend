@@ -1,28 +1,18 @@
 import React, { useState } from "react";
 import tw from "twin.macro";
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiFileText, FiSearch } from "react-icons/fi";
+import { FiSearch, FiArrowRight } from "react-icons/fi";
 import { searchItem } from "services/api.service";
-import { Loader } from "rsuite";
+import {
+    Container, Row, CreditCardIcon,
+    DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
+    CardButton, FormField, SearchButton, Form, Input, SearchHeader, Heading, Description, Section
+} from "components/General";
 
 import toast from 'react-hot-toast';
+import AnimateLoader from "components/Loaders/AnimateLoader";
 
-const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
-const Heading = tw.h1`sm:text-4xl text-2xl font-black  mb-4 text-primary-500`;
-const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl`;
-const Form = tw.form`mx-auto md:p-8 rounded-2xl`;
-const LoadingContainer = tw.div`h-screen text-center`;
-const Description = tw.p`lg:w-2/3 mx-auto leading-relaxed text-base`;
-const Header = tw.header`flex flex-col text-center w-full mb-4`;
-const Container = tw.div`container py-12 md:py-40  mx-auto`;
-const Row = tw.div`lg:w-1/2 md:w-2/3 mx-auto`;
-const FormField = tw.div`p-2 w-full mb-4`;
-const Section = tw.section`text-gray-600 relative`;
-const CardIcon = tw(FiFileText)`text-primary-500 object-cover object-center w-12 h-12 sm:w-14 sm:h-14 mr-4`;
-const Card = tw.div`mt-8 h-full flex items-center border-gray-200 border p-4 shadow-md rounded-lg`;
-const CardBody = tw.div`flex-grow`;
-const CardTitle = tw.span`text-gray-900 font-medium`;
-const CardInfo = tw.p`text-gray-500`;
+// const SearchButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 
 const SearchPage = () => {
 
@@ -68,36 +58,67 @@ const SearchPage = () => {
 
     if (loading) {
         return (
-            <LoadingContainer>
-                <Loader backdrop size="md" content="processing please wait" vertical />
-            </LoadingContainer>
+            <AnimateLoader />
         );
     }
 
     if (data.length) {
         return (
             <AnimationRevealPage>
-                <Container>
-                    <Header>
-                        <Heading>Search results</Heading>
+                <Container tw="mt-12">
+                    <SearchHeader>
+                        <Heading>We found {data.length} item(s)</Heading>
                         <Description>We currently have these items</Description>
-                    </Header>
 
-                    <Row>
-                        {data.map((item) => (
-                            <Card key={item.id}>
-                                <CardIcon />
-                                <CardBody>
-                                    <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
-                                    <CardInfo>{item.document_type}</CardInfo>
-                                </CardBody>
-                            </Card>
-                        ))}
-                        <FormField tw="mt-8">
-                            <SearchButton onClick={() => window.location.reload()}>
-                                <FiSearch /> &nbsp; search
+
+                        <FormField tw="mt-4">
+                            <SearchButton 
+                            tw="px-4 py-2"
+                            onClick={() => window.location.reload()}>
+                                <FiSearch /> &nbsp; search again
                             </SearchButton>
                         </FormField>
+                    </SearchHeader>
+
+                    <Row>
+                        {data.map((item) => {
+                            let icon
+                            switch (item.document_type) {
+                                case "credit-card":
+                                    icon = <CreditCardIcon />
+                                    break;
+                                case "driver-license":
+                                    icon = <DriverLicenseIcon />
+                                    break;
+                                case "passport":
+                                    icon = <PassportIcon />
+                                    break
+                                default: {
+                                    icon = <IdCardIcon />
+                                }
+
+                            }
+
+                            return (
+                                <Card key={item.id}>
+                                    {icon}
+                                    <CardItem>
+                                        <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
+                                        <CardInfo>{item.document_type}</CardInfo>
+                                        <CardButton
+                                        // onClick={() => dispatch({
+                                        //     type: "showDetails",
+                                        //     payload: {
+                                        //         modal: true,
+                                        //         item: item
+                                        //     }
+                                        // })}
+                                        >
+                                            Details &nbsp; <FiArrowRight size={16} />
+                                        </CardButton>
+                                    </CardItem>
+                                </Card>)
+                        })}
                     </Row>
                 </Container>
             </AnimationRevealPage>
@@ -106,11 +127,11 @@ const SearchPage = () => {
     return (
         <AnimationRevealPage>
             <Section>
-                <Container>
-                    <Header>
+                <Container tw="mt-12">
+                    <SearchHeader>
                         <Heading>Search for missing documents</Heading>
                         <Description>We have put smiles on Faces! TrackMyLost reunites you with your lost documents</Description>
-                    </Header>
+                    </SearchHeader>
                     <Row>
                         <Form onSubmit={(evt) => handleSubmit(evt)}>
                             <div tw="flex flex-wrap -m-2">

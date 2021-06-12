@@ -31,7 +31,8 @@ export const Form = tw.form`mx-auto`;
 export const Select = tw.select`block appearance-none w-full bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 export const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
 export const ItemDetails = tw.p`text-base font-medium`;
-
+export const Section = tw.section`text-gray-600 relative`;
+export const SearchHeader = tw.header`flex flex-col text-center w-full mb-4`;
 export const DetailsModal = styled(Modal)`
     width: 20rem;
     top: 10%;
