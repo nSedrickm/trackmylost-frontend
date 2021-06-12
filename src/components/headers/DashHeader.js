@@ -28,7 +28,7 @@ const MobileNavLink = tw(Link)`
 const Logo = tw.img`h-20 py-2 px-4 bg-white`;
 const DesktopNav = tw.nav`hidden lg:flex flex-1 justify-between items-center`;
 const MobileNav = tw.nav`lg:hidden flex flex-1 items-center justify-between`;
-const MobileNavButton = tw.button`h-20 w-full flex items-center transition duration-300 bg-primary-500 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium px-6 py-3 no-underline appearance-none mb-4 `;
+const MobileNavButton = tw.button`h-20 w-full flex items-center transition duration-300 bg-primary-500 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium px-6 py-3 no-underline appearance-none`;
 const NavToggle = tw(NavButton)`lg:hidden z-50 focus:outline-none focus:bg-primary-500 hocus:text-white transition duration-300`;
 const DrawerContainer = tw.div`mt-6 bg-primary-500 -mb-48`;
 
