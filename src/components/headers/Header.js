@@ -10,12 +10,11 @@ import { Drawer } from "rsuite";
 const MainHeader = tw.header`flex justify-between items-center max-w-none mx-auto bg-primary-500 shadow-lg`;
 const NavContainer = tw.div`inline-flex`;
 const NavDrawer = styled(Drawer)`
-
 .rs-drawer-content {
-  ${tw`bg-primary-500`}
+  ${tw`bg-primary-500 left-10`}
 }
 .rs-drawer-header .rs-drawer-title, .rs-drawer-header-close {
-  ${tw`text-white`}
+  ${tw`text-white right-10`}
 }
 `;
 const NavButton = tw.button`h-20 inline-flex items-center transition duration-300 hocus:bg-primary-700 hocus:outline-none hocus:text-white text-white font-medium px-6 py-3 no-underline  appearance-none`;
@@ -85,6 +84,7 @@ const Header = () => {
         </NavToggle>
         <NavDrawer
           full
+          size="xs"
           backdrop={true}
           show={drawer}
           onHide={() => showDrawer(!drawer)}
