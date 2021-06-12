@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
+import { Link } from "react-router-dom";
 import { SectionHeading } from "components/misc/Headings.js";
 import { SectionDescription } from "components/misc/Typography.js";
 import { Container, ContentWithVerticalPadding } from "components/misc/Layouts.js";
@@ -16,8 +17,9 @@ const Column = tw.div``;
 const TextColumn = tw(Column)`mr-auto lg:mr-0 max-w-lg lg:max-w-xl xl:max-w-2xl`;
 const Heading = tw(SectionHeading)`text-left text-primary-500 leading-snug text-2.5xl xl:text-5xl mb-6 font-black`;
 const Description = tw(SectionDescription)`lg:text-base text-gray-700 max-w-lg`;
-const FeatureList = tw.ul`leading-loose`;
-const Feature = tw.li`flex items-center`;
+const FeatureList = tw.div`leading-loose`;
+const Feature = tw.p`flex items-center p-4 border border-gray-100 mb-4 rounded-lg shadow-sm md:w-2/3`;
+const LinkFeature = tw(Link)`flex items-center p-4 bg-primary-100 mb-4 rounded-lg shadow md:w-2/3 hocus:no-underline`;
 const FeatureIcon = tw(CheckboxIcon)`w-5 h-5 text-primary-500`;
 const FeatureText = tw.p`ml-2 font-medium text-gray-700`;
 const ImageColumn = tw(Column)`ml-auto lg:mr-0 relative mt-16 lg:mt-0 lg:ml-32`;
@@ -57,23 +59,24 @@ const HomePage = ({
                                 <Description>{description}</Description>
                                 <br />
                                 <FeatureList>
-                                    <Feature key="1">
+                                    <LinkFeature to="/search" key="1">
                                         <FiSearch tw="w-5 h-5 text-primary-500" />
-                                        <FeatureText>Lost something? <a tw="text-primary-500" href="/search">search now</a></FeatureText>
-                                    </Feature>
+                                        <FeatureText>Lost something? <span tw="text-primary-500">search now</span></FeatureText>
+                                    </LinkFeature>
 
-                                    <Feature key="2">
+                                    <LinkFeature to="/report-item" key="2">
                                         <FiCrosshair tw="w-5 h-5 text-primary-500" />
-                                        <FeatureText>Found something? <a tw="text-primary-500" href="/report-item">register</a></FeatureText>
-                                    </Feature>
+                                        <FeatureText>Found something? <span tw="text-primary-500">register it</span></FeatureText>
+                                    </LinkFeature>
 
-                                    <Feature key="3">
+                                    <LinkFeature to="/alert-me" key="3">
                                         <FiBell tw="w-5 h-5 text-primary-500" />
-                                        <FeatureText>Wish to get notified ? <a tw="text-primary-500" href="/alert-me">set alert</a></FeatureText>
-                                    </Feature>
+                                        <FeatureText>Wish to get notified ? <span tw="text-primary-500">set alert</span></FeatureText>
+                                    </LinkFeature>
                                 </FeatureList>
                                 <br />
                                 <Description tw="mb-2">We support the following items</Description>
+                                <br />
                                 <FeatureList>
                                     {features.map((feature, index) => (
                                         <Feature key={index}>
