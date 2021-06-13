@@ -7,7 +7,7 @@ import { FiFacebook as FacebookIcon, FiTwitter as TwitterIcon, FiYoutube as Yout
 
 
 const Container = tw(ContainerBase)`bg-primary-500 text-gray-100`
-const Content = tw.div`max-w-screen-xl mx-auto py-10`;
+const Content = tw.div`mx-auto py-10`;
 
 const Row = tw.div`flex items-center justify-center flex-col px-8 py-8`
 

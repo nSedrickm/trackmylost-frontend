@@ -57,7 +57,7 @@ export const TableAction = tw.span`cursor-pointer`;
 export const MobilePagination = tw(DefaultPagination)``;
 
 // Navs
-export const MainHeader = tw.header`flex justify-between items-center max-w-none mx-auto bg-primary-500 shadow-lg`;
+export const MainHeader = tw.header`flex-1 justify-between items-center mx-auto bg-primary-500 shadow-lg fixed z-50 inset-x-0`;
 export const NavContainer = tw.div`inline-flex`;
 export const NavDrawer = styled(Drawer)`
 .rs-drawer-content {

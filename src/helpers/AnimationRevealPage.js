@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import useInView from "@owaiswiz/use-in-view";
 
 const StyledDiv = styled.div`
-  ${tw`font-display min-h-screen text-secondary-500 p-10 overflow-hidden bg-opacity-5`}
+  ${tw`font-display min-h-screen text-secondary-500 px-10 pt-24 overflow-hidden`}
   background-image: url(${pattern});
   background-size: cover;
   background-position: top center;
