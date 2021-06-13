@@ -1,5 +1,6 @@
 import React from "react";
 import AdminHeader from 'components/headers/AdminHeader';
+import DashFooter from "components/footers/DashFooter";
 import ItemsPage from "Admin/ItemsPage";
 import AlertsPage from "Admin/AlertsPage";
 import AgentsPage from "Admin/AgentsPage";
@@ -15,27 +16,28 @@ const DashboardPage = () => {
     return (
         <>
             <AdminHeader />
-                <Switch>
-                    <Route exact path="/admin/dashboard">
-                        <ItemsPage />
-                    </Route>
+            <Switch>
+                <Route exact path="/admin/dashboard">
+                    <ItemsPage />
+                </Route>
 
-                    <Route exact path="/admin/dashboard/items">
-                        <ItemsPage />
-                    </Route>
+                <Route exact path="/admin/dashboard/items">
+                    <ItemsPage />
+                </Route>
 
-                    <Route exact path="/admin/dashboard/alerts">
-                        <AlertsPage />
-                    </Route>
+                <Route exact path="/admin/dashboard/alerts">
+                    <AlertsPage />
+                </Route>
 
-                    <Route exact path="/admin/dashboard/agents">
-                        <AgentsPage />
-                    </Route>
+                <Route exact path="/admin/dashboard/agents">
+                    <AgentsPage />
+                </Route>
 
-                    <Route exact path="/admin/dashboard/search">
-                        <SearchPage />
-                    </Route>
-                </Switch>
+                <Route exact path="/admin/dashboard/search">
+                    <SearchPage />
+                </Route>
+            </Switch>
+            <DashFooter />
         </>
     )
 }
