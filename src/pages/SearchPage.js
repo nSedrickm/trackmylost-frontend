@@ -185,7 +185,7 @@ const SearchPage = () => {
             <AnimationRevealPage>
                 <Container tw="mt-12 md:my-12">
                     <SearchHeader>
-                        <Heading>We found {data?.length} item(s)</Heading>
+                        <Heading>We found "{data?.length}" item(s)</Heading>
                         <Description>We currently have these items</Description>
 
 
