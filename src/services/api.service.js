@@ -25,6 +25,15 @@ export const searchItem = ({ name }) => {
         }).then(response => response)
 }
 
+export const getRecentItems = () => {
+    return axios.get("/api/items",
+        {
+            params: {
+                recent: ""
+            }
+        }).then(response => response)
+}
+
 export const getItems = () => {
     return axios.get("/api/items").then(response => response)
 }
