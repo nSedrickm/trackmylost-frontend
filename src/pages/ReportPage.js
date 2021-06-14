@@ -19,7 +19,7 @@ const Description = tw.p`mb-4 lg:text-2xl text-gray-700 font-medium`;
 const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
 const LoadingContainer = tw.div`h-screen text-center`;
-
+const Heading = tw.h2`text-3xl sm:text-5xl text-primary-500 font-black tracking-wide text-center mb-4`;
 
 const ReportPage = () => {
 
@@ -39,28 +39,18 @@ const ReportPage = () => {
         setLoading(true);
         registerItem(formData)
             .then(response => {
-                console.log(response);
                 toast.success(`Item ${formData.document_type} registered`);
                 setLoading(false);
             })
             .catch(error => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
-
                 }
+                setLoading(false);
             });
     }
 
@@ -76,7 +66,7 @@ const ReportPage = () => {
                 <section tw="text-gray-600 relative">
                     <div tw="container py-12 mx-auto">
                         <div tw="flex flex-col text-center w-full mb-12">
-                            <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Found a lost document?</h1>
+                            <Heading>Found a lost document?</Heading>
                             <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">Register it below</p>
                         </div>
 

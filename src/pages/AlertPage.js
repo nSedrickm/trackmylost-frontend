@@ -12,7 +12,7 @@ const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gr
 const Label = tw.label`leading-7 text-xs text-gray-600 uppercase tracking-wide font-medium block mb-2`;
 const Row = tw.div`flex flex-wrap -m-4 md:px-24`;
 const Form = tw.form`mx-auto md:w-1/2 md:my-24 md:border border-primary-500 md:p-8 rounded-2xl bg-white`;
-const SubHeading = tw.h2`sm:text-3xl text-2xl font-bold mb-4 text-primary-500`;
+// const SubHeading = tw.h2`sm:text-3xl text-2xl font-bold mb-4 text-primary-500`;
 const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
 const LoadingContainer = tw.div`h-screen text-center`;
@@ -35,28 +35,18 @@ const AlertPage = () => {
         setLoading(true);
         setAlert(formData)
             .then(response => {
-                console.log(response);
                 toast.success(`Alert set successfully`);
                 setLoading(false);
             })
             .catch(error => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
-
                 }
+                setLoading(false);
             });
     }
 
@@ -71,15 +61,14 @@ const AlertPage = () => {
             <AnimationRevealPage>
                 <section tw="text-gray-600 relative">
                     <div tw="container py-12 mx-auto">
-                        <div tw="flex flex-col text-center w-full">
-                            <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Need to know when we find your item?</h1>
-                            <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">Set an alert below</p>
+                        <div tw="flex flex-col text-center w-full mb-16 md:mb-0">
+                            <h1 tw="sm:text-4xl text-2.5xl font-black mb-4 text-primary-500">Need to know when we find your item?</h1>
+                            <p tw="mx-auto leading-relaxed text-base">Set an alert below</p>
                         </div>
 
                         <Row>
                             <Form onSubmit={(evt) => handleSubmit(evt)}>
-                                <SubHeading>Set alert</SubHeading>
-                                <div tw="flex flex-wrap -m-2">
+                                <div tw="flex flex-wrap">
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
                                             <Label htmlFor="name">Full Names</Label>
