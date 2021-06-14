@@ -25,7 +25,7 @@ function App() {
         <Toaster
           position="bottom-center"
           toastOptions={{
-            duration: 10000,
+            duration: 5000,
             style: {
               padding: "20px"
             }
@@ -33,7 +33,6 @@ function App() {
         />
 
         <Switch>
-
           <Route path="/agent">
             <DashProvider />
           </Route>
