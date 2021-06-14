@@ -246,7 +246,7 @@ const SearchPage = () => {
     return (
         <AnimationRevealPage>
             <Section>
-                <Container tw="mt-12 md:mt-24">
+                <Container tw="mt-12 md:mt-36">
                     <SearchHeader tw="mb-8">
                         <Heading tw="mb-4">Search for missing documents</Heading>
                         <Description>We have put smiles on Faces! TrackMyLost reunites you with your lost documents</Description>
