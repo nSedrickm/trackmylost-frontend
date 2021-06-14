@@ -22,7 +22,15 @@ function App() {
   return (
     <Router>
       <ScrollToTop>
-        <Toaster />
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            duration: 10000,
+            style: {
+              padding: "20px"
+            }
+          }}
+        />
 
         <Switch>
 
