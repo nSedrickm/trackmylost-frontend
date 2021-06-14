@@ -19,9 +19,10 @@ const Heading = tw(SectionHeading)`text-left text-primary-500 leading-snug text-
 const Description = tw(SectionDescription)`lg:text-base text-gray-700 max-w-lg`;
 const FeatureList = tw.div`leading-loose`;
 const Feature = tw.p`flex items-center p-4 border border-gray-100 mb-4 rounded-lg shadow-lg md:w-2/3`;
-const LinkFeature = tw(Link)`flex items-center p-4 bg-primary-100 mb-4 rounded-lg shadow-lg md:w-2/3 hocus:no-underline`;
+const LinkFeature = tw(Link)`flex items-center text-white p-4 bg-primary-500 mb-4 rounded-lg shadow-lg md:w-2/3 hocus:no-underline`;
 const FeatureIcon = tw(CheckboxIcon)`w-5 h-5 text-primary-500`;
 const FeatureText = tw.span`ml-2 font-medium text-gray-700`;
+const LinkFeatureText = tw.span`ml-2 font-medium text-white`;
 const ImageColumn = tw(Column)`ml-auto lg:mr-0 relative mt-16 lg:mt-0 lg:ml-32`;
 const ImageContainer = tw.div`relative z-40 transform xl:-translate-x-24 xl:-translate-y-16`;
 const Image = tw.img`max-w-full w-96 rounded-t-xl md:rounded-xl relative z-20`;
@@ -60,18 +61,18 @@ const HomePage = ({
                                 <br />
                                 <FeatureList>
                                     <LinkFeature to="/search" key="1">
-                                        <FiSearch tw="w-5 h-5 text-primary-500" />
-                                        <FeatureText>Lost something? <span tw="text-primary-500">search now</span></FeatureText>
+                                        <FiSearch tw="w-5 h-5" />
+                                        <LinkFeatureText>Lost something? search now</LinkFeatureText>
                                     </LinkFeature>
 
                                     <LinkFeature to="/report-item" key="2">
-                                        <FiCrosshair tw="w-5 h-5 text-primary-500" />
-                                        <FeatureText>Found something? <span tw="text-primary-500">register it</span></FeatureText>
+                                        <FiCrosshair tw="w-5 h-5" />
+                                        <LinkFeatureText>Found something? register it</LinkFeatureText>
                                     </LinkFeature>
 
                                     <LinkFeature to="/alert-me" key="3">
-                                        <FiBell tw="w-5 h-5 text-primary-500" />
-                                        <FeatureText>Wish to get notified ? <span tw="text-primary-500">set alert</span></FeatureText>
+                                        <FiBell tw="w-5 h-5" />
+                                        <LinkFeatureText>Wish to get notified ? set alert</LinkFeatureText>
                                     </LinkFeature>
                                 </FeatureList>
                                 <br />
