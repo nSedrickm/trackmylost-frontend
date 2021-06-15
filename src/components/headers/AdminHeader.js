@@ -25,9 +25,9 @@ const DashHeader = () => {
         <NavLink onClick={toggleNavbar} key="search" to="/admin/dashboard/search">
           <FiSearch size={20} />
         </NavLink>
-        <NavButton>
+        <NavLink onClick={toggleNavbar} key="notifications" to="/admin/dashboard/notifications">
           <FiBell size={20} />
-        </NavButton>
+        </NavLink>
         <NavButton onClick={() => handleLogOut()}>
           <FiLogOut size={20} /> &nbsp; logout
         </NavButton>
@@ -46,9 +46,9 @@ const DashHeader = () => {
         <FiUser size={16} /> &nbsp; Agents
       </MobileNavLink>
 
-      <MobileNavButton>
+      <MobileNavLink onClick={toggleNavbar} key="notifications" to="/admin/dashboard/notifications">
         <FiBell size={16} /> &nbsp; Notifications
-      </MobileNavButton>
+      </MobileNavLink>
       <MobileNavButton onClick={() => handleLogOut()}>
         <FiLogOut size={16} /> &nbsp; Logout
       </MobileNavButton>
