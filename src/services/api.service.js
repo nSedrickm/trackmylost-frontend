@@ -61,6 +61,10 @@ export const deleteItem = (id) => {
     return axios.delete("/api/items/" + id).then(response => response)
 }
 
+export const deleteNotification = (id) => {
+    return axios.delete("/api/notifications/" + id).then(response => response)
+}
+
 // alert routes
 export const setAlert = ({ name, document_type, phone_number }) => {
     return axios.post("/api/alerts", {
