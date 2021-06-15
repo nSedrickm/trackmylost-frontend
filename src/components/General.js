@@ -6,7 +6,7 @@ import { AiOutlineIdcard } from "react-icons/ai";
 import { Table, Pagination as DefaultPagination, Modal, Drawer } from 'rsuite';
 import { Link } from "react-router-dom";
 
-export const Heading = tw.h1`text-2xl sm:text-3xl  font-black md:mb-2 text-primary-500`;
+export const Heading = tw.h1`text-2.5xl sm:text-4xl font-black md:mb-2 text-primary-500`;
 export const Description = tw.p`mx-auto leading-relaxed text-base`;
 export const Header = tw.header`flex flex-col sm:flex-row justify-between w-full mb-4 bg-white`;
 export const HeaderItem = tw.div`mb-3`;
@@ -34,7 +34,7 @@ export const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-
 export const ItemDetails = tw.p`text-base font-medium`;
 export const Section = tw.section`text-gray-600 relative`;
 export const SearchHeader = tw.header`flex flex-col text-center w-full mb-4`;
-export const ItemGrid = tw.div`grid md:grid-cols-2 gap-4 md:mx-20`;
+export const ItemGrid = tw.div`grid md:grid-cols-2 gap-4 md:mx-20 bg-white`;
 
 export const DetailsModal = styled(Modal)`
     width: 20rem;
