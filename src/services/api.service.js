@@ -61,6 +61,10 @@ export const deleteItem = (id) => {
     return axios.delete("/api/items/" + id).then(response => response)
 }
 
+// notification routes
+export const getNotifications = () => {
+    return axios.get("/api/notifications").then(response => response)
+}
 export const deleteNotification = (id) => {
     return axios.delete("/api/notifications/" + id).then(response => response)
 }

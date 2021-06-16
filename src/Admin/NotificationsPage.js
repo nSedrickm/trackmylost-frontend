@@ -1,12 +1,9 @@
 import React, { useReducer, useEffect } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiX, FiArrowRight } from "react-icons/fi";
-import { getRecentItems, deleteNotification } from "services/api.service";
-import {
-    Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, SearchHeader, Heading,
-    DetailsModal, ItemDetails, Section, CardButton
-} from "components/General";
+import { FiX, FiArrowRight, FiUserPlus, FiFileText } from "react-icons/fi";
+import { getNotifications, deleteNotification } from "services/api.service";
+import { Container, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton } from "components/General";
 import { filterData, paginateData } from "helpers";
 
 import toast from 'react-hot-toast';
@@ -17,8 +14,8 @@ const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
 const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer`;
-
-
+const UserIcon = tw(FiUserPlus)`text-primary-500  w-12 h-12 mr-4`;
+const FileIcon = tw(FiFileText)`text-primary-500  w-12 h-12 mr-4`;
 function reducer(state, action) {
     switch (action.type) {
         case 'setData':
@@ -105,7 +102,7 @@ const NotificationsPage = () => {
 
     useEffect(() => {
         dispatch({ type: "loading", payload: true });
-        getRecentItems()
+        getNotifications()
             .then(response => {
                 toast.success(`Load complete`);
                 dispatch({ type: "setRecent", payload: response.data });
@@ -135,7 +132,7 @@ const NotificationsPage = () => {
             })
             .catch(error => {
                 if (error.response) {
-                    toast.error("No notifications found");
+                    toast.error("could not delete notification please try again");
                 } else if (error.request) {
                     toast.error("An error occurred Please check your network and try again");
                 } else {
@@ -147,18 +144,15 @@ const NotificationsPage = () => {
 
     const toggleIcon = (item) => {
         let icon
-        switch (item.document_type) {
-            case "credit-card":
-                icon = <CreditCardIcon />
+        switch (item.type) {
+            case "item-found":
+                icon = <FileIcon />
                 break;
-            case "driver-license":
-                icon = <DriverLicenseIcon />
+            case "agent-registered":
+                icon = <UserIcon />
                 break;
-            case "passport":
-                icon = <PassportIcon />
-                break
             default:
-                icon = <IdCardIcon />
+                icon = <FileIcon />
         }
         return icon;
     }
@@ -179,11 +173,11 @@ const NotificationsPage = () => {
                         let icon = toggleIcon(item);
                         return (
                             <NotificationCard key={item.id} >
-                                <CardCloseButton onClick={() => handleDelete()} />
+                                <CardCloseButton onClick={() => handleDelete(item.id)} />
                                 {icon}
                                 <CardItem>
-                                    <CardTitle>{item.first_name} &nbsp; {item.other_names}</CardTitle>
-                                    <CardInfo>{item.document_type}</CardInfo>
+                                    <CardTitle>{item.type}</CardTitle>
+                                    <CardInfo>{item.message}</CardInfo>
                                     <CardButton
                                         onClick={() => dispatch({
                                             type: "showDetails",
@@ -214,11 +208,10 @@ const NotificationsPage = () => {
                             <DetailsModal.Title>notifications details</DetailsModal.Title>
                         </DetailsModal.Header>
                         <DetailsModal.Body>
-                            <ItemDetails>Name: {state.item.first_name} &nbsp; {state.item.other_names}</ItemDetails>
-                            <ItemDetails>Type: {state.item.document_type}</ItemDetails>
+                            <ItemDetails>Type: {state.item.type}</ItemDetails>
+                            <ItemDetails>message: {state.item.message}</ItemDetails>
                             <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
                             <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
-                            <ItemDetails>Contact: {state.item.phone_number}</ItemDetails>
                         </DetailsModal.Body>
                         <DetailsModal.Footer>
                         </DetailsModal.Footer>
