@@ -1,9 +1,9 @@
 import React, { useReducer, useEffect } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiX, FiArrowRight, FiUserPlus, FiFileText } from "react-icons/fi";
+import { FiX, FiArrowRight, FiUserPlus, FiFileText, FiBellOff } from "react-icons/fi";
 import { getNotifications, deleteNotification } from "services/api.service";
-import { Container, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton } from "components/General";
+import { Container, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton, Description } from "components/General";
 import { filterData, paginateData } from "helpers";
 
 import toast from 'react-hot-toast';
@@ -127,7 +127,6 @@ const NotificationsPage = () => {
             .then(response => {
                 toast.success(`notification deleted`);
                 setTimeout(() => window.location.reload(), 1000);
-                dispatch({ type: "loading", payload: false })
             })
             .catch(error => {
                 if (error.response) {
@@ -167,55 +166,63 @@ const NotificationsPage = () => {
                     <Heading>Notifications</Heading>
                 </SearchHeader>
 
-                <Container>
-                    {recentItems.map((item) => {
-                        let icon = toggleIcon(item);
-                        return (
-                            <NotificationCard key={item.id} >
-                                <CardCloseButton onClick={() => handleDelete(item.id)} />
-                                {icon}
-                                <CardItem>
-                                    <CardTitle>{item.type}</CardTitle>
-                                    <CardInfo>{item.message}</CardInfo>
-                                    <CardButton
-                                        onClick={() => dispatch({
-                                            type: "showDetails",
-                                            payload: {
-                                                modal: true,
-                                                item: item
-                                            }
-                                        })}
-                                    >
-                                        Details &nbsp; <FiArrowRight size={16} />
-                                    </CardButton>
-                                </CardItem>
-                            </NotificationCard>)
-                    })}
-
-                    <DetailsModal
-                        size="xs"
-                        show={state.modal}
-                        onHide={() => dispatch({
-                            type: "showDetails",
-                            payload: {
-                                modal: false,
-                                item: {}
-                            }
+                {recentItems.length ? (
+                    <Container>
+                        {recentItems.map((item) => {
+                            let icon = toggleIcon(item);
+                            return (
+                                <NotificationCard key={item.id} >
+                                    <CardCloseButton onClick={() => handleDelete(item.id)} />
+                                    {icon}
+                                    <CardItem>
+                                        <CardTitle>{item.type}</CardTitle>
+                                        <CardInfo>{item.message}</CardInfo>
+                                        <CardButton
+                                            onClick={() => dispatch({
+                                                type: "showDetails",
+                                                payload: {
+                                                    modal: true,
+                                                    item: item
+                                                }
+                                            })}
+                                        >
+                                            Details &nbsp; <FiArrowRight size={16} />
+                                        </CardButton>
+                                    </CardItem>
+                                </NotificationCard>)
                         })}
-                    >
-                        <DetailsModal.Header>
-                            <DetailsModal.Title>notifications details</DetailsModal.Title>
-                        </DetailsModal.Header>
-                        <DetailsModal.Body>
-                            <ItemDetails>Type: {state.item.type}</ItemDetails>
-                            <ItemDetails>message: {state.item.message}</ItemDetails>
-                            <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
-                            <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
-                        </DetailsModal.Body>
-                        <DetailsModal.Footer>
-                        </DetailsModal.Footer>
-                    </DetailsModal>
-                </Container>
+
+                        <DetailsModal
+                            size="xs"
+                            show={state.modal}
+                            onHide={() => dispatch({
+                                type: "showDetails",
+                                payload: {
+                                    modal: false,
+                                    item: {}
+                                }
+                            })}
+                        >
+                            <DetailsModal.Header>
+                                <DetailsModal.Title>notifications details</DetailsModal.Title>
+                            </DetailsModal.Header>
+                            <DetailsModal.Body>
+                                <ItemDetails>Type: {state.item.type}</ItemDetails>
+                                <ItemDetails>message: {state.item.message}</ItemDetails>
+                                <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
+                                <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
+                            </DetailsModal.Body>
+                            <DetailsModal.Footer>
+                            </DetailsModal.Footer>
+                        </DetailsModal>
+                    </Container>
+                ) : (
+                    <Container tw="grid place-items-center py-24">
+                        <FiBellOff size={48} tw="mb-10" />
+
+                        <Description>No current notifications</Description>
+                    </Container>
+                )}
             </Section>
         </AnimationRevealPage>
     )
