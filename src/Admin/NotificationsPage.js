@@ -172,26 +172,52 @@ const NotificationsPage = () => {
                         {recentItems.map((item) => {
                             let icon = toggleIcon(item);
                             return (
-                                <NotificationCard key={item.id} >
+                                <NotificationCard key={item.id}>
                                     <CardCloseButton onClick={() => handleDelete(item.id)} />
-                                    {item.type === "item-found" && icon}
-                                    {item.type === "agent-registered" && <UserIcon />}
-                                    <CardItem>
-                                        <CardTitle>{item.type === "item-found" ? "Item Found" : "New registration"}</CardTitle>
-                                        <CardInfo>{item.document_type}</CardInfo>
-                                        <CardButton
-                                            onClick={() => dispatch({
-                                                type: "showDetails",
-                                                payload: {
-                                                    modal: true,
-                                                    item: item
-                                                }
-                                            })}
-                                        >
-                                            Details &nbsp; <FiArrowRight size={16} />
-                                        </CardButton>
-                                    </CardItem>
-                                </NotificationCard>)
+                                    {item.type === "item-found" && (
+                                        <>
+                                            {icon}
+                                            <CardItem>
+                                                <CardTitle>Item Found</CardTitle>
+                                                <CardInfo>{item.document_type}</CardInfo>
+                                                <CardButton
+                                                    onClick={() => dispatch({
+                                                        type: "showDetails",
+                                                        payload: {
+                                                            modal: true,
+                                                            item: item
+                                                        }
+                                                    })}
+                                                >
+                                                    Details &nbsp; <FiArrowRight size={16} />
+                                                </CardButton>
+                                            </CardItem>
+                                        </>
+                                    )}
+
+                                    {item.type === "agent-registered" && (
+                                        <>
+                                            <UserIcon />
+                                            <CardItem>
+                                                <CardTitle>New registration</CardTitle>
+                                                <CardInfo>{item.phone_number}</CardInfo>
+                                                <CardButton
+                                                    onClick={() => dispatch({
+                                                        type: "showDetails",
+                                                        payload: {
+                                                            modal: true,
+                                                            item: item
+                                                        }
+                                                    })}
+                                                >
+                                                    Details &nbsp; <FiArrowRight size={16} />
+                                                </CardButton>
+                                            </CardItem>
+                                        </>
+                                    )}
+
+                                </NotificationCard>
+                            )
                         })}
 
                         <DetailsModal
@@ -210,8 +236,9 @@ const NotificationsPage = () => {
                             </DetailsModal.Header>
                             <DetailsModal.Body>
                                 <ItemDetails>Message: {state.item.type === "item-found" ? "Item Found" : "New Agent Registration"}</ItemDetails>
-                                <ItemDetails>Document Type: {state.item.document_type}</ItemDetails>
+                                {state.item.type === "item-found" && <ItemDetails>Document Type: {state.item.document_type}</ItemDetails>}
                                 <ItemDetails>Name: {state.item.name}</ItemDetails>
+                                {state.item.type === "agent-registered" && <ItemDetails>Phone Number: {state.item.phone_number}</ItemDetails>}
                                 <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
                                 <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
                             </DetailsModal.Body>
