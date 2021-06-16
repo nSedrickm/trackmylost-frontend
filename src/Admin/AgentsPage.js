@@ -4,7 +4,7 @@ import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from "components/Loaders/AnimateLoader";
 import toast from 'react-hot-toast';
 
-import { FiArrowRight, FiLoader, FiPlusCircle, FiEdit, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiArrowRight, FiLoader, FiPlusCircle, FiEdit, FiEye, FiEyeOff, FiChevronDown } from "react-icons/fi";
 import { getUsers } from "services/admin.service";
 import { getSavedUsers, saveUsers, clearUsers } from "services/storage.service";
 import { useAdminContext } from "Admin/AdminContext";
@@ -15,7 +15,7 @@ import {
     Container, Row, AgentIcon, Card, CardItem, CardTitle, CardInfo,
     CardButton, FormField, SearchButton, Form, Input, Label, ToggleButton,
     SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
-    TablePagination, DetailsModal, MobilePagination
+    TablePagination, DetailsModal, MobilePagination, Select, SelectToggle
 } from "components/General";
 
 
@@ -494,6 +494,27 @@ const AgentsPage = () => {
                                                     placeholder="last name(s)"
                                                     defaultValue={state.editAgent ? state.agent?.town : ""}
                                                 />
+                                            </div>
+                                        </div>
+
+                                        <div tw="p-2 w-full">
+                                            <Label htmlFor="status">
+                                                Status
+                                            </Label>
+                                            <div tw="relative">
+                                                <Select
+                                                    id="status"
+                                                    name="status"
+                                                    defaultValue={state.editAgent ? state.agent?.status : ""}
+                                                    required
+                                                >
+                                                    <option value="" hidden>Please Choose status</option>
+                                                    <option value="authorized">authorized</option>
+                                                    <option value="unauthorized">unauthorized</option>
+                                                </Select>
+                                                <SelectToggle>
+                                                    <FiChevronDown />
+                                                </SelectToggle>
                                             </div>
                                         </div>
 
