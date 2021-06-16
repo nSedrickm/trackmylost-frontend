@@ -63,10 +63,10 @@ function reducer(state, action) {
                 modal: action.payload.modal,
                 agent: action.payload.agent
             };
-        case 'addAgent':
+        case 'addItem':
             return {
                 ...state,
-                addAgent: action.payload
+                addItem: action.payload
             };
         case 'editAgent':
             return {
@@ -96,7 +96,7 @@ const AgentsPage = () => {
         page: 1,
         modal: false,
         agent: {},
-        addAgent: false,
+        addItem: false,
         editAgent: false,
         filter: true,
         loading: false
@@ -398,11 +398,11 @@ const AgentsPage = () => {
 
                             <DetailsModal
                                 size="xs"
-                                show={state.addAgent || state.editAgent}
+                                show={state.addItem || state.editAgent}
                                 onHide={() => {
-                                    if (state.addAgent) {
+                                    if (state.addItem) {
                                         dispatch({
-                                            type: "addAgent",
+                                            type: "addItem",
                                             payload: false
                                         })
                                     } else {
@@ -518,7 +518,7 @@ const AgentsPage = () => {
                                             </div>
                                         </div>
 
-                                        {state.addAgent ? (
+                                        {state.addItem ? (
                                             <div tw="p-2 w-full">
                                                 <Label htmlFor="password">Password</Label>
                                                 <div tw="relative">
