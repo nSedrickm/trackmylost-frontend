@@ -34,7 +34,7 @@ export const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-
 export const ItemDetails = tw.p`text-base font-medium`;
 export const Section = tw.section`text-gray-600 relative`;
 export const SearchHeader = tw.header`flex flex-col text-center w-full mb-4`;
-export const ItemGrid = tw.div`grid md:grid-cols-2 gap-4 md:mx-20 bg-white`;
+export const ItemGrid = tw.div`grid md:grid-cols-2 gap-4 md:mx-20`;
 
 export const DetailsModal = styled(Modal)`
     width: 20rem;

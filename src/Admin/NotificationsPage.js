@@ -203,7 +203,7 @@ const NotificationsPage = () => {
                             })}
                         >
                             <DetailsModal.Header>
-                                <DetailsModal.Title>notifications details</DetailsModal.Title>
+                                <DetailsModal.Title tw="font-bold">Notifications details</DetailsModal.Title>
                             </DetailsModal.Header>
                             <DetailsModal.Body>
                                 <ItemDetails>Type: {state.item.type}</ItemDetails>
