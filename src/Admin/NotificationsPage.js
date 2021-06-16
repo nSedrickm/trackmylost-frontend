@@ -1,9 +1,9 @@
 import React, { useReducer, useEffect } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiX, FiArrowRight, FiUserPlus, FiFileText, FiBellOff } from "react-icons/fi";
+import { FiX, FiArrowRight, FiBellOff } from "react-icons/fi";
 import { getNotifications, deleteNotification } from "services/api.service";
-import { Container, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton, Description } from "components/General";
+import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton, Description } from "components/General";
 import { filterData, paginateData } from "helpers";
 
 import toast from 'react-hot-toast';
@@ -14,8 +14,6 @@ const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
 const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer rounded-tr-xl`;
-const UserIcon = tw(FiUserPlus)`text-primary-500  w-12 h-12 mr-4 md:mr-12`;
-const FileIcon = tw(FiFileText)`text-primary-500  w-12 h-12 mr-4 md:mr-12`;
 function reducer(state, action) {
     switch (action.type) {
         case 'setData':
@@ -141,18 +139,22 @@ const NotificationsPage = () => {
 
     const toggleIcon = (item) => {
         let icon
-        switch (item.type) {
-            case "item-found":
-                icon = <FileIcon />
+        switch (item.document_type) {
+            case "credit-card":
+                icon = <CreditCardIcon />
                 break;
-            case "agent-registered":
-                icon = <UserIcon />
+            case "driver-license":
+                icon = <DriverLicenseIcon />
                 break;
+            case "passport":
+                icon = <PassportIcon />
+                break
             default:
-                icon = <FileIcon />
+                icon = <IdCardIcon />
         }
         return icon;
     }
+
 
     if (loading) {
         return <AnimateLoader />
@@ -172,10 +174,11 @@ const NotificationsPage = () => {
                             return (
                                 <NotificationCard key={item.id} >
                                     <CardCloseButton onClick={() => handleDelete(item.id)} />
-                                    {icon}
+                                    {item.type === "item-found" && icon}
+                                    {item.type === "agent-registered" && <UserIcon />}
                                     <CardItem>
-                                        <CardTitle>{item.type}</CardTitle>
-                                        <CardInfo>{item.message}</CardInfo>
+                                        <CardTitle>{item.type === "item-found" ? "Item Found" : "New registration"}</CardTitle>
+                                        <CardInfo>{item.document_type}</CardInfo>
                                         <CardButton
                                             onClick={() => dispatch({
                                                 type: "showDetails",
@@ -206,8 +209,9 @@ const NotificationsPage = () => {
                                 <DetailsModal.Title tw="font-bold">Notifications details</DetailsModal.Title>
                             </DetailsModal.Header>
                             <DetailsModal.Body>
-                                <ItemDetails>Type: {state.item.type}</ItemDetails>
-                                <ItemDetails>message: {state.item.message}</ItemDetails>
+                                <ItemDetails>Message: {state.item.type === "item-found" ? "Item Found" : "New Agent Registration"}</ItemDetails>
+                                <ItemDetails>Document Type: {state.item.document_type}</ItemDetails>
+                                <ItemDetails>Name: {state.item.name}</ItemDetails>
                                 <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
                                 <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
                             </DetailsModal.Body>
