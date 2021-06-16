@@ -104,7 +104,6 @@ const NotificationsPage = () => {
         dispatch({ type: "loading", payload: true });
         getNotifications()
             .then(response => {
-                toast.success(`Load complete`);
                 dispatch({ type: "setRecent", payload: response.data });
                 dispatch({ type: "loading", payload: false });
             })
