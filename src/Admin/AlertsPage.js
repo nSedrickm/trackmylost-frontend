@@ -96,7 +96,7 @@ const AlertsPage = () => {
         alert: {},
         addAlert: false,
         editAlert: false,
-        filter: false,
+        filter: true,
         loading: false
     });
 

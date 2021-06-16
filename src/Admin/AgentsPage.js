@@ -99,7 +99,7 @@ const AgentsPage = () => {
         agent: {},
         addAgent: false,
         editAgent: false,
-        filter: false,
+        filter: true,
         loading: false
     });
 
@@ -245,7 +245,7 @@ const AgentsPage = () => {
                                             })}
                                         >
                                             Edit
-                                            </TableAction> |{' '}
+                                        </TableAction> |{' '}
                                         <TableAction tw="text-red-500"
                                             onClick={() => handleDeleteAgent(rowData.id)}
                                         >
@@ -359,7 +359,7 @@ const AgentsPage = () => {
                             <FormField tw="mt-8">
                                 <SearchButton onClick={() => handleRefresh()}>
                                     <FiLoader /> &nbsp; refresh
-                                    </SearchButton>
+                                </SearchButton>
                             </FormField>
 
                             <DetailsModal
