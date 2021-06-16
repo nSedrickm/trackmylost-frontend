@@ -9,13 +9,13 @@ import { filterData, paginateData } from "helpers";
 import toast from 'react-hot-toast';
 import AnimateLoader from "components/Loaders/AnimateLoader";
 
-const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-lg bg-white`;
+const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white`;
 const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
-const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer`;
-const UserIcon = tw(FiUserPlus)`text-primary-500  w-12 h-12 mr-4`;
-const FileIcon = tw(FiFileText)`text-primary-500  w-12 h-12 mr-4`;
+const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer rounded-tr-xl`;
+const UserIcon = tw(FiUserPlus)`text-primary-500  w-12 h-12 mr-4 md:mr-12`;
+const FileIcon = tw(FiFileText)`text-primary-500  w-12 h-12 mr-4 md:mr-12`;
 function reducer(state, action) {
     switch (action.type) {
         case 'setData':
