@@ -1,6 +1,6 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import { BsCreditCard, BsPersonPlus } from "react-icons/bs";
+import { BsCreditCard, BsPerson, BsPersonPlus } from "react-icons/bs";
 import { FaPassport, FaIdCard } from "react-icons/fa";
 import { AiOutlineIdcard } from "react-icons/ai";
 import { Table, Pagination as DefaultPagination, Modal, Drawer } from 'rsuite';
@@ -21,6 +21,7 @@ export const CreditCardIcon = tw(BsCreditCard)`text-primary-500  w-12 h-12 mr-10
 export const IdCardIcon = tw(FaIdCard)`text-primary-500  w-12 h-12 mr-10`;
 export const PassportIcon = tw(FaPassport)`text-primary-500  w-12 h-12 mr-10`;
 export const UserIcon = tw(BsPersonPlus)`text-primary-500  w-12 h-12 mr-4 md:mr-12`;
+export const AgentIcon = tw(BsPerson)`text-primary-500  w-12 h-12 mr-4 md:mr-12`;
 export const CardItem = tw.div`flex-grow`;
 export const CardTitle = tw.span`text-gray-900 font-medium`;
 export const CardInfo = tw.p`text-gray-500`;

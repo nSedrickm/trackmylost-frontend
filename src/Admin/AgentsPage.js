@@ -12,8 +12,7 @@ import { filterData, paginateData } from "helpers";
 import { DashControlHeader } from "components";
 
 import {
-    Container, Row, CreditCardIcon,
-    DriverLicenseIcon, PassportIcon, IdCardIcon, Card, CardItem, CardTitle, CardInfo,
+    Container, Row, AgentIcon, Card, CardItem, CardTitle, CardInfo,
     CardButton, FormField, SearchButton, Form, Input, Label, ToggleButton,
     SubmitButton, ItemDetails, DataTable, Column, TableHeader, TableCell, TableAction,
     TablePagination, DetailsModal, MobilePagination
@@ -209,7 +208,7 @@ const AgentsPage = () => {
                         <TableCell dataKey="last_name" />
                     </Column>
 
-                    <Column flexGrow={1}>
+                    Town          <Column flexGrow={1}>
                         <TableHeader>Phone Number</TableHeader>
                         <TableCell dataKey="phone_number" />
                     </Column>
@@ -217,6 +216,11 @@ const AgentsPage = () => {
                     <Column flexGrow={1}>
                         <TableHeader>Town</TableHeader>
                         <TableCell dataKey="town" />
+                    </Column>
+
+                    <Column flexGrow={1}>
+                        <TableHeader>Status</TableHeader>
+                        <TableCell dataKey="status" />
                     </Column>
 
                     <Column flexGrow={1}>
@@ -319,29 +323,13 @@ const AgentsPage = () => {
                                 />
                             </div>
                             {tableData.map((agent) => {
-                                let icon
-                                switch (agent.document_type) {
-                                    case "credit-card":
-                                        icon = <CreditCardIcon />
-                                        break;
-                                    case "driver-license":
-                                        icon = <DriverLicenseIcon />
-                                        break;
-                                    case "passport":
-                                        icon = <PassportIcon />
-                                        break
-                                    default: {
-                                        icon = <IdCardIcon />
-                                    }
-
-                                }
 
                                 return (
                                     <Card key={agent.id}>
-                                        {icon}
+                                        <AgentIcon />
                                         <CardItem>
-                                            <CardTitle>{agent.first_name} &nbsp; {agent.other_names}</CardTitle>
-                                            <CardInfo>{agent.document_type}</CardInfo>
+                                            <CardTitle>{agent.first_name} {agent.last_name}</CardTitle>
+                                            <CardInfo>{agent.status}</CardInfo>
                                             <CardButton
                                                 onClick={() => dispatch({
                                                     type: "showDetails",
@@ -374,14 +362,15 @@ const AgentsPage = () => {
                                 })}
                             >
                                 <DetailsModal.Header>
-                                    <DetailsModal.Title>Agent details</DetailsModal.Title>
+                                    <DetailsModal.Title tw="font-bold">Agent details</DetailsModal.Title>
                                 </DetailsModal.Header>
                                 <DetailsModal.Body>
-                                    <ItemDetails>Name: {state.agent.first_name} &nbsp; {state.agent.other_names}</ItemDetails>
+                                    <ItemDetails>Name: {state.agent.first_name} {state.agent.last_name}</ItemDetails>
+                                    <ItemDetails>Status: {state.agent.status}</ItemDetails>
+                                    <ItemDetails>Phone number: {state.agent.phone_number}</ItemDetails>
+                                    <ItemDetails>Town: {state.agent.town}</ItemDetails>
                                     <ItemDetails>Created: {new Date(state.agent.created_at).toLocaleString()}</ItemDetails>
                                     <ItemDetails>Updated: {new Date(state.agent.updated_at).toLocaleString()}</ItemDetails>
-                                    <ItemDetails>Contact: {state.agent.phone_number}</ItemDetails>
-                                    <ItemDetails>Town: {state.agent.town}</ItemDetails>
 
                                     <div tw="mt-4">
                                         <TableAction tw="text-base text-primary-500"
