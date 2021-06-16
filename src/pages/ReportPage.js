@@ -18,7 +18,7 @@ const SubHeading = tw.h2`sm:text-3xl text-2xl font-bold mb-4 text-primary-500`;
 const Description = tw.p`mb-4 lg:text-2xl text-gray-700 font-medium`;
 const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
-const Heading = tw.h2`text-3xl sm:text-5xl text-primary-500 font-black tracking-wide text-center mb-4`;
+const Heading = tw.h2`text-3xl sm:text-4xl text-primary-500 font-black tracking-wide text-center mb-4`;
 
 const ReportPage = () => {
 
