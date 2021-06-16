@@ -33,7 +33,7 @@ const DashControlHeader = ({ heading, description, state, dispatch, resetItems, 
                         {state.filter ? (
                             <><FiX size={16} /> &nbsp; close</>
                         ) : (
-                            <><FiSearch size={16} /> &nbsp; search</>
+                            <><FiSearch size={16} /> &nbsp; filter</>
                         )}
                     </Button>
                 </HeaderItem>
