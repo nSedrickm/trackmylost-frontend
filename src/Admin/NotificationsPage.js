@@ -125,9 +125,8 @@ const NotificationsPage = () => {
         dispatch({ type: "loading", payload: true })
         deleteNotification(id)
             .then(response => {
-                toast.success(`Search successfull`);
-                dispatch({ type: "setData", payload: response.data });
-                dispatch({ type: "paginate" });
+                toast.success(`notification deleted`);
+                setTimeout(() => window.location.reload(), 1000);
                 dispatch({ type: "loading", payload: false })
             })
             .catch(error => {
