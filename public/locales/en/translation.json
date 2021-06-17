@@ -1,0 +1,12 @@
+{
+    "menu": {
+        "link-1": "Home",
+        "link-2": "Search",
+        "link-3": "Report Item",
+        "link-4": "Alert Me",
+        "link-5": "Contact Us",
+        "lng-en": "English",
+        "lng-fr": "Français",
+        "dev": "Developed by N.S"
+    }
+}

@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom';
 import tw from "twin.macro";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import App from './App';
+import './i18n';
 import reportWebVitals from './reportWebVitals';
 
 const Container = tw.div`grid place-items-center h-screen`;
 const LoadingAnimation = () => {
   return (
     <Container>
-      <ScaleLoader color="#dc2626"
+      <ScaleLoader color="#239a3e"
         height={60}
         width={6}
       />
