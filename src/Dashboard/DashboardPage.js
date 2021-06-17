@@ -1,6 +1,6 @@
 import React from "react";
-import AnimationRevealPage from "helpers/AnimationRevealPage";
 import DashHeader from 'components/headers/DashHeader';
+import DashFooter from "components/footers/DashFooter";
 import ItemsPage from "Dashboard/ItemsPage";
 import SearchPage from "pages/SearchPage";
 import { Route, Switch } from "react-router-dom";
@@ -14,21 +14,20 @@ const DashboardPage = () => {
     return (
         <>
             <DashHeader />
-            <AnimationRevealPage>
-                <Switch>
-                    <Route exact path="/agent/dashboard">
-                        <ItemsPage />
-                    </Route>
+            <Switch>
+                <Route exact path="/agent/dashboard">
+                    <ItemsPage />
+                </Route>
 
-                    <Route exact path="/agent/dashboard/items">
-                        <ItemsPage />
-                    </Route>
+                <Route exact path="/agent/dashboard/items">
+                    <ItemsPage />
+                </Route>
 
-                    <Route exact path="/agent/dashboard/search">
-                        <SearchPage />
-                    </Route>
-                </Switch>
-            </AnimationRevealPage>
+                <Route exact path="/agent/dashboard/search">
+                    <SearchPage />
+                </Route>
+            </Switch>
+            <DashFooter />
         </>
     )
 }

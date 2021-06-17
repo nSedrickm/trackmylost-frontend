@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 
 import ScrollToTop from "helpers/ScrollToTop";
-import AnimationRevealPage from "helpers/AnimationRevealPage";
 import Header from "components/headers/Header";
 import Footer from "components/footers/Footer";
 import HomePage from "pages/HomePage";
@@ -23,10 +22,17 @@ function App() {
   return (
     <Router>
       <ScrollToTop>
-        <Toaster />
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            duration: 5000,
+            style: {
+              padding: "20px"
+            }
+          }}
+        />
 
         <Switch>
-
           <Route path="/agent">
             <DashProvider />
           </Route>
@@ -50,32 +56,29 @@ const MainSection = () => {
   return (
     <>
       <Header />
-      <AnimationRevealPage>
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
 
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
+        <Route exact path="/search">
+          <SearchPage />
+        </Route>
 
-          <Route exact path="/search">
-            <SearchPage />
-          </Route>
+        <Route exact path="/report-item">
+          <ReportPage />
+        </Route>
 
-          <Route exact path="/report-item">
-            <ReportPage />
-          </Route>
+        <Route exact path="/alert-me">
+          <AlertPage />
+        </Route>
 
-          <Route exact path="/alert-me">
-            <AlertPage />
-          </Route>
+        <Route>
+          <NotFoundPage />
+        </Route>
+      </Switch>
 
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
-
-        <Footer />
-      </AnimationRevealPage>
+      <Footer />
     </>
   );
 }

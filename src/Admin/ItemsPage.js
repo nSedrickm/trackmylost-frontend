@@ -95,7 +95,7 @@ const ItemsPage = () => {
         item: {},
         addItem: false,
         editItem: false,
-        filter: false,
+        filter: true,
         loading: false
     });
 
@@ -255,12 +255,12 @@ const ItemsPage = () => {
                                             })}
                                         >
                                             Edit
-                                            </TableAction> |{' '}
+                                        </TableAction> |{' '}
                                         <TableAction tw="text-red-500"
                                             onClick={() => handleDeleteItem(rowData.id)}
                                         >
                                             Remove
-                                             </TableAction>
+                                        </TableAction>
                                     </span>
                                 );
                             }}
@@ -403,12 +403,12 @@ const ItemsPage = () => {
                                             })}
                                         >
                                             Edit
-                                            </TableAction> |{' '}
+                                        </TableAction> |{' '}
                                         <TableAction tw="text-base text-red-500"
                                             onClick={() => handleDeleteItem(state.item.id)}
                                         >
                                             Remove
-                                             </TableAction>
+                                        </TableAction>
                                     </div>
                                 </DetailsModal.Body>
                                 <DetailsModal.Footer>
@@ -457,7 +457,7 @@ const ItemsPage = () => {
                                         <div tw="p-2 w-full">
                                             <Label htmlFor="document_type">
                                                 Document type
-                                                    </Label>
+                                            </Label>
                                             <div tw="relative">
                                                 <Select
                                                     id="document_type"

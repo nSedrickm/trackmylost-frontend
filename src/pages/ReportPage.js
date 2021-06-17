@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
+import AnimateLoader from 'components/Loaders/AnimateLoader';
+import toast from 'react-hot-toast';
 import { FiSave, FiChevronDown } from "react-icons/fi";
 import { registerItem } from "services/api.service";
-import { Loader } from "rsuite";
-import toast from 'react-hot-toast';
 
 const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
 const Checkbox = tw(Input)`inline-block h-5 w-5 checked:bg-primary-500 checked:border-transparent`;
-const Label = tw.label`leading-7 text-sm text-gray-600`;
+const Label = tw.label`leading-7 text-sm text-gray-600 block mb-2`;
 const Column = tw.div`p-4 md:w-1/2 w-full`;
 const Row = tw.div`flex flex-wrap -m-4 md:px-24`;
-const Form = tw.form`mx-auto md:border border-primary-500 md:p-8 rounded-2xl`;
+const Form = tw.form`mx-auto md:border border-primary-500 md:p-8 rounded-2xl bg-white`;
 const StepsContainer = tw.div`mx-auto flex flex-wrap md:p-8`;
-const SubHeading = tw.h2`sm:text-3xl text-2xl font-medium mb-4 text-primary-500`;
+const SubHeading = tw.h2`sm:text-3xl text-2xl font-bold mb-4 text-primary-500`;
 const Description = tw.p`mb-4 lg:text-2xl text-gray-700 font-medium`;
 const Select = tw.select`block appearance-none w-full bg-gray-100  bg-opacity-50 border border-gray-300 text-gray-600 py-3 px-4 pr-8 rounded-4xl leading-tight focus:outline-none focus:bg-white focus:border-primary-500`;
 const SelectToggle = tw.div`pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700`;
-const LoadingContainer = tw.div`h-screen text-center`;
-
+const Heading = tw.h2`text-3xl sm:text-4xl text-primary-500 font-black tracking-wide text-center mb-4`;
 
 const ReportPage = () => {
 
@@ -39,44 +38,30 @@ const ReportPage = () => {
         setLoading(true);
         registerItem(formData)
             .then(response => {
-                console.log(response);
                 toast.success(`Item ${formData.document_type} registered`);
                 setLoading(false);
             })
             .catch(error => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
-
                 }
+                setLoading(false);
             });
     }
 
     if (loading) {
-        return (
-            <LoadingContainer>
-                <Loader backdrop size="md" content="processing please wait" vertical />
-            </LoadingContainer>
-        );
+        return <AnimateLoader />
     } else {
         return (
             <AnimationRevealPage>
                 <section tw="text-gray-600 relative">
                     <div tw="container py-12 mx-auto">
                         <div tw="flex flex-col text-center w-full mb-12">
-                            <h1 tw="sm:text-4xl text-2xl font-black mb-4 text-primary-500">Found a lost document?</h1>
+                            <Heading>Found a lost document?</Heading>
                             <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">Register it below</p>
                         </div>
 
@@ -154,7 +139,7 @@ const ReportPage = () => {
                                         <div tw="p-2 w-full">
                                             <Label htmlFor="document_type">
                                                 Document type
-                                        </Label>
+                                            </Label>
                                             <div tw="relative">
                                                 <Select
                                                     id="document_type"

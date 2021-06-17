@@ -152,6 +152,7 @@ const AdminProvider = () => {
                 clearAdminItems();
                 clearAdminAlerts();
                 clearUsers();
+                //set timeout so the state gets properly cleared
                 setTimeout(() => { window.location.replace("/admin/login") }, 1000)
             })
             .catch(error => {
@@ -439,10 +440,12 @@ const AdminProvider = () => {
         evt.preventDefault();
 
         let formData = {
+            id: evt.target.elements.id?.value,
             first_name: evt.target.elements.first_name?.value,
             last_name: evt.target.elements.last_name?.value,
             phone_number: evt.target.elements.phone_number?.value,
-            town: evt.target.elements.town?.value
+            town: evt.target.elements.town?.value,
+            status: evt.target.elements.status?.value
         }
         console.log(formData);
 

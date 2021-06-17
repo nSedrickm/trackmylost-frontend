@@ -25,6 +25,15 @@ export const searchItem = ({ name }) => {
         }).then(response => response)
 }
 
+export const getRecentItems = () => {
+    return axios.get("/api/items",
+        {
+            params: {
+                recent: ""
+            }
+        }).then(response => response)
+}
+
 export const getItems = () => {
     return axios.get("/api/items").then(response => response)
 }
@@ -50,6 +59,14 @@ export const updateItem = ({ id, document_type, first_name, other_names, phone_n
 
 export const deleteItem = (id) => {
     return axios.delete("/api/items/" + id).then(response => response)
+}
+
+// notification routes
+export const getNotifications = () => {
+    return axios.get("/api/notifications").then(response => response)
+}
+export const deleteNotification = (id) => {
+    return axios.delete("/api/notifications/" + id).then(response => response)
 }
 
 // alert routes

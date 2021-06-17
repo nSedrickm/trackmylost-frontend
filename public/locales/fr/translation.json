@@ -1,0 +1,12 @@
+{
+    "menu": {
+        "link-1": "Accueil",
+        "link-2": "Rechercher",
+        "link-3": "Signaler l'élément",
+        "link-4": "Avertissez-moi",
+        "link-5": "Contactez-nous",
+        "lng-en": "English",
+        "lng-fr": "Français",
+        "dev": "Développé par N.S"
+    }
+}

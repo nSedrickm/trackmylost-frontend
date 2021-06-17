@@ -16,7 +16,7 @@ const SearchBar = ({ dispatch, resetItems }) => {
                 <div tw="relative">
                     <SearchInput required
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search table"
                         onChange={(evt) => {
                             if (evt.target.value === "") {
                                 dispatch({ type: "loading", payload: true });

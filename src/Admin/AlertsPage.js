@@ -63,10 +63,10 @@ function reducer(state, action) {
                 modal: action.payload.modal,
                 alert: action.payload.alert
             };
-        case 'addAlert':
+        case 'addItem':
             return {
                 ...state,
-                addAlert: action.payload
+                addItem: action.payload
             };
         case 'editAlert':
             return {
@@ -94,9 +94,9 @@ const AlertsPage = () => {
         page: 1,
         modal: false,
         alert: {},
-        addAlert: false,
+        addItem: false,
         editAlert: false,
-        filter: false,
+        filter: true,
         loading: false
     });
 
@@ -238,12 +238,12 @@ const AlertsPage = () => {
                                             })}
                                         >
                                             Edit
-                                            </TableAction> |{' '}
+                                        </TableAction> |{' '}
                                         <TableAction tw="text-red-500"
                                             onClick={() => handleDeleteAlert(rowData.id)}
                                         >
                                             Remove
-                                             </TableAction>
+                                        </TableAction>
                                     </span>
                                 );
                             }}
@@ -352,7 +352,7 @@ const AlertsPage = () => {
                             <FormField tw="mt-8">
                                 <SearchButton onClick={() => handleRefresh()}>
                                     <FiLoader /> &nbsp; refresh
-                                    </SearchButton>
+                                </SearchButton>
                             </FormField>
 
                             <DetailsModal
@@ -387,12 +387,12 @@ const AlertsPage = () => {
                                             })}
                                         >
                                             Edit
-                                            </TableAction> |{' '}
+                                        </TableAction> |{' '}
                                         <TableAction tw="text-base text-red-500"
                                             onClick={() => handleDeleteAlert(state.alert.id)}
                                         >
                                             Remove
-                                             </TableAction>
+                                        </TableAction>
                                     </div>
                                 </DetailsModal.Body>
                                 <DetailsModal.Footer>
@@ -402,11 +402,11 @@ const AlertsPage = () => {
 
                             <DetailsModal
                                 size="xs"
-                                show={state.addAlert || state.editAlert}
+                                show={state.addItem || state.editAlert}
                                 onHide={() => {
-                                    if (state.addAlert) {
+                                    if (state.addItem) {
                                         dispatch({
-                                            type: "addAlert",
+                                            type: "addItem",
                                             payload: false
                                         })
                                     } else {
@@ -441,7 +441,7 @@ const AlertsPage = () => {
                                         <div tw="p-2 w-full">
                                             <Label htmlFor="document_type">
                                                 Document type
-                                                    </Label>
+                                            </Label>
                                             <div tw="relative">
                                                 <Select
                                                     id="document_type"

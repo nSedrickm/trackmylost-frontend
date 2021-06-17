@@ -60,12 +60,13 @@ export const getUsers = () => {
     return axios.get("/admin/users").then(response => response)
 }
 
-export const updateUser = ({ id, first_name, last_name, phone_number, town }) => {
+export const updateUser = ({ id, first_name, last_name, phone_number, town, status }) => {
     return axios.put("/admin/users/" + id, {
         first_name: first_name,
         last_name: last_name,
         phone_number: phone_number,
-        town: town
+        town: town,
+        status: status
     }).then(response => response)
 }
 
