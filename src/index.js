@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import tw from "twin.macro";
+import ScaleLoader from "react-spinners/ScaleLoader";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const Container = tw.div`grid place-items-center h-screen`;
+const LoadingAnimation = () => {
+  return (
+    <Container>
+      <ScaleLoader color="#dc2626"
+        height={60}
+        width={6}
+      />
+    </Container>
+  )
+}
+
 ReactDOM.render(
-    <App />,
+  <Suspense fallback={<LoadingAnimation />}>
+    <App />
+  </Suspense>,
   document.getElementById('root')
 );
 
