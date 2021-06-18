@@ -94,6 +94,7 @@ const ItemsPage = () => {
         page: 1,
         modal: false,
         item: {},
+        filter: true,
         addItem: false,
         editItem: false
     });
