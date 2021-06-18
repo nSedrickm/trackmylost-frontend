@@ -5,10 +5,10 @@ import AnimateLoader from 'components/Loaders/AnimateLoader';
 import toast from 'react-hot-toast';
 import { FiSave, FiChevronDown } from "react-icons/fi";
 import { registerItem } from "services/api.service";
+import { Toggle } from "rsuite";
 
-const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-12 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
+const SubmitButton = tw.button`flex mx-auto items-center text-white bg-primary-500 border-0 py-3 px-8 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg`;
 const Input = tw.input`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out rounded-4xl placeholder-gray-400`;
-const Checkbox = tw(Input)`inline-block h-5 w-5 checked:bg-primary-500 checked:border-transparent`;
 const Label = tw.label`leading-7 text-sm text-gray-600 block mb-2`;
 const Column = tw.div`p-4 md:w-1/2 w-full`;
 const Row = tw.div`flex flex-wrap -m-4 md:px-24`;
@@ -23,6 +23,8 @@ const Heading = tw.h2`text-3xl sm:text-4xl text-primary-500 font-black tracking-
 const ReportPage = () => {
 
     const [loading, setLoading] = useState(false);
+    const [reward, setReward] = useState(false);
+
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
@@ -31,14 +33,12 @@ const ReportPage = () => {
             first_name: evt.target.elements.first_name?.value,
             other_names: evt.target.elements.other_names?.value,
             phone_number: evt.target.elements.phone_number?.value,
-            reward: evt.target.elements.reward?.checked ? "yes" : "no"
+            reward: reward ? "yes" : "no"
         }
-        console.log(formData);
-
         setLoading(true);
         registerItem(formData)
             .then(response => {
-                toast.success(`Item ${formData.document_type} registered`);
+                toast.success("Item registered successfully");
                 setLoading(false);
             })
             .catch(error => {
@@ -194,10 +194,10 @@ const ReportPage = () => {
                                         <div tw="p-2 w-full mt-3 ">
                                             <div tw="relative">
                                                 <Label htmlFor="reward" tw="flex items-center justify-center">
-                                                    <Checkbox
-                                                        type="checkbox"
-                                                        name="reward"
+                                                    <Toggle
+                                                        onChange={(evt) => setReward(evt)}
                                                         value="yes"
+                                                        size="md"
                                                     />
                                                     <span tw="ml-2">Would you like a reward?</span>
                                                 </Label>
@@ -206,7 +206,8 @@ const ReportPage = () => {
                                         </div>
                                         <div tw="p-2 w-full">
                                             <SubmitButton type="submit">
-                                                <FiSave /> &nbsp; continue</SubmitButton>
+                                                <FiSave /> &nbsp; continue
+                                            </SubmitButton>
                                         </div>
                                     </div>
                                 </Form>
