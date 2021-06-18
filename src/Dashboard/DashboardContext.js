@@ -194,6 +194,7 @@ const DashProvider = () => {
             .then(response => {
                 console.log(response);
                 toast.success(`Item ${formData.document_type} registered`);
+                clearItems();
                 setLoading(false);
             })
             .catch(error => {

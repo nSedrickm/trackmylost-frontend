@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import useAnimatedNavToggler from "helpers/useAnimatedNavToggler.js";
 import logo from "images/logo.png";
-import { FiBell, FiFileText, FiLogOut, FiMenu as MenuIcon, FiRadio, FiSearch, FiUser } from "react-icons/fi";
+import { FiBell, FiBellOff, FiFileText, FiLogOut, FiMenu as MenuIcon, FiRadio, FiSearch, FiUser } from "react-icons/fi";
 import { useAdminContext } from "Admin/AdminContext";
 import {
   NavDrawer, NavContainer, NavLink, NavButton, MobileNav, MobileNavLink,
   MobileNavButton, MainHeader, DesktopNav, Logo, NavToggle, DrawerContainer
 } from "components/General";
+import { Badge } from "rsuite";
 
 const DashHeader = () => {
 
-  const { handleLogOut } = useAdminContext();
+  const { handleLogOut, state } = useAdminContext();
+  const { notifications } = state;
   const [drawer, showDrawer] = useState(false);
   const { toggleNavbar } = useAnimatedNavToggler();
 
@@ -26,7 +28,11 @@ const DashHeader = () => {
           <FiSearch size={20} />
         </NavLink>
         <NavLink onClick={toggleNavbar} key="notifications" to="/admin/dashboard/notifications">
-          <FiBell size={20} />
+          {notifications.length ? (
+            <Badge content={notifications.length}><FiBell size={22} /></Badge>
+          ) : (
+            <FiBellOff size={22} />
+          )}
         </NavLink>
         <NavButton onClick={() => handleLogOut()}>
           <FiLogOut size={20} /> &nbsp; logout
@@ -37,20 +43,24 @@ const DashHeader = () => {
 
   const altLinks = [
     <React.Fragment key="nav">
-      <MobileNavLink onClick={toggleNavbar} key="items" to="/admin/dashboard/items">
-        <FiFileText size={16} /> &nbsp; Items</MobileNavLink>
-      <MobileNavLink onClick={toggleNavbar} key="alerts" to="/admin/dashboard/alerts">
-        <FiRadio size={16} /> &nbsp; Alerts
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="items" to="/admin/dashboard/items">
+        <FiFileText size={18} /> &nbsp; Items</MobileNavLink>
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="alerts" to="/admin/dashboard/alerts">
+        <FiRadio size={18} /> &nbsp; Alerts
       </MobileNavLink>
-      <MobileNavLink onClick={toggleNavbar} key="agents" to="/admin/dashboard/agents">
-        <FiUser size={16} /> &nbsp; Agents
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="agents" to="/admin/dashboard/agents">
+        <FiUser size={18} /> &nbsp; Agents
       </MobileNavLink>
 
-      <MobileNavLink onClick={toggleNavbar} key="notifications" to="/admin/dashboard/notifications">
-        <FiBell size={16} /> &nbsp; Notifications
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="notifications" to="/admin/dashboard/notifications">
+        {notifications.length ? (
+          <><Badge content={notifications.length}></Badge> &nbsp; Notifications &nbsp; </>
+        ) : (
+          <><FiBellOff size={18} /> &nbsp; Notifications </>
+        )}
       </MobileNavLink>
       <MobileNavButton onClick={() => handleLogOut()}>
-        <FiLogOut size={16} /> &nbsp; Logout
+        <FiLogOut size={18} /> &nbsp; Logout
       </MobileNavButton>
     </React.Fragment>
   ];

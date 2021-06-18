@@ -1,62 +1,24 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiX, FiArrowRight, FiBellOff } from "react-icons/fi";
-import { getNotifications, deleteNotification } from "services/api.service";
-import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton, Description } from "components/General";
-import { filterData, paginateData } from "helpers";
+import { FiX, FiArrowRight, FiBellOff, FiCheckCircle, FiLoader } from "react-icons/fi";
+import {
+    Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader,
+    Heading, DetailsModal, ItemDetails, Section, Description, SearchButton,
+} from "components/General";
+import { useAdminContext } from "Admin/AdminContext";
 
-import toast from 'react-hot-toast';
-import AnimateLoader from "components/Loaders/AnimateLoader";
 
-const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white`;
+const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white cursor-pointer`;
 const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
+const CardAction = tw.p`inline-flex items-center text-primary-500`;
 const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer rounded-tr-xl`;
+const ApproveButton = tw.button`inline-flex items-center py-2 px-4 my-4 bg-primary-500 text-white rounded-lg font-medium `;
+
 function reducer(state, action) {
     switch (action.type) {
-        case 'setData':
-            return {
-                ...state,
-                data: action.payload
-            };
-        case 'setRecent':
-            return {
-                ...state,
-                recentItems: action.payload
-            };
-        case 'changeLength':
-            return {
-                ...state,
-                page: 1,
-                displayLength: action.payload
-            };
-        case 'changePage':
-            return {
-                ...state,
-                page: action.payload
-            };
-        case 'paginate':
-            const start = state.displayLength * (state.page - 1);
-            const end = start + state.displayLength;
-            let filteredData = paginateData(state.data, start, end);
-            return {
-                ...state,
-                tableData: filteredData
-            };
-        case 'filter':
-            let filtered = filterData(state.data, action.payload);
-            return {
-                ...state,
-                tableData: filtered,
-                loading: !state.loading
-            };
-        case 'toggleFilter':
-            return {
-                ...state,
-                filter: action.payload,
-            };
         case 'showDetails':
             return {
                 ...state,
@@ -86,56 +48,15 @@ function reducer(state, action) {
 
 const NotificationsPage = () => {
 
-    const [state, dispatch] = useReducer(reducer, {
-        data: [],
-        recentItems: [],
-        displayLength: 10,
-        page: 1,
+    const { state, handleGetNotifications, handleDeleteNotification, handleUpdateAgent } = useAdminContext();
+
+    const { notifications } = state;
+
+    const [lstate, dispatch] = useReducer(reducer, {
         modal: false,
         item: {},
         loading: false
     });
-
-    const { recentItems, loading } = state;
-
-    useEffect(() => {
-        dispatch({ type: "loading", payload: true });
-        getNotifications()
-            .then(response => {
-                dispatch({ type: "setRecent", payload: response.data });
-                dispatch({ type: "loading", payload: false });
-            })
-            .catch(error => {
-                if (error.response) {
-                    toast.error("We could not check for notifications. Please check your network and try again");
-                } else if (error.request) {
-                    toast.error("We could not check for notifications. Please check your network and try again");
-                } else {
-                    toast.error("We could not check for notifications. Please check your network and try again");
-                }
-                dispatch({ type: "loading", payload: false });
-            });
-    }, [])
-
-    const handleDelete = (id) => {
-
-        dispatch({ type: "loading", payload: true })
-        deleteNotification(id)
-            .then(response => {
-                toast.success(`notification deleted`);
-                setTimeout(() => window.location.reload(), 1000);
-            })
-            .catch(error => {
-                if (error.response) {
-                    toast.error("could not delete notification please try again");
-                } else if (error.request) {
-                    toast.error("An error occurred Please check your network and try again");
-                } else {
-                    toast.error("An error occurred Please check your network and try again");
-                }
-                dispatch({ type: "loading", payload: false })
-            });
-    }
 
     const toggleIcon = (item) => {
         let icon
@@ -155,11 +76,6 @@ const NotificationsPage = () => {
         return icon;
     }
 
-
-    if (loading) {
-        return <AnimateLoader />
-    }
-
     return (
         <AnimationRevealPage disabled>
             <Section tw="py-12 md:py-24 bg-white md:-mx-24 md:-my-16">
@@ -167,30 +83,29 @@ const NotificationsPage = () => {
                     <Heading>Notifications</Heading>
                 </SearchHeader>
 
-                {recentItems.length ? (
+                {notifications?.length ? (
                     <Container>
-                        {recentItems.map((item) => {
+                        {notifications?.map((item) => {
                             let icon = toggleIcon(item);
                             return (
-                                <NotificationCard key={item.id}>
-                                    <CardCloseButton onClick={() => handleDelete(item.id)} />
+                                <NotificationCard key={item.id}
+                                    onClick={() => dispatch({
+                                        type: "showDetails",
+                                        payload: {
+                                            modal: true,
+                                            item: item
+                                        }
+                                    })}>
+                                    <CardCloseButton onClick={() => handleDeleteNotification(item.id)} />
                                     {item.type === "item-found" && (
                                         <>
                                             {icon}
                                             <CardItem>
                                                 <CardTitle>Item Found</CardTitle>
                                                 <CardInfo>{item.document_type}</CardInfo>
-                                                <CardButton
-                                                    onClick={() => dispatch({
-                                                        type: "showDetails",
-                                                        payload: {
-                                                            modal: true,
-                                                            item: item
-                                                        }
-                                                    })}
-                                                >
+                                                <CardAction>
                                                     Details &nbsp; <FiArrowRight size={16} />
-                                                </CardButton>
+                                                </CardAction>
                                             </CardItem>
                                         </>
                                     )}
@@ -201,17 +116,9 @@ const NotificationsPage = () => {
                                             <CardItem>
                                                 <CardTitle>New registration</CardTitle>
                                                 <CardInfo>{item.phone_number}</CardInfo>
-                                                <CardButton
-                                                    onClick={() => dispatch({
-                                                        type: "showDetails",
-                                                        payload: {
-                                                            modal: true,
-                                                            item: item
-                                                        }
-                                                    })}
-                                                >
+                                                <CardAction >
                                                     Details &nbsp; <FiArrowRight size={16} />
-                                                </CardButton>
+                                                </CardAction>
                                             </CardItem>
                                         </>
                                     )}
@@ -220,9 +127,13 @@ const NotificationsPage = () => {
                             )
                         })}
 
+                        <SearchButton tw="mt-8 px-8" onClick={() => handleGetNotifications()}>
+                            <FiLoader /> &nbsp; refresh
+                        </SearchButton>
+
                         <DetailsModal
                             size="xs"
-                            show={state.modal}
+                            show={lstate.modal}
                             onHide={() => dispatch({
                                 type: "showDetails",
                                 payload: {
@@ -235,12 +146,37 @@ const NotificationsPage = () => {
                                 <DetailsModal.Title tw="font-bold">Notifications details</DetailsModal.Title>
                             </DetailsModal.Header>
                             <DetailsModal.Body>
-                                <ItemDetails>Message: {state.item.type === "item-found" ? "Item Found" : "New Agent Registration"}</ItemDetails>
-                                {state.item.type === "item-found" && <ItemDetails>Document Type: {state.item.document_type}</ItemDetails>}
-                                <ItemDetails>Name: {state.item.name}</ItemDetails>
-                                {state.item.type === "agent-registered" && <ItemDetails>Phone Number: {state.item.phone_number}</ItemDetails>}
-                                <ItemDetails>Created: {new Date(state.item.created_at).toLocaleString()}</ItemDetails>
-                                <ItemDetails>Updated: {new Date(state.item.updated_at).toLocaleString()}</ItemDetails>
+                                <ItemDetails>Message: {lstate.item.type === "item-found" ? "Item Found" : "New Agent Registration"}</ItemDetails>
+                                {lstate.item.type === "item-found" && <ItemDetails>Document Type: {lstate.item.document_type}</ItemDetails>}
+                                <ItemDetails>Name: {lstate.item.name}</ItemDetails>
+                                {lstate.item.type === "agent-registered" && <ItemDetails>Phone Number: {lstate.item.phone_number}</ItemDetails>}
+                                <ItemDetails>Created: {new Date(lstate.item.created_at).toLocaleString()}</ItemDetails>
+                                <ItemDetails>Updated: {new Date(lstate.item.updated_at).toLocaleString()}</ItemDetails>
+                                {lstate.item.type === "agent-registered" && (
+
+                                    <form onSubmit={(evt) => {
+                                        handleUpdateAgent(evt);
+                                        handleDeleteNotification(lstate.item.id);
+                                    }}>
+                                        <input
+                                            hidden
+                                            type="number"
+                                            id="id"
+                                            name="id"
+                                            defaultValue={lstate.item.agent_id}
+                                        />
+                                        <input
+                                            hidden
+                                            type="text"
+                                            id="status"
+                                            name="status"
+                                            defaultValue="authorized"
+                                        />
+                                        <ApproveButton type="submit">
+                                            <FiCheckCircle size={16} /> &nbsp; approve
+                                        </ApproveButton>
+                                    </form>
+                                )}
                             </DetailsModal.Body>
                             <DetailsModal.Footer>
                             </DetailsModal.Footer>
@@ -248,9 +184,12 @@ const NotificationsPage = () => {
                     </Container>
                 ) : (
                     <Container tw="grid place-items-center py-24">
-                        <FiBellOff size={48} tw="mb-10" />
+                        <FiBellOff size={48} tw="mb-8" />
 
                         <Description>No current notifications</Description>
+                        <SearchButton tw="mt-8 px-8" onClick={() => handleGetNotifications()}>
+                            <FiLoader /> &nbsp; refresh
+                        </SearchButton>
                     </Container>
                 )}
             </Section>
