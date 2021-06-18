@@ -14,7 +14,7 @@ const SearchBar = ({ dispatch, resetItems }) => {
         <Container tw="mb-5">
             <div tw="w-full">
                 <div tw="relative">
-                    <SearchInput 
+                    <SearchInput
                         required
                         autoFocus
                         type="search"
