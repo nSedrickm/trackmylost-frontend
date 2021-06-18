@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { FiX, FiArrowRight, FiBellOff, FiCheckCircle } from "react-icons/fi";
-import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton, Description } from "components/General";
+import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader, Heading, DetailsModal, ItemDetails, Section, Description } from "components/General";
 import { useAdminContext } from "Admin/AdminContext";
 
 
@@ -147,7 +147,10 @@ const NotificationsPage = () => {
                                 <ItemDetails>Updated: {new Date(lstate.item.updated_at).toLocaleString()}</ItemDetails>
                                 {lstate.item.type === "agent-registered" && (
 
-                                    <form onSubmit={(evt) => handleUpdateAgent(evt)}>
+                                    <form onSubmit={(evt) => {
+                                        handleUpdateAgent(evt);
+                                        handleDeleteNotification(lstate.item.id);
+                                    }}>
                                         <input
                                             hidden
                                             type="number"
@@ -180,7 +183,7 @@ const NotificationsPage = () => {
                     </Container>
                 )}
             </Section>
-        </AnimationRevealPage>
+        </AnimationRevealPage >
     )
 }
 export default NotificationsPage;
