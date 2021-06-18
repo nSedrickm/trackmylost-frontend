@@ -37,16 +37,16 @@ const DashHeader = () => {
 
   const altLinks = [
     <React.Fragment key="nav">
-      <MobileNavLink onClick={toggleNavbar} key="items" to="/admin/dashboard/items">
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="items" to="/admin/dashboard/items">
         <FiFileText size={16} /> &nbsp; Items</MobileNavLink>
-      <MobileNavLink onClick={toggleNavbar} key="alerts" to="/admin/dashboard/alerts">
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="alerts" to="/admin/dashboard/alerts">
         <FiRadio size={16} /> &nbsp; Alerts
       </MobileNavLink>
-      <MobileNavLink onClick={toggleNavbar} key="agents" to="/admin/dashboard/agents">
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="agents" to="/admin/dashboard/agents">
         <FiUser size={16} /> &nbsp; Agents
       </MobileNavLink>
 
-      <MobileNavLink onClick={toggleNavbar} key="notifications" to="/admin/dashboard/notifications">
+      <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="notifications" to="/admin/dashboard/notifications">
         <FiBell size={16} /> &nbsp; Notifications
       </MobileNavLink>
       <MobileNavButton onClick={() => handleLogOut()}>
