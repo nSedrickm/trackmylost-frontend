@@ -54,7 +54,7 @@ const DashHeader = () => {
 
       <MobileNavLink onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="notifications" to="/admin/dashboard/notifications">
         {notifications.length ? (
-          <><FiBell size={18} /> & nbsp; Notifications &nbsp; <Badge content={999}></Badge></>
+          <><Badge content={notifications.length}></Badge> &nbsp; Notifications &nbsp; </>
         ) : (
           <><FiBellOff size={18} /> &nbsp; Notifications </>
         )}

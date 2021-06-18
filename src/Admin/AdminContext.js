@@ -420,6 +420,7 @@ const AdminProvider = () => {
                 console.log(response);
                 toast.success(`Agent ${formData.phone_number} registered`);
                 clearUsers();
+                handleGetNotifications();
                 setLoading(false);
             })
             .catch(error => {
