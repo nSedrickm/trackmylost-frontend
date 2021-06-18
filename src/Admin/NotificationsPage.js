@@ -1,8 +1,11 @@
 import React, { useReducer } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiX, FiArrowRight, FiBellOff, FiCheckCircle } from "react-icons/fi";
-import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader, Heading, DetailsModal, ItemDetails, Section, Description } from "components/General";
+import { FiX, FiArrowRight, FiBellOff, FiCheckCircle, FiLoader } from "react-icons/fi";
+import {
+    Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader,
+    Heading, DetailsModal, ItemDetails, Section, Description, SearchButton,
+} from "components/General";
 import { useAdminContext } from "Admin/AdminContext";
 
 
@@ -45,7 +48,7 @@ function reducer(state, action) {
 
 const NotificationsPage = () => {
 
-    const { state, handleDeleteNotification, handleUpdateAgent } = useAdminContext();
+    const { state, handleGetNotifications, handleDeleteNotification, handleUpdateAgent } = useAdminContext();
 
     const { notifications } = state;
 
@@ -124,6 +127,10 @@ const NotificationsPage = () => {
                             )
                         })}
 
+                        <SearchButton tw="mt-8 px-8" onClick={() => handleGetNotifications()}>
+                            <FiLoader /> &nbsp; refresh
+                        </SearchButton>
+
                         <DetailsModal
                             size="xs"
                             show={lstate.modal}
@@ -177,13 +184,16 @@ const NotificationsPage = () => {
                     </Container>
                 ) : (
                     <Container tw="grid place-items-center py-24">
-                        <FiBellOff size={48} tw="mb-10" />
+                        <FiBellOff size={48} tw="mb-8" />
 
                         <Description>No current notifications</Description>
+                        <SearchButton tw="mt-8 px-8" onClick={() => handleGetNotifications()}>
+                            <FiLoader /> &nbsp; refresh
+                        </SearchButton>
                     </Container>
                 )}
             </Section>
-        </AnimationRevealPage >
+        </AnimationRevealPage>
     )
 }
 export default NotificationsPage;
