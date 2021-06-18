@@ -52,26 +52,18 @@ const RegisterPage = () => {
         registerUser(formData)
             .then(response => {
                 toast.success(response.data.message);
-                setTimeout(() => { window.location.replace("/agent/login") }, 1500);
+                toast.success("We will review you account and get back to you soon");
+                setTimeout(() => { window.location.replace("/agent/login") }, 5000);
             })
             .catch(error => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    setLoading(false);
                     toast.error(error.response.data.errors.phone_number[0]);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
                 } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setLoading(false);
                     toast.error("An error occurred Please check your network and try again");
-
                 }
+                setLoading(false);
             });
     }
 
