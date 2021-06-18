@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
+import { useTranslation } from 'react-i18next'
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from 'components/Loaders/AnimateLoader';
 import toast from 'react-hot-toast';
@@ -22,6 +23,7 @@ const Heading = tw.h2`text-3xl sm:text-4xl text-primary-500 font-black tracking-
 
 const ReportPage = () => {
 
+    const {t} = useTranslation();
     const [loading, setLoading] = useState(false);
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -61,7 +63,7 @@ const ReportPage = () => {
                 <section tw="text-gray-600 relative">
                     <div tw="container py-12 mx-auto">
                         <div tw="flex flex-col text-center w-full mb-12">
-                            <Heading>Found a lost document?</Heading>
+                            <Heading>{t('reportpage.heading')}?</Heading>
                             <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">Register it below</p>
                         </div>
 
@@ -134,7 +136,7 @@ const ReportPage = () => {
 
                             <Column>
                                 <Form onSubmit={(evt) => handleSubmit(evt)}>
-                                    <SubHeading>Register</SubHeading>
+                                    <SubHeading>{t('reportpage.subheading')}</SubHeading>
                                     <div tw="flex flex-wrap -m-2">
                                         <div tw="p-2 w-full">
                                             <Label htmlFor="document_type">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next'
 import useAnimatedNavToggler from "helpers/useAnimatedNavToggler.js";
 import logo from "images/logo.png";
 import { FiMenu, FiLogIn, FiUserPlus, FiMail, FiBell, FiFilePlus, FiSearch, FiHome } from "react-icons/fi";
@@ -11,22 +12,23 @@ const Header = () => {
 
   const [drawer, showDrawer] = useState(false);
   const { toggleNavbar } = useAnimatedNavToggler();
+  const  {t} = useTranslation();
 
   const defaultLinks = [
     <React.Fragment key="nav">
       <NavContainer key={1}>
-        <NavLink as={Link} onClick={toggleNavbar} key="home" to="/">Home</NavLink>
-        <NavLink as={Link} onClick={toggleNavbar} key="search" to="/search">Search</NavLink>
-        <NavLink as={Link} onClick={toggleNavbar} key="report-item" to="/report-item">Report Item</NavLink>
-        <NavLink as={Link} onClick={toggleNavbar} key="alert-me" to="/alert-me">Alert Me</NavLink>
-        <NavLink as={Link} onClick={toggleNavbar} key="contact" to="/contact">Contact Us</NavLink>
+        <NavLink as={Link} onClick={toggleNavbar} key="home" to="/">{t('menu.link-1')}</NavLink>
+        <NavLink as={Link} onClick={toggleNavbar} key="search" to="/search">{t('menu.link-2')}</NavLink>
+        <NavLink as={Link} onClick={toggleNavbar} key="report-item" to="/report-item">{t('menu.link-3')}</NavLink>
+        <NavLink as={Link} onClick={toggleNavbar} key="alert-me" to="/alert-me">{t('menu.link-4')}</NavLink>
+        <NavLink as={Link} onClick={toggleNavbar} key="contact" to="/contact">{t('menu.link-5')}</NavLink>
       </NavContainer>
       <NavContainer key={2}>
         <NavLink as={Link} onClick={toggleNavbar} key="login" to="/agent/login">
-          <FiLogIn size={20} /> &nbsp; Login
+          <FiLogIn size={20} /> &nbsp; {t('menu.link-6')}
         </NavLink>
         <NavLink as={Link} onClick={toggleNavbar} key="sign-up" to="/agent/sign-up">
-          <FiUserPlus size={20} /> &nbsp; Sign Up
+          <FiUserPlus size={20} /> &nbsp; {t('menu.link-7')}
         </NavLink>
       </NavContainer>
     </React.Fragment>
@@ -34,13 +36,13 @@ const Header = () => {
 
   const altLinks = [
     <React.Fragment key="nav">
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="home" to="/"><FiHome size={16} /> &nbsp; Home</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="search" to="/search"><FiSearch size={16} /> &nbsp; Search</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="report-item" to="/report-item"><FiFilePlus size={16} /> &nbsp; Report Item</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="alert-me" to="/alert-me"><FiBell size={16} /> &nbsp; Alert Me</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="contact" to="/contact"><FiMail size={16} /> &nbsp; Contact Us</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="login" to="/agent/login"><FiLogIn size={16} /> &nbsp; Login</MobileNavLink>
-      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="sign-up" to="/agent/sign-up"><FiUserPlus size={16} /> &nbsp; Sign Up</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="home" to="/"><FiHome size={16} /> &nbsp; {t('menu.link-1')}</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="search" to="/search"><FiSearch size={16} /> &nbsp; {t('menu.link-2')}</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="report-item" to="/report-item"><FiFilePlus size={16} /> &nbsp; {t('menu.link-3')}</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="alert-me" to="/alert-me"><FiBell size={16} /> &nbsp; {t('menu.link-4')}</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="contact" to="/contact"><FiMail size={16} /> &nbsp; {t('menu.link-5')}</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="login" to="/agent/login"><FiLogIn size={16} /> &nbsp; {t('menu.link-6')}</MobileNavLink>
+      <MobileNavLink as={Link} onClick={() => { toggleNavbar(); showDrawer(!drawer) }} key="sign-up" to="/agent/sign-up"><FiUserPlus size={16} /> &nbsp; {t('menu.link-7')}</MobileNavLink>
     </React.Fragment>
   ];
 

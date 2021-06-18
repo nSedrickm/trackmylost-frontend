@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { useTranslation } from 'react-i18next'
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { Link } from "react-router-dom";
 import { SectionHeading } from "components/misc/Headings.js";
@@ -39,16 +40,12 @@ const CustomerCompany = tw.p`mt-1 text-sm`
 
 const HomePage = ({
     heading = "You lose, We care",
-    description = "We have put smiles on Faces! TrackMyLost reunites you with your lost documents ",
     imageSrc = headerImg,
     imageDecoratorBlob = true,
-    features = ["ID Cards", "Passports", "Driver License", "Credit Cards"],
-    testimonial = {
-        quote: "TRACKMYLOST reunites you with your lost documents",
-        customerName: "Charlotte Ndam",
-        customerCompany: "Bamenda"
-    }
+    features = ["id", "passport", "license", "credit"],
+
 }) => {
+    const {t} = useTranslation();
     return (
         <>
             <AnimationRevealPage>
@@ -57,7 +54,7 @@ const HomePage = ({
                         <Row>
                             <TextColumn>
                                 <Heading>{heading}</Heading>
-                                <Description>{description}</Description>
+                                <Description>{t('homepage.slogan')}</Description>
                                 <br />
                                 <FeatureList>
                                     <LinkFeature to="/search" key="1">
@@ -67,7 +64,7 @@ const HomePage = ({
 
                                     <LinkFeature to="/report-item" key="2">
                                         <FiCrosshair tw="w-5 h-5" />
-                                        <LinkFeatureText>Found something? register it</LinkFeatureText>
+                                        <LinkFeatureText>{t('homepage.btn-2')}</LinkFeatureText>
                                     </LinkFeature>
 
                                     <LinkFeature to="/alert-me" key="3">
@@ -76,13 +73,13 @@ const HomePage = ({
                                     </LinkFeature>
                                 </FeatureList>
                                 <br />
-                                <Description tw="mb-2">We support the following items</Description>
+                                <Description tw="mb-2">{t('homepage.items_descr')}</Description>
                                 <br />
                                 <FeatureList>
                                     {features.map((feature, index) => (
                                         <Feature key={index}>
                                             <FeatureIcon />
-                                            <FeatureText>{feature}</FeatureText>
+                                            <FeatureText>{t('document',{context: feature})}</FeatureText>
                                         </Feature>
                                     ))}
                                 </FeatureList>
@@ -93,9 +90,9 @@ const HomePage = ({
                                     {imageDecoratorBlob && <ImageDecoratorBlob />}
                                     <Testimonial>
                                         <QuotesLeftIcon />
-                                        <Quote>{testimonial.quote}</Quote>
-                                        <CustomerName>{testimonial.customerName}</CustomerName>
-                                        <CustomerCompany>{testimonial.customerCompany}</CustomerCompany>
+                                        <Quote>{t('homepage.quote')}</Quote>
+                                        <CustomerName>Charlotte Ndam</CustomerName>
+                                        <CustomerCompany>Bamenda</CustomerCompany>
                                     </Testimonial>
                                 </ImageContainer>
                                 <Offsetbackground />

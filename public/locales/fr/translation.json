@@ -5,8 +5,28 @@
         "link-3": "Signaler l'élément",
         "link-4": "Avertissez-moi",
         "link-5": "Contactez-nous",
+        "link-6": "connexion",
+        "link-7": "S'inscrire",
         "lng-en": "English",
         "lng-fr": "Français",
         "dev": "Développé par N.S"
+    },
+
+    "document_id": "Carte d'identité",
+    "document_passport": "Passeport",
+    "document_license": "Permis de conduire",
+    "document_credit": "Cartes de crédit",
+
+    "homepage": {
+        "slogan": "Nous avons mis des sourires sur les visages ! TrackMyLost vous réunit avec vos documents perdus",
+        "items_descr": "Nous prenons en charge les éléments suivants",
+        "quote": "TrackMyLost vous réunit avec vos documents perdus",
+        "btn-1": "",
+        "btn-2": "j'ai trouvé un document!",
+        "btn-3": ""
+    },
+    "reportpage": {
+        "heading": "Avez vous trouver un document",
+        "subheading": "Enregistrez"
     }
 }

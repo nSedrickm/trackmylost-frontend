@@ -5,8 +5,28 @@
         "link-3": "Report Item",
         "link-4": "Alert Me",
         "link-5": "Contact Us",
+        "link-6": "Login",
+        "link-7": "Sign Up",
         "lng-en": "English",
         "lng-fr": "Français",
         "dev": "Developed by N.S"
+    },
+
+    "document_id": "ID Card",
+    "document_passport": "Passport",
+    "document_license": "Driver License",
+    "document_credit": "Credit Card",
+
+    "homepage":{
+        "slogan": "We have put smiles on Faces! TrackMyLost reunites you with your lost documents",
+        "items_descr": "We support the following items",
+        "quote": "TrackMyLost reunites you with your lost documents",
+        "btn-1": "",
+        "btn-2": "Found something? register it",
+        "btn-3": ""
+    },
+    "reportpage": {
+        "heading": "Found a lost document",
+        "subheading": "Register"
     }
 }
