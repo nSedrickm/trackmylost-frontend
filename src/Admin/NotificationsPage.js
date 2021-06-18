@@ -6,10 +6,11 @@ import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon,
 import { useAdminContext } from "Admin/AdminContext";
 
 
-const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white`;
+const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white cursor-pointer`;
 const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
+const CardAction = tw.p`inline-flex items-center text-primary-500`;
 const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer rounded-tr-xl`;
 
 function reducer(state, action) {
@@ -54,117 +55,108 @@ const NotificationsPage = () => {
     });
 
     const toggleIcon = (item) => {
-            let icon
-            switch (item.document_type) {
-                case "credit-card":
-                    icon = <CreditCardIcon />
-                    break;
-                case "driver-license":
-                    icon = <DriverLicenseIcon />
-                    break;
-                case "passport":
-                    icon = <PassportIcon />
-                    break
-                default:
-                    icon = <IdCardIcon />
-            }
-            return icon;
+        let icon
+        switch (item.document_type) {
+            case "credit-card":
+                icon = <CreditCardIcon />
+                break;
+            case "driver-license":
+                icon = <DriverLicenseIcon />
+                break;
+            case "passport":
+                icon = <PassportIcon />
+                break
+            default:
+                icon = <IdCardIcon />
         }
+        return icon;
+    }
 
-    return(
+    return (
         <AnimationRevealPage disabled>
-        <Section tw="py-12 md:py-24 bg-white md:-mx-24 md:-my-16">
-            <SearchHeader tw="mb-8">
-                <Heading>Notifications</Heading>
-            </SearchHeader>
+            <Section tw="py-12 md:py-24 bg-white md:-mx-24 md:-my-16">
+                <SearchHeader tw="mb-8">
+                    <Heading>Notifications</Heading>
+                </SearchHeader>
 
-            {notifications?.length ? (
-                <Container>
-                    {notifications?.map((item) => {
-                        let icon = toggleIcon(item);
-                        return (
-                            <NotificationCard key={item.id}>
-                                <CardCloseButton onClick={() => handleDeleteNotification(item.id)} />
-                                {item.type === "item-found" && (
-                                    <>
-                                        {icon}
-                                        <CardItem>
-                                            <CardTitle>Item Found</CardTitle>
-                                            <CardInfo>{item.document_type}</CardInfo>
-                                            <CardButton
-                                                onClick={() => dispatch({
-                                                    type: "showDetails",
-                                                    payload: {
-                                                        modal: true,
-                                                        item: item
-                                                    }
-                                                })}
-                                            >
-                                                Details &nbsp; <FiArrowRight size={16} />
-                                            </CardButton>
-                                        </CardItem>
-                                    </>
-                                )}
+                {notifications?.length ? (
+                    <Container>
+                        {notifications?.map((item) => {
+                            let icon = toggleIcon(item);
+                            return (
+                                <NotificationCard key={item.id}
+                                    onClick={() => dispatch({
+                                        type: "showDetails",
+                                        payload: {
+                                            modal: true,
+                                            item: item
+                                        }
+                                    })}>
+                                    <CardCloseButton onClick={() => handleDeleteNotification(item.id)} />
+                                    {item.type === "item-found" && (
+                                        <>
+                                            {icon}
+                                            <CardItem>
+                                                <CardTitle>Item Found</CardTitle>
+                                                <CardInfo>{item.document_type}</CardInfo>
+                                                <CardAction>
+                                                    Details &nbsp; <FiArrowRight size={16} />
+                                                </CardAction>
+                                            </CardItem>
+                                        </>
+                                    )}
 
-                                {item.type === "agent-registered" && (
-                                    <>
-                                        <UserIcon />
-                                        <CardItem>
-                                            <CardTitle>New registration</CardTitle>
-                                            <CardInfo>{item.phone_number}</CardInfo>
-                                            <CardButton
-                                                onClick={() => dispatch({
-                                                    type: "showDetails",
-                                                    payload: {
-                                                        modal: true,
-                                                        item: item
-                                                    }
-                                                })}
-                                            >
-                                                Details &nbsp; <FiArrowRight size={16} />
-                                            </CardButton>
-                                        </CardItem>
-                                    </>
-                                )}
+                                    {item.type === "agent-registered" && (
+                                        <>
+                                            <UserIcon />
+                                            <CardItem>
+                                                <CardTitle>New registration</CardTitle>
+                                                <CardInfo>{item.phone_number}</CardInfo>
+                                                <CardAction >
+                                                    Details &nbsp; <FiArrowRight size={16} />
+                                                </CardAction>
+                                            </CardItem>
+                                        </>
+                                    )}
 
-                            </NotificationCard>
-                        )
-                    })}
-
-                    <DetailsModal
-                        size="xs"
-                        show={lstate.modal}
-                        onHide={() => dispatch({
-                            type: "showDetails",
-                            payload: {
-                                modal: false,
-                                item: {}
-                            }
+                                </NotificationCard>
+                            )
                         })}
-                    >
-                        <DetailsModal.Header>
-                            <DetailsModal.Title tw="font-bold">Notifications details</DetailsModal.Title>
-                        </DetailsModal.Header>
-                        <DetailsModal.Body>
-                            <ItemDetails>Message: {lstate.item.type === "item-found" ? "Item Found" : "New Agent Registration"}</ItemDetails>
-                            {lstate.item.type === "item-found" && <ItemDetails>Document Type: {lstate.item.document_type}</ItemDetails>}
-                            <ItemDetails>Name: {lstate.item.name}</ItemDetails>
-                            {lstate.item.type === "agent-registered" && <ItemDetails>Phone Number: {lstate.item.phone_number}</ItemDetails>}
-                            <ItemDetails>Created: {new Date(lstate.item.created_at).toLocaleString()}</ItemDetails>
-                            <ItemDetails>Updated: {new Date(lstate.item.updated_at).toLocaleString()}</ItemDetails>
-                        </DetailsModal.Body>
-                        <DetailsModal.Footer>
-                        </DetailsModal.Footer>
-                    </DetailsModal>
-                </Container>
-            ) : (
-                <Container tw="grid place-items-center py-24">
-                    <FiBellOff size={48} tw="mb-10" />
 
-                    <Description>No current notifications</Description>
-                </Container>
-            )}
-        </Section>
+                        <DetailsModal
+                            size="xs"
+                            show={lstate.modal}
+                            onHide={() => dispatch({
+                                type: "showDetails",
+                                payload: {
+                                    modal: false,
+                                    item: {}
+                                }
+                            })}
+                        >
+                            <DetailsModal.Header>
+                                <DetailsModal.Title tw="font-bold">Notifications details</DetailsModal.Title>
+                            </DetailsModal.Header>
+                            <DetailsModal.Body>
+                                <ItemDetails>Message: {lstate.item.type === "item-found" ? "Item Found" : "New Agent Registration"}</ItemDetails>
+                                {lstate.item.type === "item-found" && <ItemDetails>Document Type: {lstate.item.document_type}</ItemDetails>}
+                                <ItemDetails>Name: {lstate.item.name}</ItemDetails>
+                                {lstate.item.type === "agent-registered" && <ItemDetails>Phone Number: {lstate.item.phone_number}</ItemDetails>}
+                                <ItemDetails>Created: {new Date(lstate.item.created_at).toLocaleString()}</ItemDetails>
+                                <ItemDetails>Updated: {new Date(lstate.item.updated_at).toLocaleString()}</ItemDetails>
+                            </DetailsModal.Body>
+                            <DetailsModal.Footer>
+                            </DetailsModal.Footer>
+                        </DetailsModal>
+                    </Container>
+                ) : (
+                    <Container tw="grid place-items-center py-24">
+                        <FiBellOff size={48} tw="mb-10" />
+
+                        <Description>No current notifications</Description>
+                    </Container>
+                )}
+            </Section>
         </AnimationRevealPage>
     )
 }
