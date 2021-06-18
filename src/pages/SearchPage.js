@@ -293,6 +293,7 @@ const SearchPage = () => {
                                 <FormField>
                                     <div tw="relative">
                                         <Input required
+                                            autoFocus
                                             type="search"
                                             name="search"
                                             placeholder="e.g First name on document"
@@ -302,7 +303,7 @@ const SearchPage = () => {
                                 <FormField>
                                     <SearchButton type="submit">
                                         <FiSearch /> &nbsp; search
-                                        </SearchButton>
+                                    </SearchButton>
                                 </FormField>
                             </div>
                         </Form>

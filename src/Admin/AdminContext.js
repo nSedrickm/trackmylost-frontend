@@ -8,7 +8,7 @@ import AnimateLoader from "components/Loaders/AnimateLoader";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import { getAdminUser, adminLogin, logOut, registerUser, updateUser, deleteUser } from "services/admin.service";
-import { registerItem, updateItem, deleteItem, setAlert, updateAlert, deleteAlert } from "services/api.service";
+import { registerItem, updateItem, deleteItem, setAlert, updateAlert, deleteAlert, getNotifications, deleteNotification } from "services/api.service";
 import { getLocalAdminState, setLocalAdminState, clearLocalAdminState, clearAdminItems, clearAdminAlerts, clearUsers } from "services/storage.service";
 
 const AdminContext = React.createContext();
@@ -17,7 +17,6 @@ const useAdminContext = () => useContext(AdminContext);
 const Reducer = (state, action) => {
     switch (action.type) {
         case "LOGIN": {
-            console.log("statebefore: ", state)
             return {
                 ...state,
                 isAuthorized: action.payload
@@ -27,6 +26,12 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 userData: action.payload
+            }
+        }
+        case "SETNOTIFICATIONS": {
+            return {
+                ...state,
+                notifications: action.payload
             }
         }
         case "LOGOUT": {
@@ -49,7 +54,8 @@ let localState = getLocalAdminState();
 
 let initialState = localState || {
     isAuthorized: notAuthorized,
-    userData: {}
+    userData: {},
+    notifications: {}
 }
 
 const AdminProvider = () => {
@@ -79,6 +85,7 @@ const AdminProvider = () => {
             .then(response => {
                 toast.success(response.data.message);
                 handleGetUser();
+                handleGetNotifications();
                 dispatch({
                     type: "LOGIN",
                     payload: Authorized
@@ -413,6 +420,7 @@ const AdminProvider = () => {
                 console.log(response);
                 toast.success(`Agent ${formData.phone_number} registered`);
                 clearUsers();
+                handleGetNotifications();
                 setLoading(false);
             })
             .catch(error => {
@@ -507,6 +515,44 @@ const AdminProvider = () => {
             });
     }
 
+    const handleGetNotifications = () => {
+        setLoading(true);
+        getNotifications()
+            .then(response => {
+                dispatch({ type: "SETNOTIFICATIONS", payload: response.data });
+                setLoading(false)
+            })
+            .catch(error => {
+                if (error.response) {
+                    toast.error("We could not check for notifications. Please check your network and try again");
+                } else if (error.request) {
+                    toast.error("We could not check for notifications. Please check your network and try again");
+                } else {
+                    toast.error("We could not check for notifications. Please check your network and try again");
+                }
+                setLoading(false)
+            });
+    }
+
+    const handleDeleteNotification = (id) => {
+
+        deleteNotification(id)
+            .then(response => {
+                toast.success(`notification deleted`);
+                handleGetNotifications();
+            })
+            .catch(error => {
+                if (error.response) {
+                    toast.error("could not delete notification please try again");
+                } else if (error.request) {
+                    toast.error("An error occurred Please check your network and try again");
+                } else {
+                    toast.error("An error occurred Please check your network and try again");
+                }
+                setLoading(false);
+            });
+    }
+
     if (loading) {
         return (
             <AnimateLoader />
@@ -529,7 +575,9 @@ const AdminProvider = () => {
                 handleDeleteAlert,
                 handleRegisterAgent,
                 handleUpdateAgent,
-                handleDeleteAgent
+                handleDeleteAgent,
+                handleGetNotifications,
+                handleDeleteNotification
             }}
         >
             <Switch>
