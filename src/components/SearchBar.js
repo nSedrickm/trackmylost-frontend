@@ -14,7 +14,9 @@ const SearchBar = ({ dispatch, resetItems }) => {
         <Container tw="mb-5">
             <div tw="w-full">
                 <div tw="relative">
-                    <SearchInput required
+                    <SearchInput 
+                        required
+                        autoFocus
                         type="search"
                         placeholder="Search table"
                         onChange={(evt) => {
