@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
-import { FiX, FiArrowRight, FiBellOff } from "react-icons/fi";
+import { FiX, FiArrowRight, FiBellOff, FiCheckCircle } from "react-icons/fi";
 import { Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader, Heading, DetailsModal, ItemDetails, Section, CardButton, Description } from "components/General";
 import { useAdminContext } from "Admin/AdminContext";
 
@@ -12,6 +12,7 @@ const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
 const CardAction = tw.p`inline-flex items-center text-primary-500`;
 const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer rounded-tr-xl`;
+const ApproveButton = tw.button`inline-flex items-center py-2 px-4 my-4 bg-primary-500 text-white rounded-lg font-medium `;
 
 function reducer(state, action) {
     switch (action.type) {
@@ -44,7 +45,7 @@ function reducer(state, action) {
 
 const NotificationsPage = () => {
 
-    const { state, handleDeleteNotification } = useAdminContext();
+    const { state, handleDeleteNotification, handleUpdateAgent } = useAdminContext();
 
     const { notifications } = state;
 
@@ -144,6 +145,28 @@ const NotificationsPage = () => {
                                 {lstate.item.type === "agent-registered" && <ItemDetails>Phone Number: {lstate.item.phone_number}</ItemDetails>}
                                 <ItemDetails>Created: {new Date(lstate.item.created_at).toLocaleString()}</ItemDetails>
                                 <ItemDetails>Updated: {new Date(lstate.item.updated_at).toLocaleString()}</ItemDetails>
+                                {lstate.item.type === "agent-registered" && (
+
+                                    <form onSubmit={(evt) => handleUpdateAgent(evt)}>
+                                        <input
+                                            hidden
+                                            type="number"
+                                            id="id"
+                                            name="id"
+                                            defaultValue={lstate.item.agent_id}
+                                        />
+                                        <input
+                                            hidden
+                                            type="text"
+                                            id="status"
+                                            name="status"
+                                            defaultValue="authorized"
+                                        />
+                                        <ApproveButton type="submit">
+                                            <FiCheckCircle size={16} /> &nbsp; approve
+                                        </ApproveButton>
+                                    </form>
+                                )}
                             </DetailsModal.Body>
                             <DetailsModal.Footer>
                             </DetailsModal.Footer>
