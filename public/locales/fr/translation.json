@@ -17,16 +17,43 @@
     "document_license": "Permis de conduire",
     "document_credit": "Cartes de crédit",
 
+    "slogan": "Nous avons mis des sourires sur les visages ! TrackMyLost vous réunit avec vos documents perdus",
     "homepage": {
-        "slogan": "Nous avons mis des sourires sur les visages ! TrackMyLost vous réunit avec vos documents perdus",
         "items_descr": "Nous prenons en charge les éléments suivants",
         "quote": "TrackMyLost vous réunit avec vos documents perdus",
-        "btn-1": "",
-        "btn-2": "j'ai trouvé un document!",
-        "btn-3": ""
+        "btn-1": "Appuyez pour obtenir document",
+        "btn-2": "Signaler une perte ici",
+        "btn-3": "Placer une alerte de perte"
     },
     "reportpage": {
-        "heading": "Avez vous trouver un document",
-        "subheading": "Enregistrez"
+        "heading": "Document trouvé",
+        "subheading1": "Enregistrez-le ci-dessous",
+        "subheading2": "Enregistrez",
+        "howto": {
+            "id": "Comment ça fonctionne",
+            "step1": {
+                "id": "ÉTAPE 1",
+                "descr": "Remplissez le formulaire"
+            },
+            "step2": {
+                "id": "ÉTAPE 1",
+                "descr": "Attendez que le propriétaire vous appelle"
+            },
+            "step3": ""
+        }
+    },
+    "alertpage": {
+        "instruction": "Déclancher une alerte ci-dessous",
+        "heading": ""
+    },
+    "form": {
+        "fullname": "Noms complets",
+        "doc-type": "Genre de document",
+        "doc-choose": "Veuillez choisir le type de document",
+        "firstname": "Prénom",
+        "number": "Votre numéro de téléphone",
+        "othernames": "Autres noms",
+        "password": "Mot de passe",
+        "reward": "Souhaitez-vous une récompense"
     }
 }

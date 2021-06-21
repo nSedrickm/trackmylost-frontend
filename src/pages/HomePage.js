@@ -54,12 +54,12 @@ const HomePage = ({
                         <Row>
                             <TextColumn>
                                 <Heading>{heading}</Heading>
-                                <Description>{t('homepage.slogan')}</Description>
+                                <Description>{t('slogan')}</Description>
                                 <br />
                                 <FeatureList>
                                     <LinkFeature to="/search" key="1">
                                         <FiSearch tw="w-5 h-5" />
-                                        <LinkFeatureText>Lost something? search now</LinkFeatureText>
+                                        <LinkFeatureText>{t('homepage.btn-1')}</LinkFeatureText>
                                     </LinkFeature>
 
                                     <LinkFeature to="/report-item" key="2">
@@ -69,7 +69,7 @@ const HomePage = ({
 
                                     <LinkFeature to="/alert-me" key="3">
                                         <FiBell tw="w-5 h-5" />
-                                        <LinkFeatureText>Wish to get notified ? set alert</LinkFeatureText>
+                                        <LinkFeatureText>{t('homepage.btn-3')}</LinkFeatureText>
                                     </LinkFeature>
                                 </FeatureList>
                                 <br />

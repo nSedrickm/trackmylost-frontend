@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import tw from "twin.macro"; //eslint-disable-line
+import { useTranslation } from 'react-i18next'
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { FiSearch, FiArrowRight } from "react-icons/fi";
 import { searchItem, getRecentItems } from "services/api.service";
@@ -96,7 +97,7 @@ const SearchPage = () => {
     });
 
     const { data, tableData, recentItems, page, loading } = state;
-
+    const {t} = useTranslation();
     useEffect(() => {
         dispatch({ type: "loading", payload: true });
         getRecentItems()
@@ -284,7 +285,7 @@ const SearchPage = () => {
                 <Container tw="mt-12 md:mt-36">
                     <SearchHeader tw="mb-8">
                         <Heading tw="mb-4">Search for missing documents</Heading>
-                        <Description>We have put smiles on Faces! TrackMyLost reunites you with your lost documents</Description>
+                        <Description>{t('slogan')}</Description>
                     </SearchHeader>
 
                     <Row>
