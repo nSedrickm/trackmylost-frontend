@@ -3,19 +3,21 @@ import tw from "twin.macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import { FiX, FiArrowRight, FiBellOff, FiCheckCircle, FiLoader } from "react-icons/fi";
 import {
-    Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon, SearchHeader,
-    Heading, DetailsModal, ItemDetails, Section, Description, SearchButton,
+    Container, CreditCardIcon, DriverLicenseIcon, PassportIcon, IdCardIcon, UserIcon,
+    Heading, DetailsModal, ItemDetails, Section, Description,
 } from "components/General";
 import { useAdminContext } from "Admin/AdminContext";
 
 
-const NotificationCard = tw.div`mt-6 md:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white cursor-pointer`;
+const NotificationCard = tw.div`mt-6 md:w-1/2 lg:w-1/3 mx-auto h-full flex relative items-center border-gray-200 border p-4 shadow-lg rounded-xl bg-white cursor-pointer`;
 const CardItem = tw.div`flex-grow`;
 const CardTitle = tw.span`text-gray-900 font-medium`;
 const CardInfo = tw.p`text-gray-500`;
 const CardAction = tw.p`inline-flex items-center text-primary-500`;
 const CardCloseButton = tw(FiX)`absolute top-0 right-0 h-8 w-8 text-white bg-red-500 items-center cursor-pointer rounded-tr-xl`;
 const ApproveButton = tw.button`inline-flex items-center py-2 px-4 my-4 bg-primary-500 text-white rounded-lg font-medium `;
+const SearchButton = tw.button`inline-flex items-center text-white bg-primary-500  py-2 px-8 focus:outline-none hover:bg-primary-700 rounded-4xl text-lg mt-4 md:mt-0`;
+const SearchHeader = tw.header`flex flex-col lg:flex-row items-center text-center md:w-1/2 mx-auto justify-between md:mb-8`;
 
 function reducer(state, action) {
     switch (action.type) {
@@ -79,8 +81,11 @@ const NotificationsPage = () => {
     return (
         <AnimationRevealPage disabled>
             <Section tw="py-12 md:py-24 bg-white md:-mx-24 md:-my-16">
-                <SearchHeader tw="mb-8">
+                <SearchHeader>
                     <Heading>Notifications</Heading>
+                    <SearchButton onClick={() => handleGetNotifications()}>
+                        <FiLoader /> &nbsp; refresh
+                    </SearchButton>
                 </SearchHeader>
 
                 {notifications?.length ? (
@@ -126,10 +131,6 @@ const NotificationsPage = () => {
                                 </NotificationCard>
                             )
                         })}
-
-                        <SearchButton tw="mt-8 px-8" onClick={() => handleGetNotifications()}>
-                            <FiLoader /> &nbsp; refresh
-                        </SearchButton>
 
                         <DetailsModal
                             size="xs"
