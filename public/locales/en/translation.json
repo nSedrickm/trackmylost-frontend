@@ -5,8 +5,52 @@
         "link-3": "Report Item",
         "link-4": "Alert Me",
         "link-5": "Contact Us",
+        "link-6": "Login",
+        "link-7": "Sign Up",
         "lng-en": "English",
         "lng-fr": "Français",
         "dev": "Developed by N.S"
+    },
+
+    "document_id": "ID Card",
+    "document_passport": "Passport",
+    "document_license": "Driver License",
+    "document_credit": "Credit Card",
+    "slogan": "We have put smiles on Faces! TrackMyLost reunites you with your lost documents",
+    "homepage":{
+        "items_descr": "We support the following items",
+        "quote": "TrackMyLost reunites you with your lost documents",
+        "btn-1": "Lost something? search now",
+        "btn-2": "Found something? register it",
+        "btn-3": "Wish to get notified ? set alert"
+    },
+    "reportpage": {
+        "heading": "Found a lost document",
+        "subheading1": "Register it below",
+        "subheading2": "Register",
+        "howto": {
+            "id": "How it Works",
+            "step1": {
+                "id": "STEP 1",
+                "descr": "Fill out the form"
+            },
+            "step2": {
+                "id": "STEP 2",
+                "descr": "Wait for owner to call you"
+            }
+        }
+    },
+    "alertpage": {
+        "instruction": "Set an alert below",
+        "heading": "Need to know when we find your item"
+    },
+    "form": {
+        "fullname": "full names",
+        "doc-type": "type of document",
+        "firstname": "First  Name",
+        "number": "Phone Number",
+        "othernames": "Other Names",
+        "password": "Mot de passe",
+        "reward": "Would you like a reward"
     }
 }

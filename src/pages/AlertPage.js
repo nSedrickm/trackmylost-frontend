@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
+import { useTranslation } from 'react-i18next'
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from 'components/Loaders/AnimateLoader';
 import toast from 'react-hot-toast';
@@ -13,6 +14,7 @@ const Form = tw.form`mx-auto md:w-1/2 md:my-24 md:border border-primary-500 md:p
 const AlertPage = () => {
 
     const [loading, setLoading] = useState(false);
+    const {t} = useTranslation();
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -50,8 +52,8 @@ const AlertPage = () => {
                 <section tw="text-gray-600 relative">
                     <div tw="container py-12 mx-auto">
                         <div tw="flex flex-col text-center w-full mb-16 md:mb-0">
-                            <h1 tw="sm:text-4xl text-2.5xl font-black mb-4 text-primary-500">Need to know when we find your item?</h1>
-                            <p tw="mx-auto leading-relaxed text-base">Set an alert below</p>
+                            <h1 tw="sm:text-4xl text-2.5xl font-black mb-4 text-primary-500">{t('alertpage.heading')}?</h1>
+                            <p tw="mx-auto leading-relaxed text-base">{t('alertpage.instruction')}</p>
                         </div>
 
                         <Row>
@@ -59,7 +61,7 @@ const AlertPage = () => {
                                 <div tw="flex flex-wrap">
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
-                                            <Label htmlFor="name">Full Names</Label>
+                                            <Label htmlFor="name">{t('form.fullname')}</Label>
                                             <Input required
                                                 type="text"
                                                 id="name"
@@ -68,18 +70,18 @@ const AlertPage = () => {
                                     </div>
                                     <div tw="p-2 w-full">
                                         <Label htmlFor="document_type">
-                                            Document type
+                                        {t('form.doc-type')}
                                         </Label>
                                         <div tw="relative">
                                             <Select required
                                                 id="document_type"
                                                 name="document_type"
                                             >
-                                                <option value="" hidden>Please Choose document type</option>
-                                                <option value="id_card">ID Card</option>
-                                                <option value="passport">Passport</option>
-                                                <option value="driver_license">Driver License</option>
-                                                <option value="credit_card">Credit Card</option>
+                                                <option value="" hidden>{t('form.doc-choose')}</option>
+                                                <option value="id_card">{t('document',{context: 'id'})}</option>
+                                                <option value="passport">{t('document',{context: 'passport'})}</option>
+                                                <option value="driver_license">{t('document',{context: 'license'})}</option>
+                                                <option value="credit_card">{t('document',{context: 'credit'})}</option>
                                             </Select>
                                             <SelectToggle>
                                                 <FiChevronDown />
@@ -88,7 +90,7 @@ const AlertPage = () => {
                                     </div>
                                     <div tw="p-2 w-full">
                                         <div tw="relative">
-                                            <Label htmlFor="phone_number">Your Phone Number</Label>
+                                            <Label htmlFor="phone_number">{t('form.number')}</Label>
                                             <Input
                                                 required
                                                 type="tel"

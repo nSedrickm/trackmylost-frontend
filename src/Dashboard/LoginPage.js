@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
 import AnimationRevealPage from "helpers/AnimationRevealPage";
+import { useTranslation } from 'react-i18next'
 import { useDashContext } from "Dashboard/DashboardContext";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ const LoginPage = () => {
 
     const { handleLogin } = useDashContext();
     const [toggle, setToggle] = useState(false);
+    const {t} = useTranslation();
 
     return (
         <AnimationRevealPage>
@@ -31,7 +33,7 @@ const LoginPage = () => {
                         <div tw="flex flex-wrap -m-2">
                             <div tw="p-2 w-full">
                                 <div tw="relative">
-                                    <Label htmlFor="phone_number">Phone Number</Label>
+                                    <Label htmlFor="phone_number">{t('form.number')}</Label>
                                     <Input
                                         required
                                         type="tel"
@@ -47,7 +49,7 @@ const LoginPage = () => {
                                 </div>
                             </div>
                             <div tw="p-2 w-full">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">{t('form.password')}</Label>
                                 <div tw="relative">
                                     <Input required
                                         type={toggle ? "text" : "password"}
@@ -63,10 +65,10 @@ const LoginPage = () => {
                         </div>
                         <div tw="p-2 w-full mt-2">
                             <SubmitButton type="submit">
-                                <FiLogIn /> &nbsp; login
+                                <FiLogIn /> &nbsp; {t('menu.link-6')}
                             </SubmitButton>
                         </div>
-                        <p tw="leading-relaxed text-base text-center mt-2">Not an agent ? <NavLink to="/agent/sign-up"> Sign up </NavLink></p>
+                        <p tw="leading-relaxed text-base text-center mt-2">Not an agent ? <NavLink to="/agent/sign-up"> {t('menu.link-7')}</NavLink></p>
 
                     </Form>
 

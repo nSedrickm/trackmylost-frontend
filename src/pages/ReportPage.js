@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
+import { useTranslation } from 'react-i18next'
 import AnimationRevealPage from "helpers/AnimationRevealPage";
 import AnimateLoader from 'components/Loaders/AnimateLoader';
 import toast from 'react-hot-toast';
@@ -22,6 +23,7 @@ const Heading = tw.h2`text-3xl sm:text-4xl text-primary-500 font-black tracking-
 
 const ReportPage = () => {
 
+    const {t} = useTranslation();
     const [loading, setLoading] = useState(false);
     const [reward, setReward] = useState(false);
 
@@ -61,14 +63,14 @@ const ReportPage = () => {
                 <section tw="text-gray-600 relative">
                     <div tw="container py-12 mx-auto">
                         <div tw="flex flex-col text-center w-full mb-12">
-                            <Heading>Found a lost document?</Heading>
-                            <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">Register it below</p>
+                            <Heading>{t('reportpage.heading')}?</Heading>
+                            <p tw="lg:w-2/3 mx-auto leading-relaxed text-base">{t('reportpage.subheading1')}</p>
                         </div>
 
                         <Row>
                             <Column>
                                 <StepsContainer>
-                                    <Description>How it works</Description>
+                                    <Description>{t('reportpage.howto.id')}</Description>
                                     <div tw="flex flex-wrap w-full">
                                         <div>
                                             <div tw="flex relative pb-12">
@@ -81,23 +83,8 @@ const ReportPage = () => {
                                                     </svg>
                                                 </div>
                                                 <div tw="flex-grow pl-4">
-                                                    <h2 tw="font-medium text-sm text-gray-900 mb-1 tracking-wider">STEP 1</h2>
-                                                    <p tw="leading-relaxed">Fill out the form</p>
-                                                </div>
-                                            </div>
-                                            <div tw="flex relative pb-12">
-                                                <div tw="h-full w-10 absolute inset-0 flex items-center justify-center">
-                                                    <div tw="h-full w-1 bg-gray-200 pointer-events-none"></div>
-                                                </div>
-                                                <div tw="flex-shrink-0 w-10 h-10 rounded-full bg-primary-500 inline-flex items-center justify-center text-white relative z-10">
-                                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" tw="w-5 h-5" viewBox="0 0 24 24">
-                                                        <circle cx="12" cy="5" r="3"></circle>
-                                                        <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
-                                                    </svg>
-                                                </div>
-                                                <div tw="flex-grow pl-4">
-                                                    <h2 tw="font-medium text-sm text-gray-900 mb-1 tracking-wider">STEP 2</h2>
-                                                    <p tw="leading-relaxed">Confirm you Phone number.</p>
+                                                    <h2 tw="font-medium text-sm text-gray-900 mb-1 tracking-wider">{t('reportpage.howto.step1.id')}</h2>
+                                                    <p tw="leading-relaxed">{t('reportpage.howto.step1.descr')}</p>
                                                 </div>
                                             </div>
                                             <div tw="flex relative pb-12">
@@ -111,8 +98,8 @@ const ReportPage = () => {
                                                     </svg>
                                                 </div>
                                                 <div tw="flex-grow pl-4">
-                                                    <h2 tw="font-medium text-sm text-gray-900 mb-1 tracking-wider">STEP 4</h2>
-                                                    <p tw="leading-relaxed">Wait for the owner to call you</p>
+                                                    <h2 tw="font-medium text-sm text-gray-900 mb-1 tracking-wider">{t('reportpage.howto.step2.id')}</h2>
+                                                    <p tw="leading-relaxed">{t('reportpage.howto.step2.descr')}</p>
                                                 </div>
                                             </div>
                                             <div tw="flex relative">
@@ -134,22 +121,22 @@ const ReportPage = () => {
 
                             <Column>
                                 <Form onSubmit={(evt) => handleSubmit(evt)}>
-                                    <SubHeading>Register</SubHeading>
+                                    <SubHeading>{t('reportpage.subheading2')}</SubHeading>
                                     <div tw="flex flex-wrap -m-2">
                                         <div tw="p-2 w-full">
                                             <Label htmlFor="document_type">
-                                                Document type
+                                                {t('form.doc-type')}
                                             </Label>
                                             <div tw="relative">
                                                 <Select
                                                     id="document_type"
                                                     name="document_type"
                                                     required>
-                                                    <option value="" hidden>Please Choose document type</option>
-                                                    <option value="id-card">ID Card</option>
-                                                    <option value="passport">Passport</option>
-                                                    <option value="driver-license">Driver License</option>
-                                                    <option value="credit-card">Credit Card</option>
+                                                    <option value="" hidden>{t('form.doc-choose')}</option>
+                                                    <option value="id-card">{t('document',{context: 'id'})}</option>
+                                                    <option value="passport">{t('document',{context: 'passport'})}</option>
+                                                    <option value="driver-license">{t('document',{context: 'license'})}</option>
+                                                    <option value="credit-card">{t('document',{context: 'credit'})}</option>
                                                 </Select>
                                                 <SelectToggle>
                                                     <FiChevronDown />
@@ -158,13 +145,13 @@ const ReportPage = () => {
                                         </div>
                                         <div tw="p-2 w-full">
                                             <div tw="relative">
-                                                <Label htmlFor="first_name">First Name</Label>
+                                                <Label htmlFor="first_name">{t('form.firstname')}</Label>
                                                 <Input required type="text" id="first_name" name="first_name" placeholder="First name on item" />
                                             </div>
                                         </div>
                                         <div tw="p-2 w-full">
                                             <div tw="relative">
-                                                <Label htmlFor="other_names">Other Names</Label>
+                                                <Label htmlFor="other_names">{t('form.othernames')}</Label>
                                                 <Input
                                                     required
                                                     type="text"
@@ -176,7 +163,7 @@ const ReportPage = () => {
                                         </div>
                                         <div tw="p-2 w-full">
                                             <div tw="relative">
-                                                <Label htmlFor="phone_number">Your Phone Number</Label>
+                                                <Label htmlFor="phone_number">{t('form.number')}</Label>
                                                 <Input
                                                     required
                                                     type="tel"
@@ -199,7 +186,7 @@ const ReportPage = () => {
                                                         value="yes"
                                                         size="md"
                                                     />
-                                                    <span tw="ml-2">Would you like a reward?</span>
+                                                    <span tw="ml-2">{t('form.reward')}</span>
                                                 </Label>
                                             </div>
 
