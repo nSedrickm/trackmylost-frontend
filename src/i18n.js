@@ -22,11 +22,13 @@ i18n
   .init({
     fallbackLng: 'en',
     debug: true,
-
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
-    }
-  });
+    },
 
+  });
 
 export default i18n;
