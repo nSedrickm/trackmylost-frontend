@@ -1,6 +1,8 @@
-# Getting Started with TrackMyLost
+#TrackMyLost
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An application that helps to reunite missing documents with their owners 
+
+![Screenshot-20210909231457-1265x866](https://user-images.githubusercontent.com/15856785/132769653-137d4836-16ec-476a-ae35-e9a1293664be.png)
 
 ## Setup Guide
 
